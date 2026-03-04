@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Trig Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #94a3b8; margin-bottom: 24px; font-size: 0.9rem; }
+        .container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .panel {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #334155;
+            flex: 1;
+            min-width: 340px;
+            max-width: 500px;
+        }
+        .panel h2 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: #38bdf8;
+        }
+
+        /* Calculator */
+        .calc-display {
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: right;
+            font-size: 1.8rem;
+            font-family: 'Courier New', monospace;
+            min-height: 60px;
+            word-break: break-all;
+            color: #f1f5f9;
+        }
+        .mode-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+            font-weight: 600;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        .btn {
+            padding: 12px 4px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.15s;
+        }
+        .btn:hover { background: #334155; }
+        .btn:active { transform: scale(0.95); }
+        .btn.trig { background: #1e3a5f; border-color: #2563eb; color: #93c5fd; }
+        .btn.trig:hover { background: #1e40af; }
+        .btn.inv-trig { background: #3b1f5e; border-color: #7c3aed; color: #c4b5fd; }
+        .btn.inv-trig:hover { background: #5b21b6; }
+        .btn.op { background: #0f172a; border-color: #475569; color: #f59e0b; }
+        .btn.op:hover { background: #1e293b; }
+        .btn.equals { background: #059669; border-color: #10b981; color: white; grid-column: span 2; }
+        .btn.equals:hover { background: #047857; }
+        .btn.clear { background: #991b1b; border-color: #dc2626; color: #fecaca; }
+        .btn.clear:hover { background: #b91c1c; }
+        .btn.wide { grid-column: span 2; }
+
+        /* Triangle Visualization */
+        .triangle-panel { min-width: 340px; }
+        canvas {
+            width: 100%;
+            height: 300px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+        .triangle-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .triangle-inputs label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .triangle-inputs input {
+            width: 100%;
+            padding: 8px 12px;
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .triangle-inputs input:focus { outline: none; border-color: #38bdf8; }
+        .solve-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .solve-btn:hover { opacity: 0.9; }
+        .results {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid #334155;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .results .label { color: #94a3b8; }
+        .results .value { color: #38bdf8; }
+
+        /* Trig reference */
+        .ref-section { margin-top: 24px; }
+        .ref-section h3 { font-size: 0.95rem; color: #818cf8; margin-bottom: 10px; }
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .ref-table th {
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 1px solid #334155;
+            color: #94a3b8;
+        }
+        .ref-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        /* Unit circle mini */
+        .unit-circle-wrap {
+            text-align: center;
+            margin-top: 16px;
+        }
+        #unitCircle {
+            width: 100%;
+            max-width: 280px;
+            height: 280px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+        }
+
+        @media (max-width: 720px) {
+            .container { flex-direction: column; }
+            .panel { min-width: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Scientific Trig Calculator</h1>
+    <p class="subtitle">Trigonometric functions with interactive triangle visualization</p>
+
+    <div class="container">
+        <!-- Calculator Panel -->
+        <div class="panel">
+            <h2>Calculator</h2>
+            <div class="calc-display" id="display">0</div>
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="degBtn" onclick="setMode('deg')">DEG</button>
+                <button class="mode-btn" id="radBtn" onclick="setMode('rad')">RAD</button>
+            </div>
+            <div class="btn-grid">
+                <!-- Trig functions -->
+                <button class="btn trig" onclick="trigFn('sin')">sin</button>
+                <button class="btn trig" onclick="trigFn('cos')">cos</button>
+                <button class="btn trig" onclick="trigFn('tan')">tan</button>
+                <button class="btn clear" onclick="clearDisplay()">C</button>
+
+                <!-- Inverse trig -->
+                <button class="btn inv-trig" onclick="trigFn('asin')">sin⁻¹</button>
+                <button class="btn inv-trig" onclick="trigFn('acos')">cos⁻¹</button>
+                <button class="btn inv-trig" onclick="trigFn('atan')">tan⁻¹</button>
+                <button class="btn" onclick="backspace()">⌫</button>
+
+                <!-- More trig -->
+                <button class="btn trig" onclick="trigFn('sec')">sec</button>
+                <button class="btn trig" onclick="trigFn('csc')">csc</button>
+                <button class="btn trig" onclick="trigFn('cot')">cot</button>
+                <button class="btn op" onclick="appendOp('/')">÷</button>
+
+                <!-- Inverse reciprocal trig -->
+                <button class="btn inv-trig" onclick="trigFn('asec')">sec⁻¹</button>
+                <button class="btn inv-trig" onclick="trigFn('acsc')">csc⁻¹</button>
+                <button class="btn inv-trig" onclick="trigFn('acot')">cot⁻¹</button>
+                <button class="btn op" onclick="appendOp('*')">×</button>
+
+                <!-- Numbers row 1 -->
+                <button class="btn" onclick="appendNum('7')">7</button>
+                <button class="btn" onclick="appendNum('8')">8</button>
+                <button class="btn" onclick="appendNum('9')">9</button>
+                <button class="btn op" onclick="appendOp('-')">−</button>
+
+                <!-- Numbers row 2 -->
+                <button class="btn" onclick="appendNum('4')">4</button>
+                <button class="btn" onclick="appendNum('5')">5</button>
+                <button class="btn" onclick="appendNum('6')">6</button>
+                <button class="btn op" onclick="appendOp('+')">+</button>
+
+                <!-- Numbers row 3 -->
+                <button class="btn" onclick="appendNum('1')">1</button>
+                <button class="btn" onclick="appendNum('2')">2</button>
+                <button class="btn" onclick="appendNum('3')">3</button>
+                <button class="btn op" onclick="appendNum('.')">.</button>
+
+                <!-- Bottom row -->
+                <button class="btn" onclick="appendNum('(')">(</button>
+                <button class="btn" onclick="appendNum('0')">0</button>
+                <button class="btn" onclick="appendNum(')')">)</button>
+                <button class="btn op" onclick="appendOp('^')">xⁿ</button>
+
+                <!-- Special -->
+                <button class="btn" onclick="appendNum(Math.PI.toString())">π</button>
+                <button class="btn" onclick="appendNum(Math.E.toString())">e</button>
+                <button class="btn equals" onclick="calculate()">=</button>
+            </div>
+
+            <!-- Unit Circle -->
+            <div class="unit-circle-wrap">
+                <h3 style="color:#818cf8; margin: 16px 0 8px;">Unit Circle</h3>
+                <canvas id="unitCircle"></canvas>
+            </div>
+        </div>
+
+        <!-- Triangle Visualization Panel -->
+        <div class="panel triangle-panel">
+            <h2>Triangle Explorer</h2>
+            <canvas id="triangleCanvas"></canvas>
+            <div class="triangle-inputs">
+                <div>
+                    <label>Angle θ (degrees)</label>
+                    <input type="number" id="angleInput" value="30" min="1" max="89" step="1">
+                </div>
+                <div>
+                    <label>Hypotenuse</label>
+                    <input type="number" id="hypInput" value="5" min="0.1" step="0.1">
+                </div>
+            </div>
+            <button class="solve-btn" onclick="solveTriangle()">Solve Triangle</button>
+            <div class="results" id="results">
+                <span class="label">Enter an angle and hypotenuse, then click Solve.</span>
+            </div>
+
+            <!-- Trig Reference -->
+            <div class="ref-section">
+                <h3>Trig Function Reference</h3>
+                <table class="ref-table">
+                    <tr><th>Function</th><th>Definition</th><th>At θ</th></tr>
+                    <tbody id="refBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Visual definitions -->
+            <div class="ref-section">
+                <h3>Visual: What Each Function Measures</h3>
+                <canvas id="defCanvas" style="width:100%; height:320px; background:#0f172a; border-radius:10px; border:1px solid #334155;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== CALCULATOR =====
+        let expression = '';
+        let angleMode = 'deg';
+        const display = document.getElementById('display');
+
+        function setMode(mode) {
+            angleMode = mode;
+            document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
+            document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
+        }
+
+        function updateDisplay(val) {
+            display.textContent = val || '0';
+        }
+
+        function appendNum(n) {
+            expression += n;
+            updateDisplay(expression);
+        }
+
+        function appendOp(op) {
+            expression += op;
+            updateDisplay(expression);
+        }
+
+        function clearDisplay() {
+            expression = '';
+            updateDisplay('0');
+        }
+
+        function backspace() {
+            expression = expression.slice(0, -1);
+            updateDisplay(expression || '0');
+        }
+
+        function toRad(deg) { return deg * Math.PI / 180; }
+        function toDeg(rad) { return rad * 180 / Math.PI; }
+
+        function trigFn(fn) {
+            const numStr = expression || '0';
+            let val = parseFloat(numStr);
+            if (isNaN(val)) { updateDisplay('Error'); return; }
+
+            let result;
+            switch(fn) {
+                case 'sin': result = Math.sin(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'cos': result = Math.cos(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'tan': result = Math.tan(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'asin':
+                    if (val < -1 || val > 1) { updateDisplay('Error: domain'); return; }
+                    result = Math.asin(val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+                case 'acos':
+                    if (val < -1 || val > 1) { updateDisplay('Error: domain'); return; }
+                    result = Math.acos(val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+                case 'atan':
+                    result = Math.atan(val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+                case 'sec': result = 1 / Math.cos(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'csc': result = 1 / Math.sin(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'cot': result = 1 / Math.tan(angleMode === 'deg' ? toRad(val) : val); break;
+                case 'asec':
+                    if (val > -1 && val < 1) { updateDisplay('Error: domain'); return; }
+                    result = Math.acos(1 / val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+                case 'acsc':
+                    if (val > -1 && val < 1) { updateDisplay('Error: domain'); return; }
+                    result = Math.asin(1 / val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+                case 'acot':
+                    result = Math.atan(1 / val);
+                    if (angleMode === 'deg') result = toDeg(result);
+                    break;
+            }
+            expression = formatNum(result);
+            updateDisplay(expression);
+        }
+
+        function formatNum(n) {
+            if (!isFinite(n)) return 'Undefined';
+            return Math.abs(n) < 1e-10 ? '0' : parseFloat(n.toPrecision(10)).toString();
+        }
+
+        function calculate() {
+            try {
+                let expr = expression.replace(/\^/g, '**');
+                let result = Function('"use strict"; return (' + expr + ')')();
+                expression = formatNum(result);
+                updateDisplay(expression);
+            } catch(e) {
+                updateDisplay('Error');
+                expression = '';
+            }
+        }
+
+        // ===== TRIANGLE =====
+        const triCanvas = document.getElementById('triangleCanvas');
+        const triCtx = triCanvas.getContext('2d');
+
+        function resizeCanvas(canvas) {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+        }
+
+        function solveTriangle() {
+            const angleDeg = parseFloat(document.getElementById('angleInput').value);
+            const hyp = parseFloat(document.getElementById('hypInput').value);
+            if (isNaN(angleDeg) || isNaN(hyp) || angleDeg <= 0 || angleDeg >= 90 || hyp <= 0) {
+                document.getElementById('results').innerHTML = '<span class="label">Enter valid angle (0-90°) and positive hypotenuse.</span>';
+                return;
+            }
+
+            const angleRad = toRad(angleDeg);
+            const opp = hyp * Math.sin(angleRad);
+            const adj = hyp * Math.cos(angleRad);
+            const otherAngle = 90 - angleDeg;
+
+            // Draw triangle
+            resizeCanvas(triCanvas);
+            const w = triCanvas.width, h = triCanvas.height;
+            const ctx = triCtx;
+            ctx.clearRect(0, 0, w, h);
+
+            const pad = 60;
+            const maxW = w - pad * 2, maxH = h - pad * 2;
+            const scale = Math.min(maxW / adj, maxH / opp) * 0.8;
+
+            const ax = pad + 20, ay = h - pad;
+            const bx = ax + adj * scale, by = ay;
+            const cx = bx, cy = ay - opp * scale;
+
+            // Triangle fill
+            ctx.beginPath();
+            ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(cx, cy); ctx.closePath();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+            ctx.fill();
+
+            // Triangle outline
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Right angle square
+            const sq = 20;
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(bx - sq, by - sq, sq, sq);
+
+            // Labels
+            ctx.font = 'bold 24px system-ui';
+            ctx.fillStyle = '#f59e0b';
+
+            // Opposite
+            ctx.textAlign = 'left';
+            ctx.fillText(`opp = ${opp.toFixed(3)}`, bx + 12, (ay + cy) / 2);
+
+            // Adjacent
+            ctx.textAlign = 'center';
+            ctx.fillText(`adj = ${adj.toFixed(3)}`, (ax + bx) / 2, ay + 36);
+
+            // Hypotenuse
+            ctx.fillStyle = '#c084fc';
+            const hx = (ax + cx) / 2 - 20, hy = (ay + cy) / 2;
+            ctx.textAlign = 'right';
+            ctx.fillText(`hyp = ${hyp.toFixed(3)}`, hx, hy);
+
+            // Angle arc
+            ctx.beginPath();
+            ctx.arc(ax, ay, 40, -angleRad, 0);
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.fillStyle = '#10b981';
+            ctx.textAlign = 'left';
+            ctx.font = 'bold 22px system-ui';
+            ctx.fillText(`θ = ${angleDeg}°`, ax + 48, ay - 8);
+
+            // Results
+            const r = document.getElementById('results');
+            r.innerHTML = `
+                <div><span class="label">Angle θ:</span> <span class="value">${angleDeg}° (${angleRad.toFixed(6)} rad)</span></div>
+                <div><span class="label">Other angle:</span> <span class="value">${otherAngle}°</span></div>
+                <div><span class="label">Opposite:</span> <span class="value">${opp.toFixed(6)}</span></div>
+                <div><span class="label">Adjacent:</span> <span class="value">${adj.toFixed(6)}</span></div>
+                <div><span class="label">Hypotenuse:</span> <span class="value">${hyp.toFixed(6)}</span></div>
+                <hr style="border-color:#334155; margin:8px 0;">
+                <div><span class="label">sin(θ) = opp/hyp =</span> <span class="value">${Math.sin(angleRad).toFixed(6)}</span></div>
+                <div><span class="label">cos(θ) = adj/hyp =</span> <span class="value">${Math.cos(angleRad).toFixed(6)}</span></div>
+                <div><span class="label">tan(θ) = opp/adj =</span> <span class="value">${Math.tan(angleRad).toFixed(6)}</span></div>
+                <div><span class="label">csc(θ) = hyp/opp =</span> <span class="value">${(1/Math.sin(angleRad)).toFixed(6)}</span></div>
+                <div><span class="label">sec(θ) = hyp/adj =</span> <span class="value">${(1/Math.cos(angleRad)).toFixed(6)}</span></div>
+                <div><span class="label">cot(θ) = adj/opp =</span> <span class="value">${(1/Math.tan(angleRad)).toFixed(6)}</span></div>
+            `;
+
+            updateRefTable(angleDeg);
+            drawDefinitions(angleDeg);
+        }
+
+        function updateRefTable(angleDeg) {
+            const a = toRad(angleDeg);
+            const body = document.getElementById('refBody');
+            const fns = [
+                ['sin(θ)', 'Opposite / Hypotenuse', Math.sin(a)],
+                ['cos(θ)', 'Adjacent / Hypotenuse', Math.cos(a)],
+                ['tan(θ)', 'Opposite / Adjacent', Math.tan(a)],
+                ['csc(θ)', 'Hypotenuse / Opposite', 1/Math.sin(a)],
+                ['sec(θ)', 'Hypotenuse / Adjacent', 1/Math.cos(a)],
+                ['cot(θ)', 'Adjacent / Opposite', 1/Math.tan(a)],
+                ['sin⁻¹(x)', 'Angle whose sin is x', angleDeg + '°'],
+                ['cos⁻¹(x)', 'Angle whose cos is x', angleDeg + '°'],
+                ['tan⁻¹(x)', 'Angle whose tan is x', angleDeg + '°'],
+            ];
+            body.innerHTML = fns.map(f => `<tr><td style="color:#38bdf8">${f[0]}</td><td>${f[1]}</td><td style="color:#f59e0b">${typeof f[2] === 'number' ? f[2].toFixed(4) : f[2]}</td></tr>`).join('');
+        }
+
+        // ===== DEFINITION VISUALIZATION =====
+        function drawDefinitions(angleDeg) {
+            const canvas = document.getElementById('defCanvas');
+            resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const cx = w / 2, cy = h / 2;
+            const r = Math.min(w, h) * 0.35;
+            const a = toRad(angleDeg);
+
+            // Unit circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Axes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(cx - r - 30, cy); ctx.lineTo(cx + r + 60, cy);
+            ctx.moveTo(cx, cy - r - 30); ctx.lineTo(cx, cy + r + 30);
+            ctx.stroke();
+
+            // Point on circle
+            const px = cx + r * Math.cos(a);
+            const py = cy - r * Math.sin(a);
+
+            // Radius line
+            ctx.beginPath();
+            ctx.moveTo(cx, cy); ctx.lineTo(px, py);
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // sin line (vertical from point to x-axis)
+            ctx.beginPath();
+            ctx.moveTo(px, py); ctx.lineTo(px, cy);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // cos line (horizontal from origin to point's x)
+            ctx.beginPath();
+            ctx.moveTo(cx, cy); ctx.lineTo(px, cy);
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // tan line (from point up to where it hits the x=1 vertical)
+            const tanVal = Math.tan(a);
+            if (Math.abs(tanVal) < 10) {
+                const tanEndY = cy - r * tanVal;
+                ctx.beginPath();
+                ctx.moveTo(cx + r, cy); ctx.lineTo(cx + r, tanEndY);
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                // Secant line (from origin to tangent point)
+                ctx.beginPath();
+                ctx.moveTo(cx, cy); ctx.lineTo(cx + r, tanEndY);
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([8, 4]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Angle arc
+            ctx.beginPath();
+            ctx.arc(cx, cy, 30, 0, -a, true);
+            ctx.strokeStyle = '#c084fc';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Point dot
+            ctx.beginPath();
+            ctx.arc(px, py, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fill();
+
+            // Labels
+            ctx.font = 'bold 22px system-ui';
+            ctx.fillStyle = '#ef4444';
+            ctx.textAlign = 'left';
+            ctx.fillText('sin', px + 8, (py + cy) / 2);
+
+            ctx.fillStyle = '#3b82f6';
+            ctx.textAlign = 'center';
+            ctx.fillText('cos', (cx + px) / 2, cy + 28);
+
+            if (Math.abs(tanVal) < 10) {
+                ctx.fillStyle = '#10b981';
+                ctx.textAlign = 'left';
+                ctx.fillText('tan', cx + r + 8, cy - r * tanVal / 2);
+
+                ctx.fillStyle = '#f59e0b';
+                ctx.textAlign = 'center';
+                ctx.fillText('sec', (cx + cx + r) / 2, cy - r * tanVal / 2 - 12);
+            }
+
+            ctx.fillStyle = '#c084fc';
+            ctx.font = '20px system-ui';
+            ctx.fillText('θ', cx + 38, cy - 8);
+        }
+
+        // ===== UNIT CIRCLE =====
+        function drawUnitCircle() {
+            const canvas = document.getElementById('unitCircle');
+            resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const cx = w / 2, cy = h / 2;
+            const r = Math.min(w, h) * 0.38;
+
+            // Circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Axes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(cx - r - 20, cy); ctx.lineTo(cx + r + 20, cy);
+            ctx.moveTo(cx, cy - r - 20); ctx.lineTo(cx, cy + r + 20);
+            ctx.stroke();
+
+            // Key angles
+            const angles = [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330];
+            ctx.font = '16px monospace';
+
+            angles.forEach(deg => {
+                const rad = toRad(deg);
+                const x = cx + r * Math.cos(rad);
+                const y = cy - r * Math.sin(rad);
+
+                // Dot
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fill();
+
+                // Label
+                const lx = cx + (r + 28) * Math.cos(rad);
+                const ly = cy - (r + 28) * Math.sin(rad);
+                ctx.fillStyle = '#94a3b8';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(deg + '°', lx, ly);
+            });
+
+            // Labels
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = 'bold 18px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('1', cx + r + 8, cy + 20);
+            ctx.fillText('-1', cx - r - 14, cy + 20);
+            ctx.fillText('1', cx + 12, cy - r - 10);
+            ctx.fillText('-1', cx + 16, cy + r + 20);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            drawUnitCircle();
+            solveTriangle();
+        });
+        window.addEventListener('resize', () => {
+            drawUnitCircle();
+            solveTriangle();
+        });
+    </script>
+</body>
+</html>
