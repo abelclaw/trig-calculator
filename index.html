@@ -1977,20 +1977,31 @@
         </div>
     </div>
 
-    <script src="geometry.js?v=2"></script>
-    <script src="quadrilaterals.js?v=3"></script>
-    <script src="algebra2.js?v=3"></script>
-    <script src="review.js?v=4"></script>
+    <script>
+        // Dynamic script loading with cache busting
+        var _cbust = new URLSearchParams(window.location.search).get('t') || '';
+        ['geometry.js','quadrilaterals.js','algebra2.js','review.js'].forEach(function(src) {
+            var s = document.createElement('script');
+            s.src = src + '?v=' + (_cbust || '4');
+            document.head.appendChild(s);
+        });
+    </script>
     <script>
         // ===== HARD REFRESH =====
         function hardRefresh() {
             if ('caches' in window) {
-                caches.keys().then(names => Promise.all(names.map(n => caches.delete(n)))).then(() => {
-                    location.replace(location.pathname + '?t=' + Date.now());
-                });
+                caches.keys().then(function(names) {
+                    return Promise.all(names.map(function(n) { return caches.delete(n); }));
+                }).finally(function() { doReload(); });
             } else {
-                location.replace(location.pathname + '?t=' + Date.now());
+                doReload();
             }
+        }
+        function doReload() {
+            // Fetch the HTML itself with no-cache to ensure we get the latest
+            fetch(location.pathname, { cache: 'no-store' }).then(function() {
+                location.replace(location.pathname + '?t=' + Date.now());
+            });
         }
 
         // ===== TAB SWITCHING =====
