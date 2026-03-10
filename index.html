@@ -16,24 +16,32 @@
             align-items: center;
             padding: 20px;
         }
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .banner-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .subtitle { color: #94a3b8; margin-bottom: 16px; font-size: 0.9rem; }
+        .banner-img {
+            width: 100%;
+            display: block;
+        }
 
         /* ===== TAB BAR ===== */
         .tab-bar {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 4px;
-            margin-bottom: 20px;
-            background: #1e293b;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
             border-radius: 12px;
             padding: 4px;
-            border: 1px solid #334155;
+            border: 1px solid rgba(51, 65, 85, 0.7);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
@@ -862,17 +870,15 @@
     </style>
 </head>
 <body>
-    <img src="banner.png" alt="ChalGeo Banner" style="max-width: 100%; width: 600px; border-radius: 16px; margin-bottom: 16px;">
-    <h1>ChalGeo</h1>
-    <p class="subtitle">Calculator, learning, review, and practice problems</p>
-
-    <!-- Tab Bar -->
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('learning')">Learning</button>
-        <button class="tab-btn" onclick="switchTab('review')">Review</button>
-        <button class="tab-btn" onclick="switchTab('practice')">Practice</button>
-        <button class="tab-btn" onclick="switchTab('algebra2')">Algebra 2 Readiness</button>
-        <button class="tab-btn" onclick="switchTab('calculator')">Calculator</button>
+    <div class="banner-wrapper">
+        <img src="banner.png" alt="ChalGeo Banner" class="banner-img">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('learning')">Learning</button>
+            <button class="tab-btn" onclick="switchTab('review')">Review</button>
+            <button class="tab-btn" onclick="switchTab('practice')">Practice</button>
+            <button class="tab-btn" onclick="switchTab('algebra2')">Algebra 2 Readiness</button>
+            <button class="tab-btn" onclick="switchTab('calculator')">Calculator</button>
+        </div>
     </div>
 
     <!-- ========== CALCULATOR TAB ========== -->
