@@ -747,20 +747,20 @@ const REVIEW_TOPICS = {
         title: "Circles",
         content: `
 <div class="review-topic">
-    <h3>Basic Circle Formulas</h3>
-    <div class="review-formula">Circumference: C = 2πr = πd</div>
-    <div class="review-formula">Area: A = πr²</div>
-    <div class="review-def"><strong>Radius (r):</strong> distance from center to edge &nbsp;|&nbsp; <strong>Diameter (d):</strong> d = 2r</div>
-</div>
-
-<div class="review-topic">
     <h3>Circle Vocabulary</h3>
+    <div class="review-diagram"><canvas id="reviewCanvas-12a"></canvas></div>
+    <div class="review-def"><strong>Radius (r):</strong> distance from center to edge &nbsp;|&nbsp; <strong>Diameter (d):</strong> d = 2r</div>
     <div class="review-def"><strong>Chord:</strong> a segment with both endpoints on the circle</div>
     <div class="review-def"><strong>Secant:</strong> a line that intersects a circle at two points</div>
     <div class="review-def"><strong>Tangent:</strong> a line that touches the circle at exactly one point. A tangent is perpendicular to the radius at the point of tangency.</div>
     <div class="review-def"><strong>Arc:</strong> a portion of the circle's circumference</div>
     <div class="review-def"><strong>Sector:</strong> a "pie slice" region bounded by two radii and an arc</div>
-    <div class="review-diagram"><canvas id="reviewCanvas-12a"></canvas></div>
+</div>
+
+<div class="review-topic">
+    <h3>Basic Circle Formulas</h3>
+    <div class="review-formula">Circumference: C = 2πr = πd</div>
+    <div class="review-formula">Area: A = πr²</div>
 </div>
 
 <div class="review-topic">
