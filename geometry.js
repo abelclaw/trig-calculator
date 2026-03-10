@@ -1230,6 +1230,411 @@ const MEDIUM_PROBLEMS = [
         explanation: 'A midpoint divides a segment into two congruent parts. That\u2019s the <strong>definition of midpoint</strong>.',
         drawDiagram: null
     }),
+
+    // ========== PYTHAGOREAN THEOREM (Medium) ==========
+    () => {
+        const c = gpick([10, 13, 15, 17, 25]);
+        const a = gpick([6, 5, 9, 8, 7]);
+        const bSq = c * c - a * a;
+        const b = Math.sqrt(bSq);
+        if (b !== Math.floor(b)) return MEDIUM_PROBLEMS[MEDIUM_PROBLEMS.length - 1]();
+        return {
+            type: 'Pythagorean Theorem',
+            question: `A right triangle has hypotenuse ${c} and one leg ${a}. What is the other leg?`,
+            format: 'mc',
+            choices: gshuffle([b.toString(), (c - a).toString(), Math.sqrt(c * c + a * a).toFixed(0), (b + 2).toString()]),
+            correct: b.toString(),
+            explanation: `b\u00B2 = c\u00B2 \u2212 a\u00B2 = ${c*c} \u2212 ${a*a} = ${bSq}. b = \u221A${bSq} = <strong>${b}</strong>.`,
+            drawDiagram: (ctx, w, h) => {
+                drawGeoTriangle(ctx, w, h, {
+                    vertices: [{ x: 0.15, y: 0.82 }, { x: 0.75, y: 0.82 }, { x: 0.15, y: 0.2 }],
+                    labels: ['A', 'B', 'C'],
+                    sides: [a.toString(), c.toString(), '?']
+                });
+                const sq = 10;
+                ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5;
+                ctx.strokeRect(0.15 * w, 0.82 * h - sq, sq, sq);
+            }
+        };
+    },
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'A 10-foot ladder leans against a wall. The base of the ladder is 6 feet from the wall. How high up the wall does the ladder reach?',
+        format: 'mc',
+        choices: gshuffle(['8 feet', '4 feet', '7 feet', '16 feet']),
+        correct: '8 feet',
+        explanation: 'h\u00B2 + 6\u00B2 = 10\u00B2 \u2192 h\u00B2 = 100 \u2212 36 = 64 \u2192 h = <strong>8 feet</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'Which of the following is a Pythagorean triple?',
+        format: 'mc',
+        choices: gshuffle(['8, 15, 17', '8, 14, 17', '9, 15, 17', '8, 15, 18']),
+        correct: '8, 15, 17',
+        explanation: '8\u00B2 + 15\u00B2 = 64 + 225 = 289 = 17\u00B2. So <strong>8, 15, 17</strong> is a Pythagorean triple.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'The triple 3, 4, 5 is a basic Pythagorean triple. What is the triple when each side is multiplied by 3?',
+        format: 'mc',
+        choices: gshuffle(['9, 12, 15', '6, 8, 10', '9, 12, 16', '6, 9, 15']),
+        correct: '9, 12, 15',
+        explanation: 'Multiplying each side by 3: 3\u00D73=9, 4\u00D73=12, 5\u00D73=15. Check: 9\u00B2+12\u00B2 = 81+144 = 225 = 15\u00B2. <strong>9, 12, 15</strong>.',
+        drawDiagram: null
+    }),
+    () => {
+        const a = gpick([7, 9, 11]);
+        const b = gpick([24, 40, 60]);
+        const cSq = a * a + b * b;
+        const c = Math.sqrt(cSq);
+        if (c !== Math.floor(c)) return MEDIUM_PROBLEMS[MEDIUM_PROBLEMS.length - 1]();
+        return {
+            type: 'Pythagorean Theorem',
+            question: `Find the distance between (0, 0) and (${a}, ${b}).`,
+            format: 'mc',
+            choices: gshuffle([c.toString(), (a + b).toString(), (c + 1).toString(), Math.abs(a - b).toString()]),
+            correct: c.toString(),
+            explanation: `d = \u221A(${a}\u00B2 + ${b}\u00B2) = \u221A(${a*a} + ${b*b}) = \u221A${cSq} = <strong>${c}</strong>.`,
+            drawDiagram: null
+        };
+    },
+
+    // ========== SIMILAR TRIANGLES (Medium) ==========
+    () => ({
+        type: 'Similar Triangles',
+        question: '\u25B3ABC ~ \u25B3DEF. AB = 6, DE = 9, BC = 8. Find EF.',
+        format: 'mc',
+        choices: gshuffle(['12', '10', '14', '8']),
+        correct: '12',
+        explanation: 'Scale factor = DE/AB = 9/6 = 3/2. EF = BC \u00D7 (3/2) = 8 \u00D7 1.5 = <strong>12</strong>.',
+        drawDiagram: (ctx, w, h) => {
+            drawTwoTriangles(ctx, w, h, {
+                labels1: ['A', 'B', 'C'], labels2: ['D', 'E', 'F']
+            });
+            ctx.font = '13px system-ui'; ctx.fillStyle = '#94a3b8'; ctx.textAlign = 'center';
+            ctx.fillText('AB=6, BC=8', w * 0.25, h - 10);
+            ctx.fillText('DE=9, EF=?', w * 0.75, h - 10);
+        }
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: '\u25B3ABC ~ \u25B3DEF with a scale factor of 2:5. If AB = 8, what is DE?',
+        format: 'mc',
+        choices: gshuffle(['20', '16', '3.2', '10']),
+        correct: '20',
+        explanation: 'Scale factor 2:5 means DE/AB = 5/2. DE = 8 \u00D7 (5/2) = <strong>20</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: 'Two triangles have two pairs of congruent angles: \u2220A = \u2220D = 50\u00B0 and \u2220B = \u2220E = 70\u00B0. Are the triangles similar? By which postulate?',
+        format: 'mc',
+        choices: gshuffle(['Yes, by AA Similarity', 'Yes, by SSS Similarity', 'Yes, by SAS Similarity', 'No, not enough information']),
+        correct: 'Yes, by AA Similarity',
+        explanation: 'Two pairs of congruent angles is sufficient to prove similarity by <strong>AA (Angle-Angle) Similarity</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: '\u25B3ABC ~ \u25B3DEF. AB = 4, BC = 6, CA = 8, and DE = 6. What is the scale factor from \u25B3ABC to \u25B3DEF?',
+        format: 'mc',
+        choices: gshuffle(['3/2', '2/3', '3/4', '4/3']),
+        correct: '3/2',
+        explanation: 'Scale factor = DE/AB = 6/4 = <strong>3/2</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: '\u25B3ABC ~ \u25B3DEF. If AB = 10, DE = 15, and the perimeter of \u25B3ABC is 30, what is the perimeter of \u25B3DEF?',
+        format: 'mc',
+        choices: gshuffle(['45', '35', '60', '20']),
+        correct: '45',
+        explanation: 'Scale factor = 15/10 = 3/2. Perimeter of \u25B3DEF = 30 \u00D7 (3/2) = <strong>45</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: 'In \u25B3ABC, DE is parallel to BC with D on AB and E on AC. AD = 3, DB = 6, AE = 4. Find EC.',
+        format: 'mc',
+        choices: gshuffle(['8', '6', '12', '2']),
+        correct: '8',
+        explanation: 'By the Triangle Proportionality Theorem: AD/DB = AE/EC. 3/6 = 4/EC. EC = 4 \u00D7 6/3 = <strong>8</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== AREA & PERIMETER (Medium) ==========
+    () => {
+        const b1 = gpick([5, 6, 8, 10]);
+        const b2 = gpick([10, 12, 14, 16]);
+        const ht = gpick([4, 5, 6, 7]);
+        const area = 0.5 * (b1 + b2) * ht;
+        return {
+            type: 'Area',
+            question: `What is the area of a trapezoid with bases ${b1} and ${b2} and height ${ht}?`,
+            format: 'mc',
+            choices: gshuffle([area.toString(), (b1 * b2 * ht).toString(), ((b1 + b2) * ht).toString(), (b1 * ht).toString()]),
+            correct: area.toString(),
+            explanation: `A = \u00BD(b\u2081 + b\u2082)h = \u00BD(${b1} + ${b2})(${ht}) = \u00BD(${b1+b2})(${ht}) = <strong>${area}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => {
+        const b = gpick([8, 10, 12, 15]);
+        const ht = gpick([5, 6, 7, 9]);
+        const area = b * ht;
+        return {
+            type: 'Area',
+            question: `What is the area of a parallelogram with base ${b} and height ${ht}?`,
+            format: 'mc',
+            choices: gshuffle([area.toString(), (0.5 * b * ht).toString(), (2 * b + 2 * ht).toString(), (area + b).toString()]),
+            correct: area.toString(),
+            explanation: `Area of a parallelogram = base \u00D7 height = ${b} \u00D7 ${ht} = <strong>${area}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => ({
+        type: 'Area (Composite)',
+        question: 'A rectangular room is 12 m by 8 m. A square rug 4 m on each side is placed in the center. What is the area of the uncovered floor?',
+        format: 'mc',
+        choices: gshuffle(['80 m\u00B2', '96 m\u00B2', '64 m\u00B2', '76 m\u00B2']),
+        correct: '80 m\u00B2',
+        explanation: 'Room area = 12 \u00D7 8 = 96 m\u00B2. Rug area = 4 \u00D7 4 = 16 m\u00B2. Uncovered = 96 \u2212 16 = <strong>80 m\u00B2</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Area (Composite)',
+        question: 'A semicircle has diameter 10. What is its area? (Use \u03C0 \u2248 3.14)',
+        format: 'mc',
+        choices: gshuffle(['39.25', '78.5', '31.4', '15.7']),
+        correct: '39.25',
+        explanation: 'r = 5. Semicircle area = \u00BD\u03C0r\u00B2 = \u00BD \u00D7 3.14 \u00D7 25 = <strong>39.25</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== CIRCLES (Medium) ==========
+    () => {
+        const d = gpick([10, 14, 20, 26]);
+        const r = d / 2;
+        const ans = d + '\u03C0';
+        return {
+            type: 'Circles',
+            question: `What is the circumference of a circle with diameter ${d}? (Leave answer in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, (r * r) + '\u03C0', (2 * d) + '\u03C0', r + '\u03C0']),
+            correct: ans,
+            explanation: `C = \u03C0d = \u03C0(${d}) = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => ({
+        type: 'Circles',
+        question: 'A circle has a central angle of 90\u00B0 and radius 8. What is the arc length? (Leave in terms of \u03C0)',
+        format: 'mc',
+        choices: gshuffle(['4\u03C0', '8\u03C0', '2\u03C0', '16\u03C0']),
+        correct: '4\u03C0',
+        explanation: 'Arc length = (\u03B8/360)\u00D72\u03C0r = (90/360)\u00D72\u03C0(8) = \u00BC \u00D7 16\u03C0 = <strong>4\u03C0</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Circles',
+        question: 'A circle has radius 6. What is the area of a sector with a 60\u00B0 central angle? (Leave in terms of \u03C0)',
+        format: 'mc',
+        choices: gshuffle(['6\u03C0', '12\u03C0', '36\u03C0', '3\u03C0']),
+        correct: '6\u03C0',
+        explanation: 'Sector area = (\u03B8/360)\u00D7\u03C0r\u00B2 = (60/360)\u00D7\u03C0(36) = (1/6)(36\u03C0) = <strong>6\u03C0</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Circles',
+        question: 'A line that touches a circle at exactly one point is called a:',
+        format: 'mc',
+        choices: gshuffle(['Tangent', 'Secant', 'Chord', 'Diameter']),
+        correct: 'Tangent',
+        explanation: 'A <strong>tangent</strong> is a line that intersects a circle at exactly one point (the point of tangency).',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Circles',
+        question: 'A chord that passes through the center of a circle is called a:',
+        format: 'mc',
+        choices: gshuffle(['Diameter', 'Radius', 'Secant', 'Tangent']),
+        correct: 'Diameter',
+        explanation: 'A <strong>diameter</strong> is a chord that passes through the center. It is the longest chord in a circle.',
+        drawDiagram: null
+    }),
+
+    // ========== TRANSFORMATIONS (Medium) ==========
+    () => ({
+        type: 'Transformations',
+        question: 'What are the coordinates of (4, \u22123) after reflection over the y-axis?',
+        format: 'mc',
+        choices: gshuffle(['(\u22124, \u22123)', '(4, 3)', '(\u22124, 3)', '(\u22123, 4)']),
+        correct: '(\u22124, \u22123)',
+        explanation: 'Reflecting over the y-axis negates the x-coordinate: (x, y) \u2192 (\u2212x, y). So (4, \u22123) \u2192 <strong>(\u22124, \u22123)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Transformations',
+        question: 'Point (2, 5) is translated by the vector \u27E83, \u22124\u27E9. What are the new coordinates?',
+        format: 'mc',
+        choices: gshuffle(['(5, 1)', '(\u22121, 9)', '(6, 20)', '(5, 9)']),
+        correct: '(5, 1)',
+        explanation: '(2 + 3, 5 + (\u22124)) = (5, 1). Translation adds the vector components to the coordinates: <strong>(5, 1)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Transformations',
+        question: 'What are the coordinates of (3, 7) after a 180\u00B0 rotation about the origin?',
+        format: 'mc',
+        choices: gshuffle(['(\u22123, \u22127)', '(\u22127, 3)', '(7, \u22123)', '(3, \u22127)']),
+        correct: '(\u22123, \u22127)',
+        explanation: 'A 180\u00B0 rotation about the origin maps (x, y) \u2192 (\u2212x, \u2212y). So (3, 7) \u2192 <strong>(\u22123, \u22127)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Transformations',
+        question: 'What are the coordinates of (2, 5) after a 90\u00B0 counterclockwise rotation about the origin?',
+        format: 'mc',
+        choices: gshuffle(['(\u22125, 2)', '(5, \u22122)', '(\u22122, \u22125)', '(2, \u22125)']),
+        correct: '(\u22125, 2)',
+        explanation: 'A 90\u00B0 CCW rotation maps (x, y) \u2192 (\u2212y, x). So (2, 5) \u2192 <strong>(\u22125, 2)</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== COORDINATE GEOMETRY (Medium) ==========
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'What is the distance between (1, 2) and (4, 6)?',
+        format: 'mc',
+        choices: gshuffle(['5', '7', '3', '25']),
+        correct: '5',
+        explanation: 'd = \u221A((4\u22121)\u00B2 + (6\u22122)\u00B2) = \u221A(9 + 16) = \u221A25 = <strong>5</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'Line 1 has slope 2/3. Line 2 has slope 2/3. What is the relationship between these lines?',
+        format: 'mc',
+        choices: gshuffle(['Parallel', 'Perpendicular', 'Neither', 'Intersecting at 45\u00B0']),
+        correct: 'Parallel',
+        explanation: 'Lines with <strong>equal slopes</strong> are parallel (assuming they are not the same line).',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'Line 1 has slope 3/4. What slope would a line perpendicular to it have?',
+        format: 'mc',
+        choices: gshuffle(['\u22124/3', '4/3', '\u22123/4', '3/4']),
+        correct: '\u22124/3',
+        explanation: 'Perpendicular slopes are negative reciprocals. The negative reciprocal of 3/4 is <strong>\u22124/3</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== QUADRILATERALS & POLYGON ANGLES (Medium) ==========
+    () => {
+        const n = gpick([6, 7, 8, 9, 10]);
+        const sum = (n - 2) * 180;
+        const names = { 6: 'hexagon', 7: 'heptagon', 8: 'octagon', 9: 'nonagon', 10: 'decagon' };
+        return {
+            type: 'Polygon Angles',
+            question: `What is the sum of the interior angles of a ${names[n]} (${n} sides)?`,
+            format: 'mc',
+            choices: gshuffle([sum + '\u00B0', (sum + 180) + '\u00B0', (sum - 180) + '\u00B0', (n * 180) + '\u00B0']),
+            correct: sum + '\u00B0',
+            explanation: `Sum = (n \u2212 2) \u00D7 180\u00B0 = (${n} \u2212 2) \u00D7 180\u00B0 = ${n-2} \u00D7 180\u00B0 = <strong>${sum}\u00B0</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => {
+        const n = gpick([5, 6, 8, 10, 12]);
+        const each = ((n - 2) * 180) / n;
+        return {
+            type: 'Polygon Angles',
+            question: `What is the measure of each interior angle of a regular ${n}-sided polygon?`,
+            format: 'mc',
+            choices: gshuffle([each + '\u00B0', (180 - each) + '\u00B0', ((n - 2) * 180) + '\u00B0', (360 / n) + '\u00B0']),
+            correct: each + '\u00B0',
+            explanation: `Each angle = (n\u22122) \u00D7 180\u00B0 / n = ${(n-2)*180} / ${n} = <strong>${each}\u00B0</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => ({
+        type: 'Quadrilaterals',
+        question: 'A quadrilateral has exactly one pair of parallel sides. What is it called?',
+        format: 'mc',
+        choices: gshuffle(['Trapezoid', 'Parallelogram', 'Rhombus', 'Rectangle']),
+        correct: 'Trapezoid',
+        explanation: 'A <strong>trapezoid</strong> has exactly one pair of parallel sides (the bases).',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Quadrilaterals',
+        question: 'Which quadrilateral has all four sides congruent but angles that are not necessarily 90\u00B0?',
+        format: 'mc',
+        choices: gshuffle(['Rhombus', 'Rectangle', 'Square', 'Trapezoid']),
+        correct: 'Rhombus',
+        explanation: 'A <strong>rhombus</strong> has four congruent sides. If the angles are also 90\u00B0, it becomes a square.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Quadrilaterals',
+        question: 'Which statement is true about the diagonals of a rectangle?',
+        format: 'mc',
+        choices: gshuffle(['They are congruent and bisect each other', 'They are perpendicular', 'They bisect the angles', 'Only one diagonal bisects the other']),
+        correct: 'They are congruent and bisect each other',
+        explanation: 'In a rectangle, the diagonals are <strong>congruent and bisect each other</strong>. They are not necessarily perpendicular.',
+        drawDiagram: null
+    }),
+
+    // ========== VOLUME & SURFACE AREA (Medium) ==========
+    () => {
+        const r = gpick([3, 4, 5, 7]);
+        const ht = gpick([6, 8, 10, 12]);
+        const vol = r * r * ht;
+        const ans = vol + '\u03C0';
+        return {
+            type: 'Volume',
+            question: `What is the volume of a cylinder with radius ${r} and height ${ht}? (Leave in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, (2 * r * ht) + '\u03C0', (r * ht) + '\u03C0', (r * r * ht * 2) + '\u03C0']),
+            correct: ans,
+            explanation: `V = \u03C0r\u00B2h = \u03C0(${r})\u00B2(${ht}) = \u03C0(${r*r})(${ht}) = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => {
+        const l = gpick([4, 5, 6]);
+        const w = gpick([3, 4, 5]);
+        const ht = gpick([2, 3, 7]);
+        const sa = 2 * (l * w + l * ht + w * ht);
+        return {
+            type: 'Surface Area',
+            question: `What is the surface area of a rectangular prism with length ${l}, width ${w}, and height ${ht}?`,
+            format: 'mc',
+            choices: gshuffle([sa.toString(), (l * w * ht).toString(), (2 * l * w).toString(), (sa + 2).toString()]),
+            correct: sa.toString(),
+            explanation: `SA = 2(lw + lh + wh) = 2(${l*w} + ${l*ht} + ${w*ht}) = 2(${l*w + l*ht + w*ht}) = <strong>${sa}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => {
+        const r = gpick([3, 6, 9]);
+        const ht = gpick([4, 8, 12]);
+        const vol = r * r * ht;
+        const volThird = vol / 3;
+        const ans = volThird + '\u03C0';
+        return {
+            type: 'Volume',
+            question: `What is the volume of a cone with radius ${r} and height ${ht}? (Leave in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, vol + '\u03C0', (vol / 2) + '\u03C0', (volThird + r) + '\u03C0']),
+            correct: ans,
+            explanation: `V = \u2153\u03C0r\u00B2h = \u2153\u03C0(${r})\u00B2(${ht}) = \u2153\u03C0(${r*r})(${ht}) = \u2153(${vol})\u03C0 = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
 ];
 
 // -- HARD PROBLEMS (multi-step proofs, full proofs, complex reasoning) --
@@ -1610,6 +2015,310 @@ const HARD_PROBLEMS = [
             });
         }
     }),
+
+    // ========== PYTHAGOREAN THEOREM (Hard) ==========
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'A rectangular field is 40 m long and 30 m wide. What is the length of the diagonal?',
+        format: 'mc',
+        choices: gshuffle(['50 m', '70 m', '35 m', '60 m']),
+        correct: '50 m',
+        explanation: 'd = \u221A(40\u00B2 + 30\u00B2) = \u221A(1600 + 900) = \u221A2500 = <strong>50 m</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'Two ships leave a port. One sails 5 km north and the other sails 12 km east. How far apart are they?',
+        format: 'mc',
+        choices: gshuffle(['13 km', '17 km', '7 km', '15 km']),
+        correct: '13 km',
+        explanation: 'd = \u221A(5\u00B2 + 12\u00B2) = \u221A(25 + 144) = \u221A169 = <strong>13 km</strong>.',
+        drawDiagram: null
+    }),
+    () => {
+        const x = gpick([5, 7, 8, 10]);
+        const leg1 = 2 * x;
+        const leg2Sq = (x + 1) * (x + 1) + leg1 * leg1;
+        // Use a clean problem: right triangle with legs 2x and x+1, find if it forms a triple
+        return {
+            type: 'Pythagorean Theorem',
+            question: `A right triangle has legs of length (x + 3) and (x + 4), and hypotenuse (x + 5). Find x.`,
+            format: 'mc',
+            choices: gshuffle(['0', '1', '2', '3']),
+            correct: '0',
+            explanation: '(x+3)\u00B2 + (x+4)\u00B2 = (x+5)\u00B2. x\u00B2+6x+9 + x\u00B2+8x+16 = x\u00B2+10x+25. x\u00B2+4x = 0. x(x+4) = 0. Since x \u2265 0, <strong>x = 0</strong> giving the 3-4-5 triple.',
+            drawDiagram: null
+        };
+    },
+    () => ({
+        type: 'Pythagorean Theorem',
+        question: 'The diagonal of a square is 10\u221A2. What is the side length of the square?',
+        format: 'mc',
+        choices: gshuffle(['10', '5\u221A2', '20', '10\u221A2']),
+        correct: '10',
+        explanation: 'If side = s, diagonal = s\u221A2. So s\u221A2 = 10\u221A2, thus <strong>s = 10</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== SIMILAR TRIANGLES (Hard) ==========
+    () => ({
+        type: 'Similar Triangles',
+        question: '\u25B3ABC ~ \u25B3DEF. The ratio of their areas is 4:9. If AB = 6, what is DE?',
+        format: 'mc',
+        choices: gshuffle(['9', '13.5', '12', '8']),
+        correct: '9',
+        explanation: 'Area ratio = (scale factor)\u00B2. If area ratio is 4:9, scale factor = 2:3. DE = 6 \u00D7 (3/2) = <strong>9</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Similar Triangles',
+        question: 'A 6-foot person casts a 4-foot shadow. At the same time, a tree casts a 20-foot shadow. How tall is the tree?',
+        format: 'mc',
+        choices: gshuffle(['30 feet', '24 feet', '15 feet', '20 feet']),
+        correct: '30 feet',
+        explanation: 'By similar triangles: 6/4 = h/20. h = 6 \u00D7 20 / 4 = <strong>30 feet</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== AREA & PERIMETER (Hard) ==========
+    () => ({
+        type: 'Area (Composite)',
+        question: 'A track is made of a rectangle 100 m by 60 m with a semicircle on each short end. What is the total area? (Use \u03C0 \u2248 3.14)',
+        format: 'mc',
+        choices: gshuffle(['8826 m\u00B2', '6000 m\u00B2', '11400 m\u00B2', '7000 m\u00B2']),
+        correct: '8826 m\u00B2',
+        explanation: 'Rectangle = 100 \u00D7 60 = 6000 m\u00B2. Two semicircles = one full circle with r = 30: \u03C0(30)\u00B2 = 3.14 \u00D7 900 = 2826 m\u00B2. Total = 6000 + 2826 = <strong>8826 m\u00B2</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Area (Composite)',
+        question: 'An annulus (ring) has outer radius 10 and inner radius 6. What is its area? (Leave in terms of \u03C0)',
+        format: 'mc',
+        choices: gshuffle(['64\u03C0', '100\u03C0', '36\u03C0', '16\u03C0']),
+        correct: '64\u03C0',
+        explanation: 'A = \u03C0R\u00B2 \u2212 \u03C0r\u00B2 = \u03C0(100 \u2212 36) = <strong>64\u03C0</strong>.',
+        drawDiagram: null
+    }),
+    () => {
+        const side = gpick([5, 6, 8, 10]);
+        const apothem = { 5: 3.44, 6: 4.13, 8: 5.51, 10: 6.88 }[side];
+        // Regular pentagon: A = (1/2) * perimeter * apothem
+        const perim = 5 * side;
+        const area = (0.5 * perim * apothem).toFixed(1);
+        return {
+            type: 'Area',
+            question: `A regular pentagon has side length ${side} and apothem ${apothem}. What is its area?`,
+            format: 'mc',
+            choices: gshuffle([area, (perim * apothem).toFixed(1), (5 * side * side / 2).toFixed(1), (perim + apothem).toFixed(1)]),
+            correct: area,
+            explanation: `A = \u00BD \u00D7 perimeter \u00D7 apothem = \u00BD \u00D7 ${perim} \u00D7 ${apothem} = <strong>${area}</strong>.`,
+            drawDiagram: null
+        };
+    },
+
+    // ========== CIRCLES (Hard) ==========
+    () => ({
+        type: 'Circles',
+        question: 'A circle has radius 12. What is the arc length of a 150\u00B0 arc? (Leave in terms of \u03C0)',
+        format: 'mc',
+        choices: gshuffle(['10\u03C0', '5\u03C0', '12\u03C0', '15\u03C0']),
+        correct: '10\u03C0',
+        explanation: 'Arc length = (150/360) \u00D7 2\u03C0(12) = (5/12) \u00D7 24\u03C0 = <strong>10\u03C0</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Circles',
+        question: 'A sector has area 24\u03C0 and radius 12. What is the central angle?',
+        format: 'mc',
+        choices: gshuffle(['60\u00B0', '90\u00B0', '120\u00B0', '45\u00B0']),
+        correct: '60\u00B0',
+        explanation: 'Sector area = (\u03B8/360)\u03C0r\u00B2. 24\u03C0 = (\u03B8/360)(144\u03C0). \u03B8/360 = 24/144 = 1/6. \u03B8 = <strong>60\u00B0</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Circles',
+        question: 'A line that intersects a circle at two points is called a:',
+        format: 'mc',
+        choices: gshuffle(['Secant', 'Tangent', 'Chord', 'Radius']),
+        correct: 'Secant',
+        explanation: 'A <strong>secant</strong> is a line that intersects a circle at two points. A chord is the segment between those two points.',
+        drawDiagram: null
+    }),
+
+    // ========== TRANSFORMATIONS (Hard) ==========
+    () => ({
+        type: 'Transformations',
+        question: 'Point (\u22124, 3) is rotated 90\u00B0 clockwise about the origin. What are the new coordinates?',
+        format: 'mc',
+        choices: gshuffle(['(3, 4)', '(\u22123, \u22124)', '(4, 3)', '(\u22123, 4)']),
+        correct: '(3, 4)',
+        explanation: 'A 90\u00B0 CW rotation maps (x, y) \u2192 (y, \u2212x). So (\u22124, 3) \u2192 (3, \u2212(\u22124)) = <strong>(3, 4)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Transformations',
+        question: 'Triangle with vertices A(1, 2), B(4, 2), C(1, 6) is reflected over the y-axis. What are the new vertices?',
+        format: 'mc',
+        choices: gshuffle([
+            'A\u2032(\u22121, 2), B\u2032(\u22124, 2), C\u2032(\u22121, 6)',
+            'A\u2032(1, \u22122), B\u2032(4, \u22122), C\u2032(1, \u22126)',
+            'A\u2032(\u22122, 1), B\u2032(\u22122, 4), C\u2032(\u22126, 1)',
+            'A\u2032(\u22121, \u22122), B\u2032(\u22124, \u22122), C\u2032(\u22121, \u22126)'
+        ]),
+        correct: 'A\u2032(\u22121, 2), B\u2032(\u22124, 2), C\u2032(\u22121, 6)',
+        explanation: 'Reflecting over the y-axis negates x: (x, y) \u2192 (\u2212x, y). <strong>A\u2032(\u22121, 2), B\u2032(\u22124, 2), C\u2032(\u22121, 6)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Transformations',
+        question: 'Which transformation preserves both shape and size (is a rigid motion)?',
+        format: 'mc',
+        choices: gshuffle(['Rotation', 'Dilation', 'Horizontal stretch', 'Vertical stretch']),
+        correct: 'Rotation',
+        explanation: '<strong>Rotations</strong> (along with translations and reflections) are rigid motions that preserve shape and size. Dilations change size.',
+        drawDiagram: null
+    }),
+
+    // ========== COORDINATE GEOMETRY (Hard) ==========
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'What is the distance between (\u22123, 4) and (5, \u22122)?',
+        format: 'mc',
+        choices: gshuffle(['10', '8', '14', '6']),
+        correct: '10',
+        explanation: 'd = \u221A((5\u2212(\u22123))\u00B2 + (\u22122\u22124)\u00B2) = \u221A(64 + 36) = \u221A100 = <strong>10</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'Line 1 has slope 2. Line 2 has slope \u22121/2. Are they parallel, perpendicular, or neither?',
+        format: 'mc',
+        choices: gshuffle(['Perpendicular', 'Parallel', 'Neither', 'Same line']),
+        correct: 'Perpendicular',
+        explanation: '2 \u00D7 (\u22121/2) = \u22121. Since the product of slopes is \u22121, the lines are <strong>perpendicular</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'What is the midpoint of the segment from (\u22124, 7) to (6, \u22123)?',
+        format: 'mc',
+        choices: gshuffle(['(1, 2)', '(2, 4)', '(\u22125, 5)', '(5, \u22122)']),
+        correct: '(1, 2)',
+        explanation: 'M = ((\u22124+6)/2, (7+(\u22123))/2) = (2/2, 4/2) = <strong>(1, 2)</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Coordinate Geometry',
+        question: 'A triangle has vertices at (0, 0), (6, 0), and (0, 8). What is its area?',
+        format: 'mc',
+        choices: gshuffle(['24', '48', '14', '10']),
+        correct: '24',
+        explanation: 'This is a right triangle with legs 6 and 8. Area = \u00BD \u00D7 6 \u00D7 8 = <strong>24</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== QUADRILATERALS & POLYGON ANGLES (Hard) ==========
+    () => ({
+        type: 'Polygon Angles',
+        question: 'The sum of the interior angles of a polygon is 1440\u00B0. How many sides does it have?',
+        format: 'mc',
+        choices: gshuffle(['10', '8', '12', '9']),
+        correct: '10',
+        explanation: '(n \u2212 2) \u00D7 180 = 1440. n \u2212 2 = 8. n = <strong>10</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Polygon Angles',
+        question: 'Each exterior angle of a regular polygon is 30\u00B0. How many sides does it have?',
+        format: 'mc',
+        choices: gshuffle(['12', '10', '6', '15']),
+        correct: '12',
+        explanation: 'Sum of exterior angles = 360\u00B0. Number of sides = 360/30 = <strong>12</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Quadrilaterals',
+        question: 'A quadrilateral has diagonals that are perpendicular bisectors of each other and all four sides equal. What type is it?',
+        format: 'mc',
+        choices: gshuffle(['Rhombus', 'Rectangle', 'Trapezoid', 'Kite']),
+        correct: 'Rhombus',
+        explanation: 'A <strong>rhombus</strong> has all sides equal and diagonals that are perpendicular bisectors of each other.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Quadrilaterals',
+        question: 'In parallelogram ABCD, \u2220A = (3x + 10)\u00B0 and \u2220B = (5x \u2212 30)\u00B0. Find x.',
+        format: 'mc',
+        choices: gshuffle(['25', '20', '30', '35']),
+        correct: '25',
+        explanation: 'Consecutive angles in a parallelogram are supplementary: (3x+10) + (5x\u221230) = 180. 8x \u2212 20 = 180. 8x = 200. <strong>x = 25</strong>.',
+        drawDiagram: null
+    }),
+
+    // ========== VOLUME & SURFACE AREA (Hard) ==========
+    () => {
+        const r = gpick([3, 5, 6]);
+        const vol = (4 * r * r * r) / 3;
+        const ans = vol + '\u03C0';
+        return {
+            type: 'Volume',
+            question: `What is the volume of a sphere with radius ${r}? (Leave in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, (r * r * r) + '\u03C0', (4 * r * r) + '\u03C0', (2 * vol) + '\u03C0']),
+            correct: ans,
+            explanation: `V = (4/3)\u03C0r\u00B3 = (4/3)\u03C0(${r})\u00B3 = (4/3)\u03C0(${r*r*r}) = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => {
+        const r = gpick([2, 3, 5]);
+        const sa = 4 * r * r;
+        const ans = sa + '\u03C0';
+        return {
+            type: 'Surface Area',
+            question: `What is the surface area of a sphere with radius ${r}? (Leave in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, (2 * r * r) + '\u03C0', (r * r) + '\u03C0', (sa + r) + '\u03C0']),
+            correct: ans,
+            explanation: `SA = 4\u03C0r\u00B2 = 4\u03C0(${r})\u00B2 = 4\u03C0(${r*r}) = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
+    () => ({
+        type: 'Volume',
+        question: 'A cone and a cylinder have the same radius and height. The cylinder volume is 90\u03C0. What is the cone volume?',
+        format: 'mc',
+        choices: gshuffle(['30\u03C0', '45\u03C0', '60\u03C0', '270\u03C0']),
+        correct: '30\u03C0',
+        explanation: 'The cone volume is \u2153 of the cylinder with same base and height. V = 90\u03C0 / 3 = <strong>30\u03C0</strong>.',
+        drawDiagram: null
+    }),
+    () => ({
+        type: 'Volume',
+        question: 'A rectangular prism has volume 120 cm\u00B3. Its length is 5 cm and width is 4 cm. What is the height?',
+        format: 'mc',
+        choices: gshuffle(['6 cm', '8 cm', '24 cm', '3 cm']),
+        correct: '6 cm',
+        explanation: 'V = lwh. 120 = 5 \u00D7 4 \u00D7 h. 120 = 20h. h = <strong>6 cm</strong>.',
+        drawDiagram: null
+    }),
+    () => {
+        const r = gpick([4, 5, 7]);
+        const ht = gpick([6, 8, 10]);
+        const latArea = 2 * r * ht;
+        const baseArea = 2 * r * r;
+        const total = latArea + baseArea;
+        const ans = total + '\u03C0';
+        return {
+            type: 'Surface Area',
+            question: `What is the total surface area of a cylinder with radius ${r} and height ${ht}? (Leave in terms of \u03C0)`,
+            format: 'mc',
+            choices: gshuffle([ans, latArea + '\u03C0', (r * r * ht) + '\u03C0', (total + r) + '\u03C0']),
+            correct: ans,
+            explanation: `SA = 2\u03C0rh + 2\u03C0r\u00B2 = 2\u03C0(${r})(${ht}) + 2\u03C0(${r})\u00B2 = ${latArea}\u03C0 + ${baseArea}\u03C0 = <strong>${ans}</strong>.`,
+            drawDiagram: null
+        };
+    },
 ];
 
 // ============================================================
