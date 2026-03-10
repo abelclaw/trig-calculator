@@ -689,6 +689,20 @@ const A2_TEST_2 = [
 // UI LOGIC
 // ============================================================
 
+let a2Revealed = []; // Track which questions have shown their answer (Test 1 only)
+
+function getTest1BestScore() {
+    try { return parseInt(localStorage.getItem('a2test1best') || '0', 10); }
+    catch(e) { return 0; }
+}
+
+function saveTest1Score(pct) {
+    try {
+        const prev = getTest1BestScore();
+        if (pct > prev) localStorage.setItem('a2test1best', String(pct));
+    } catch(e) {}
+}
+
 function initA2Test() {
     if (!document.getElementById('a2TestArea')) return;
     a2Initialized = true;
@@ -701,9 +715,32 @@ function resetA2Test() {
     a2CurrentQ = 0;
     a2Answers = [];
     a2Submitted = false;
+    a2Revealed = [];
 
     const area = document.getElementById('a2TestArea');
     if (!area) return;
+
+    const best1 = getTest1BestScore();
+    const test2Unlocked = best1 >= 90;
+    const test2Color = test2Unlocked ? '#38bdf8' : '#475569';
+    const test2Bg = test2Unlocked ? '#1e293b' : '#161e2e';
+    const test2Border = test2Unlocked ? '#334155' : '#1e293b';
+
+    let test1Badge = '';
+    if (best1 > 0) {
+        const badgeColor = best1 >= 90 ? '#10b981' : best1 >= 60 ? '#fbbf24' : '#ef4444';
+        test1Badge = `<div style="color:${badgeColor}; font-size:0.85rem; font-weight:600; margin-bottom:8px;">Best: ${best1}%</div>`;
+    }
+
+    let test2Btn = '';
+    if (test2Unlocked) {
+        test2Btn = `<button onclick="startA2Test(2)" style="background:#38bdf8; color:#0f172a; border:none; padding:10px 32px; border-radius:8px; font-weight:600; font-size:1rem; cursor:pointer; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Start Test 2</button>`;
+    } else {
+        test2Btn = `<div style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">Score ${best1 > 0 ? best1 + '%' : '0%'} / 90% needed</div>
+            <div style="background:#0f172a; border-radius:6px; height:8px; margin-top:8px; overflow:hidden; width:80%; margin-left:auto; margin-right:auto;">
+                <div style="background:${best1 >= 60 ? '#fbbf24' : '#ef4444'}; height:100%; width:${Math.min(best1 / 90 * 100, 100)}%; transition:width 0.3s; border-radius:6px;"></div>
+            </div>`;
+    }
 
     area.innerHTML = `
         <div style="text-align:center; margin-bottom: 24px;">
@@ -713,13 +750,16 @@ function resetA2Test() {
         <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
             <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:28px 36px; text-align:center; min-width:240px; cursor:pointer; transition:border-color 0.2s, transform 0.2s;" onmouseenter="this.style.borderColor='#38bdf8';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='#334155';this.style.transform='translateY(0)'">
                 <div style="font-size:2.2rem; font-weight:700; color:#38bdf8; margin-bottom:8px;">Test 1</div>
-                <div style="color:#94a3b8; margin-bottom:16px; font-size:0.9rem;">45 Questions &bull; ~40 min</div>
+                <div style="color:#94a3b8; margin-bottom:4px; font-size:0.9rem;">45 Questions &bull; Study Mode</div>
+                <div style="color:#64748b; margin-bottom:12px; font-size:0.8rem;">Answers shown after each question</div>
+                ${test1Badge}
                 <button onclick="startA2Test(1)" style="background:#38bdf8; color:#0f172a; border:none; padding:10px 32px; border-radius:8px; font-weight:600; font-size:1rem; cursor:pointer; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Start Test 1</button>
             </div>
-            <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:28px 36px; text-align:center; min-width:240px; cursor:pointer; transition:border-color 0.2s, transform 0.2s;" onmouseenter="this.style.borderColor='#38bdf8';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='#334155';this.style.transform='translateY(0)'">
-                <div style="font-size:2.2rem; font-weight:700; color:#38bdf8; margin-bottom:8px;">Test 2</div>
-                <div style="color:#94a3b8; margin-bottom:16px; font-size:0.9rem;">45 Questions &bull; ~40 min</div>
-                <button onclick="startA2Test(2)" style="background:#38bdf8; color:#0f172a; border:none; padding:10px 32px; border-radius:8px; font-weight:600; font-size:1rem; cursor:pointer; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Start Test 2</button>
+            <div style="background:${test2Bg}; border:1px solid ${test2Border}; border-radius:14px; padding:28px 36px; text-align:center; min-width:240px; ${test2Unlocked ? 'cursor:pointer;' : ''} transition:border-color 0.2s, transform 0.2s;" ${test2Unlocked ? 'onmouseenter="this.style.borderColor=\'#38bdf8\';this.style.transform=\'translateY(-2px)\'" onmouseleave="this.style.borderColor=\'#334155\';this.style.transform=\'translateY(0)\'"' : ''}>
+                <div style="font-size:2.2rem; font-weight:700; color:${test2Color}; margin-bottom:8px;">${test2Unlocked ? '' : '&#x1f512; '}Test 2</div>
+                <div style="color:#94a3b8; margin-bottom:4px; font-size:0.9rem;">45 Questions &bull; Test Mode</div>
+                <div style="color:#64748b; margin-bottom:12px; font-size:0.8rem;">${test2Unlocked ? 'No answers until you submit' : 'Score 90%+ on Test 1 to unlock'}</div>
+                ${test2Btn}
             </div>
         </div>
     `;
@@ -730,6 +770,7 @@ function startA2Test(testNum) {
     a2CurrentTest = testNum === 1 ? A2_TEST_1 : A2_TEST_2;
     a2CurrentQ = 0;
     a2Answers = new Array(a2CurrentTest.length).fill(-1);
+    a2Revealed = new Array(a2CurrentTest.length).fill(false);
     a2Submitted = false;
     showA2Question(0);
 }
@@ -741,6 +782,8 @@ function showA2Question(index) {
     const total = a2CurrentTest.length;
     const answered = a2Answers.filter(a => a !== -1).length;
     const progressPct = Math.round((answered / total) * 100);
+    const isStudyMode = a2TestNum === 1;
+    const isRevealed = isStudyMode && a2Revealed[index];
 
     const area = document.getElementById('a2TestArea');
     const labels = ['A', 'B', 'C', 'D'];
@@ -748,20 +791,81 @@ function showA2Question(index) {
     let choicesHTML = '';
     for (let i = 0; i < q.choices.length; i++) {
         const selected = a2Answers[index] === i;
-        const borderColor = selected ? '#38bdf8' : '#334155';
-        const bgColor = selected ? 'rgba(56,189,248,0.1)' : '#1e293b';
+        let borderColor, bgColor, textColor, cursor, extraStyle = '';
+
+        if (isRevealed) {
+            cursor = 'default';
+            if (i === q.correct) {
+                borderColor = '#10b981'; bgColor = 'rgba(16,185,129,0.15)'; textColor = '#6ee7b7';
+            } else if (selected && i !== q.correct) {
+                borderColor = '#ef4444'; bgColor = 'rgba(239,68,68,0.1)'; textColor = '#fca5a5';
+                extraStyle = 'text-decoration:line-through;';
+            } else {
+                borderColor = '#1e293b'; bgColor = '#1e293b'; textColor = '#475569';
+            }
+        } else {
+            cursor = 'pointer';
+            borderColor = selected ? '#38bdf8' : '#334155';
+            bgColor = selected ? 'rgba(56,189,248,0.1)' : '#1e293b';
+            textColor = '#e2e8f0';
+        }
+
+        const onclick = isRevealed ? '' : `onclick="selectA2Choice(${i})"`;
+        const hover = isRevealed ? '' : `onmouseenter="if(${!selected})this.style.borderColor='#64748b'" onmouseleave="if(${!selected})this.style.borderColor='${borderColor}'"`;
+
         choicesHTML += `
-            <button onclick="selectA2Choice(${i})" style="display:block; width:100%; text-align:left; padding:12px 16px; margin-bottom:8px; background:${bgColor}; border:2px solid ${borderColor}; border-radius:10px; color:#e2e8f0; font-size:0.97rem; cursor:pointer; transition:border-color 0.15s, background 0.15s;" onmouseenter="if(${!selected})this.style.borderColor='#64748b'" onmouseleave="if(${!selected})this.style.borderColor='${borderColor}'">
-                <span style="font-weight:700; color:#38bdf8; margin-right:10px;">${labels[i]}.</span>${q.choices[i]}
+            <button ${onclick} style="display:block; width:100%; text-align:left; padding:12px 16px; margin-bottom:8px; background:${bgColor}; border:2px solid ${borderColor}; border-radius:10px; color:${textColor}; font-size:0.97rem; cursor:${cursor}; transition:border-color 0.15s, background 0.15s; ${extraStyle}" ${hover}>
+                <span style="font-weight:700; color:${isRevealed && i === q.correct ? '#10b981' : '#38bdf8'}; margin-right:10px;">${labels[i]}.</span>${q.choices[i]}
+                ${isRevealed && i === q.correct ? ' <span style="margin-left:8px;">&#10003;</span>' : ''}
+                ${isRevealed && selected && i !== q.correct ? ' <span style="margin-left:8px;">&#10007;</span>' : ''}
             </button>
         `;
     }
+
+    // Explanation shown after reveal (Test 1 only)
+    let explanationHTML = '';
+    if (isRevealed) {
+        const isCorrect = a2Answers[index] === q.correct;
+        const resultColor = isCorrect ? '#10b981' : '#ef4444';
+        const resultText = isCorrect ? 'Correct!' : 'Incorrect';
+        explanationHTML = `
+            <div style="margin-top:16px; padding:16px; background:#0f172a; border-left:4px solid ${resultColor}; border-radius:0 10px 10px 0;">
+                <div style="color:${resultColor}; font-weight:700; margin-bottom:6px; font-size:1rem;">${resultText}</div>
+                <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;"><span style="color:#fbbf24; font-weight:600;">Explanation:</span> ${q.explanation}</p>
+            </div>
+        `;
+    }
+
+    // Test 1 study mode: track correct count on the fly
+    let scoreDisplay = '';
+    if (isStudyMode) {
+        const revealedCount = a2Revealed.filter(r => r).length;
+        const correctSoFar = a2Answers.reduce((acc, ans, i) => acc + (a2Revealed[i] && ans === a2CurrentTest[i].correct ? 1 : 0), 0);
+        if (revealedCount > 0) {
+            scoreDisplay = `<span style="color:#94a3b8; font-size:0.85rem; margin-left:12px;">${correctSoFar}/${revealedCount} correct</span>`;
+        }
+    }
+
+    // For Test 1: show "See Results" after all revealed; for Test 2: show submit on last question
+    let submitBtn = '';
+    if (isStudyMode) {
+        const allRevealed = a2Revealed.every(r => r);
+        if (allRevealed) {
+            submitBtn = `<button onclick="submitA2Test()" style="padding:10px 28px; border-radius:8px; border:none; background:#10b981; color:#0f172a; font-weight:600; cursor:pointer; font-size:0.95rem; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">See Results</button>`;
+        }
+    } else if (index === total - 1) {
+        submitBtn = `<button onclick="submitA2Test()" style="padding:10px 28px; border-radius:8px; border:none; background:#10b981; color:#0f172a; font-weight:600; cursor:pointer; font-size:0.95rem; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Submit Test</button>`;
+    }
+
+    const modeLabel = isStudyMode ? 'Study Mode' : 'Test Mode';
 
     area.innerHTML = `
         <div style="margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
             <div>
                 <span style="font-weight:700; color:#38bdf8; font-size:1.1rem;">Test ${a2TestNum}</span>
+                <span style="color:#64748b; font-size:0.8rem; margin-left:8px; padding:2px 8px; background:#0f172a; border-radius:4px;">${modeLabel}</span>
                 <span style="color:#94a3b8; margin-left:12px;">Question ${index + 1} of ${total}</span>
+                ${scoreDisplay}
             </div>
             <span style="background:#1e293b; padding:4px 12px; border-radius:6px; font-size:0.85rem; color:#94a3b8; border:1px solid #334155;">${q.topic}</span>
         </div>
@@ -772,11 +876,12 @@ function showA2Question(index) {
         <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:24px; margin-bottom:20px;">
             <p style="font-size:1.05rem; line-height:1.6; color:#e2e8f0; margin-bottom:20px;">${q.question}</p>
             ${choicesHTML}
+            ${explanationHTML}
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <button onclick="prevA2Question()" ${index === 0 ? 'disabled' : ''} style="padding:10px 24px; border-radius:8px; border:1px solid #334155; background:#1e293b; color:${index === 0 ? '#475569' : '#e2e8f0'}; cursor:${index === 0 ? 'default' : 'pointer'}; font-size:0.95rem; transition:border-color 0.2s;" ${index > 0 ? 'onmouseenter="this.style.borderColor=\'#38bdf8\'" onmouseleave="this.style.borderColor=\'#334155\'"' : ''}>&#8592; Previous</button>
             <div style="display:flex; gap:8px;">
-                ${index === total - 1 ? `<button onclick="submitA2Test()" style="padding:10px 28px; border-radius:8px; border:none; background:#10b981; color:#0f172a; font-weight:600; cursor:pointer; font-size:0.95rem; transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Submit Test</button>` : ''}
+                ${submitBtn}
                 <button onclick="nextA2Question()" ${index === total - 1 ? 'disabled' : ''} style="padding:10px 24px; border-radius:8px; border:${index === total - 1 ? '1px solid #334155' : 'none'}; background:${index === total - 1 ? '#1e293b' : '#38bdf8'}; color:${index === total - 1 ? '#475569' : '#0f172a'}; font-weight:600; cursor:${index === total - 1 ? 'default' : 'pointer'}; font-size:0.95rem; transition:opacity 0.2s;" ${index < total - 1 ? 'onmouseenter="this.style.opacity=\'0.85\'" onmouseleave="this.style.opacity=\'1\'"' : ''}>Next &#8594;</button>
             </div>
         </div>
@@ -785,7 +890,14 @@ function showA2Question(index) {
 
 function selectA2Choice(choiceIndex) {
     if (a2Submitted) return;
+    if (a2Revealed[a2CurrentQ]) return; // Already answered and revealed
     a2Answers[a2CurrentQ] = choiceIndex;
+
+    if (a2TestNum === 1) {
+        // Study mode: reveal answer immediately
+        a2Revealed[a2CurrentQ] = true;
+    }
+
     showA2Question(a2CurrentQ);
 }
 
@@ -802,9 +914,11 @@ function prevA2Question() {
 }
 
 function submitA2Test() {
-    const unanswered = a2Answers.filter(a => a === -1).length;
-    if (unanswered > 0) {
-        if (!confirm(`You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Submit anyway?`)) return;
+    if (a2TestNum === 2) {
+        const unanswered = a2Answers.filter(a => a === -1).length;
+        if (unanswered > 0) {
+            if (!confirm(`You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Submit anyway?`)) return;
+        }
     }
     a2Submitted = true;
 
@@ -823,8 +937,17 @@ function submitA2Test() {
     }
 
     const pct = Math.round((correct / total) * 100);
-    let scoreColor = pct >= 80 ? '#10b981' : pct >= 60 ? '#fbbf24' : '#ef4444';
-    let scoreLabel = pct >= 80 ? 'Ready!' : pct >= 60 ? 'Almost There' : 'Needs Practice';
+
+    // Save Test 1 best score
+    if (a2TestNum === 1) {
+        saveTest1Score(pct);
+    }
+
+    let scoreColor = pct >= 90 ? '#10b981' : pct >= 60 ? '#fbbf24' : '#ef4444';
+    let scoreLabel = pct >= 90 ? 'Ready for Test 2!' : pct >= 60 ? 'Almost There' : 'Keep Practicing';
+    if (a2TestNum === 2) {
+        scoreLabel = pct >= 90 ? 'Excellent - Ready for Algebra 2!' : pct >= 70 ? 'Good - Review weak areas' : 'Needs more practice';
+    }
 
     let topicRows = '';
     for (const [topic, stats] of Object.entries(topicStats)) {
@@ -838,6 +961,20 @@ function submitA2Test() {
         `;
     }
 
+    // Unlock message for Test 1
+    let unlockMsg = '';
+    if (a2TestNum === 1) {
+        if (pct >= 90) {
+            unlockMsg = `<div style="background:rgba(16,185,129,0.1); border:1px solid #10b981; border-radius:10px; padding:14px 20px; margin-bottom:20px; text-align:center;">
+                <span style="color:#10b981; font-weight:600; font-size:1rem;">Test 2 is now unlocked!</span>
+            </div>`;
+        } else {
+            unlockMsg = `<div style="background:rgba(251,191,36,0.1); border:1px solid #fbbf24; border-radius:10px; padding:14px 20px; margin-bottom:20px; text-align:center;">
+                <span style="color:#fbbf24; font-size:0.95rem;">Score 90%+ to unlock Test 2 (you got ${pct}%)</span>
+            </div>`;
+        }
+    }
+
     const area = document.getElementById('a2TestArea');
     area.innerHTML = `
         <div style="text-align:center; margin-bottom:24px;">
@@ -848,6 +985,7 @@ function submitA2Test() {
             <div style="font-size:1.1rem; color:${scoreColor}; font-weight:600; margin-bottom:8px;">${scoreLabel}</div>
             <div style="color:#94a3b8; font-size:0.95rem;">${correct} out of ${total} correct</div>
         </div>
+        ${unlockMsg}
         <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:20px; margin-bottom:20px;">
             <h3 style="color:#38bdf8; font-size:1rem; margin-bottom:12px;">Score by Topic</h3>
             ${topicRows}
