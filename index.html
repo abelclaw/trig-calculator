@@ -721,6 +721,7 @@
         <button class="tab-btn" onclick="switchTab('learning')">Learning</button>
         <button class="tab-btn" onclick="switchTab('practice')">Trig Practice</button>
         <button class="tab-btn" onclick="switchTab('geometry')">Geometry</button>
+        <button class="tab-btn" onclick="switchTab('algebra2')">Algebra 2 Readiness</button>
     </div>
 
     <!-- ========== CALCULATOR TAB ========== -->
@@ -1533,7 +1534,21 @@
         </div>
     </div>
 
+    <!-- ========== ALGEBRA 2 READINESS TAB ========== -->
+    <div class="tab-content" id="tab-algebra2">
+        <div class="practice-container" style="max-width:800px;">
+            <div class="practice-header">
+                <div>
+                    <h2 style="color:#38bdf8; margin-bottom:4px; font-size:1.2rem;">Algebra 2 Readiness Practice Tests</h2>
+                    <p style="color:#94a3b8; font-size:0.85rem;">45 questions &bull; No calculator &bull; Based on MDTP topics</p>
+                </div>
+            </div>
+            <div id="a2TestArea"></div>
+        </div>
+    </div>
+
     <script src="geometry.js"></script>
+    <script src="algebra2.js"></script>
     <script>
         // ===== TAB SWITCHING =====
         function switchTab(tab) {
@@ -1545,6 +1560,7 @@
             else if (tab === 'learning') btns[1].classList.add('active');
             else if (tab === 'practice') btns[2].classList.add('active');
             else if (tab === 'geometry') btns[3].classList.add('active');
+            else if (tab === 'algebra2') btns[4].classList.add('active');
 
             if (tab === 'learning') {
                 initLearningCanvases();
@@ -1560,6 +1576,10 @@
             if (tab === 'geometry' && !geoInitialized) {
                 geoInitialized = true;
                 nextGeoProblem();
+            }
+            if (tab === 'algebra2' && !a2Initialized) {
+                a2Initialized = true;
+                initA2Test();
             }
         }
 
