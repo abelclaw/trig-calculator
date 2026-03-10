@@ -23,7 +23,39 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle { color: #94a3b8; margin-bottom: 24px; font-size: 0.9rem; }
+        .subtitle { color: #94a3b8; margin-bottom: 16px; font-size: 0.9rem; }
+
+        /* ===== TAB BAR ===== */
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid #334155;
+        }
+        .tab-btn {
+            padding: 10px 28px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { color: #e2e8f0; }
+        .tab-btn.active {
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        .tab-content { display: none; width: 100%; max-width: 1400px; }
+        .tab-content.active { display: block; }
+
+        /* ===== CALCULATOR TAB (existing) ===== */
         .container {
             display: flex;
             gap: 24px;
@@ -53,8 +85,6 @@
             min-width: 500px;
             max-width: 700px;
         }
-
-        /* Calculator */
         .calc-display {
             background: #0f172a;
             border: 1px solid #475569;
@@ -117,8 +147,6 @@
         .btn.equals:hover { background: #047857; }
         .btn.clear { background: #991b1b; border-color: #dc2626; color: #fecaca; }
         .btn.clear:hover { background: #b91c1c; }
-
-        /* Interactive canvases */
         .canvas-wrap {
             position: relative;
             margin-bottom: 16px;
@@ -134,12 +162,8 @@
             height: 360px;
             cursor: grab;
         }
-        #triCircleCanvas.dragging {
-            cursor: grabbing;
-        }
-        #wavesCanvas {
-            height: 200px;
-        }
+        #triCircleCanvas.dragging { cursor: grabbing; }
+        #wavesCanvas { height: 200px; }
         .drag-hint {
             position: absolute;
             top: 10px;
@@ -148,8 +172,6 @@
             color: #64748b;
             pointer-events: none;
         }
-
-        /* Trig readout */
         .trig-readout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -165,8 +187,6 @@
         }
         .trig-readout .fn-name { color: #94a3b8; }
         .trig-readout .fn-val { color: #38bdf8; font-weight: 600; }
-
-        /* Legend */
         .legend {
             display: flex;
             gap: 20px;
@@ -174,22 +194,9 @@
             font-size: 0.8rem;
             flex-wrap: wrap;
         }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .legend-swatch {
-            width: 20px;
-            height: 4px;
-            border-radius: 2px;
-        }
-
-        /* Unit circle mini */
-        .unit-circle-wrap {
-            text-align: center;
-            margin-top: 16px;
-        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-swatch { width: 20px; height: 4px; border-radius: 2px; }
+        .unit-circle-wrap { text-align: center; margin-top: 16px; }
         #unitCircle {
             width: 100%;
             max-width: 280px;
@@ -199,9 +206,391 @@
             border: 1px solid #334155;
         }
 
+        /* ===== LEARNING TAB ===== */
+        .learn-container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .learn-section {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 28px 32px;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        .learn-section h2 {
+            font-size: 1.3rem;
+            color: #38bdf8;
+            margin-bottom: 6px;
+        }
+        .learn-section h3 {
+            font-size: 1.05rem;
+            color: #818cf8;
+            margin: 18px 0 8px;
+        }
+        .learn-section p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .learn-section .step-num {
+            display: inline-block;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 700;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+        .learn-section .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .learn-section .key-idea {
+            background: #0f172a;
+            border-left: 4px solid #38bdf8;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            font-style: italic;
+            color: #e2e8f0;
+        }
+        .learn-section .warning {
+            background: #1c1917;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            color: #fde68a;
+        }
+        .learn-canvas-wrap {
+            position: relative;
+            margin: 16px 0;
+        }
+        .learn-canvas-wrap canvas {
+            width: 100%;
+            height: 320px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            display: block;
+            cursor: pointer;
+        }
+        .learn-canvas-wrap .canvas-label {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 0.75rem;
+            color: #64748b;
+            pointer-events: none;
+        }
+        .learn-controls {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .learn-controls label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .learn-controls input[type="range"] {
+            flex: 1;
+            min-width: 120px;
+            accent-color: #38bdf8;
+        }
+        .learn-controls .val-display {
+            font-family: 'Courier New', monospace;
+            color: #38bdf8;
+            font-weight: 600;
+            min-width: 60px;
+        }
+        .learn-btn {
+            padding: 8px 18px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.15s;
+        }
+        .learn-btn:hover { background: #1e293b; border-color: #38bdf8; }
+        .learn-btn.active { background: #38bdf8; color: #0f172a; font-weight: 600; border-color: #38bdf8; }
+
+        .machine-demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+        .machine-box {
+            background: #0f172a;
+            border: 2px solid #818cf8;
+            border-radius: 12px;
+            padding: 14px 22px;
+            text-align: center;
+            min-width: 140px;
+        }
+        .machine-box .label { color: #94a3b8; font-size: 0.75rem; margin-bottom: 4px; }
+        .machine-box .value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .machine-arrow {
+            font-size: 1.5rem;
+            color: #818cf8;
+        }
+        .machine-fn {
+            background: linear-gradient(135deg, #1e3a5f, #3b1f5e);
+            border: 2px solid #818cf8;
+            border-radius: 12px;
+            padding: 14px 22px;
+            text-align: center;
+        }
+        .machine-fn .label { color: #c4b5fd; font-size: 0.75rem; }
+        .machine-fn .value { color: #e2e8f0; font-size: 1.2rem; font-weight: 700; }
+
+        .try-it {
+            background: #0f172a;
+            border: 1px dashed #475569;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 14px 0;
+        }
+        .try-it .try-label {
+            color: #fbbf24;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        /* Progress dots */
+        .section-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .section-progress .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .section-progress .dot.active { background: #38bdf8; transform: scale(1.3); }
+        .section-progress .dot.visited { background: #818cf8; }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        .nav-btn {
+            padding: 10px 24px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.15s;
+        }
+        .nav-btn:hover { border-color: #38bdf8; background: #1e293b; }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+        .nav-btn.primary { background: #38bdf8; color: #0f172a; font-weight: 600; border-color: #38bdf8; }
+        .nav-btn.primary:hover { background: #7dd3fc; }
+
+        /* ===== PRACTICE TAB ===== */
+        .practice-container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .practice-header {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 20px 28px;
+            border: 1px solid #334155;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .practice-score {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .practice-score .stat {
+            text-align: center;
+        }
+        .practice-score .stat-num {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .practice-score .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .practice-difficulty {
+            display: flex;
+            gap: 6px;
+        }
+        .diff-btn {
+            padding: 6px 14px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #94a3b8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.15s;
+        }
+        .diff-btn:hover { border-color: #38bdf8; color: #e2e8f0; }
+        .diff-btn.active { background: #38bdf8; color: #0f172a; font-weight: 600; border-color: #38bdf8; }
+        .practice-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 28px 32px;
+            border: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+        .practice-card .problem-type {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .practice-card .problem-question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+        .practice-card .problem-hint {
+            background: #0f172a;
+            border-left: 3px solid #fbbf24;
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+            color: #fde68a;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .practice-card .problem-hint.visible { display: block; }
+        .practice-diagram {
+            margin: 0 auto 16px;
+        }
+        .practice-diagram canvas {
+            width: 100%;
+            height: 280px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            display: block;
+        }
+        .answer-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .answer-input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .answer-input-row input:focus { border-color: #38bdf8; }
+        .answer-input-row input.correct { border-color: #10b981; background: #064e3b; color: #6ee7b7; }
+        .answer-input-row input.wrong { border-color: #ef4444; background: #450a0a; color: #fca5a5; }
+        .answer-input-row .unit-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .check-btn {
+            padding: 12px 24px;
+            border: 2px solid #38bdf8;
+            background: #38bdf8;
+            color: #0f172a;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+        .check-btn:hover { background: #7dd3fc; }
+        .check-btn:disabled { opacity: 0.4; cursor: default; }
+        .correct-answer-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 6px;
+            display: none;
+        }
+        .correct-answer-display.visible { display: block; }
+        .practice-card .explanation {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            display: none;
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .practice-card .explanation.visible { display: block; }
+        .practice-card .explanation strong { color: #38bdf8; }
+        .practice-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .streak-bar {
+            height: 6px;
+            background: #0f172a;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .streak-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
         @media (max-width: 900px) {
             .container { flex-direction: column; }
             .calc-panel, .interactive-panel { min-width: 100%; max-width: 100%; flex: 1; }
+            .learn-section { padding: 20px 16px; }
+            .practice-card { padding: 20px 16px; }
+            .answer-choices { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -209,100 +598,438 @@
     <h1>Scientific Trig Calculator</h1>
     <p class="subtitle">Drag the point around the circle to explore trigonometric functions</p>
 
-    <div class="container">
-        <!-- Calculator Panel -->
-        <div class="panel calc-panel">
-            <h2>Calculator</h2>
-            <div class="calc-display" id="display">0</div>
-            <div class="mode-toggle">
-                <button class="mode-btn active" id="degBtn" onclick="setMode('deg')">DEG</button>
-                <button class="mode-btn" id="radBtn" onclick="setMode('rad')">RAD</button>
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('calculator')">Calculator</button>
+        <button class="tab-btn" onclick="switchTab('learning')">Learning</button>
+        <button class="tab-btn" onclick="switchTab('practice')">Practice</button>
+    </div>
+
+    <!-- ========== CALCULATOR TAB ========== -->
+    <div class="tab-content active" id="tab-calculator">
+        <div class="container">
+            <div class="panel calc-panel">
+                <h2>Calculator</h2>
+                <div class="calc-display" id="display">0</div>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" id="degBtn" onclick="setMode('deg')">DEG</button>
+                    <button class="mode-btn" id="radBtn" onclick="setMode('rad')">RAD</button>
+                </div>
+                <div class="btn-grid">
+                    <button class="btn trig" onclick="trigFn('sin')">sin</button>
+                    <button class="btn trig" onclick="trigFn('cos')">cos</button>
+                    <button class="btn trig" onclick="trigFn('tan')">tan</button>
+                    <button class="btn clear" onclick="clearDisplay()">C</button>
+                    <button class="btn inv-trig" onclick="trigFn('asin')">sin⁻¹</button>
+                    <button class="btn inv-trig" onclick="trigFn('acos')">cos⁻¹</button>
+                    <button class="btn inv-trig" onclick="trigFn('atan')">tan⁻¹</button>
+                    <button class="btn" onclick="backspace()">&#x232B;</button>
+                    <button class="btn trig" onclick="trigFn('sec')">sec</button>
+                    <button class="btn trig" onclick="trigFn('csc')">csc</button>
+                    <button class="btn trig" onclick="trigFn('cot')">cot</button>
+                    <button class="btn op" onclick="appendOp('/')">&#xF7;</button>
+                    <button class="btn inv-trig" onclick="trigFn('asec')">sec⁻¹</button>
+                    <button class="btn inv-trig" onclick="trigFn('acsc')">csc⁻¹</button>
+                    <button class="btn inv-trig" onclick="trigFn('acot')">cot⁻¹</button>
+                    <button class="btn op" onclick="appendOp('*')">&#xD7;</button>
+                    <button class="btn" onclick="appendNum('7')">7</button>
+                    <button class="btn" onclick="appendNum('8')">8</button>
+                    <button class="btn" onclick="appendNum('9')">9</button>
+                    <button class="btn op" onclick="appendOp('-')">&#x2212;</button>
+                    <button class="btn" onclick="appendNum('4')">4</button>
+                    <button class="btn" onclick="appendNum('5')">5</button>
+                    <button class="btn" onclick="appendNum('6')">6</button>
+                    <button class="btn op" onclick="appendOp('+')">+</button>
+                    <button class="btn" onclick="appendNum('1')">1</button>
+                    <button class="btn" onclick="appendNum('2')">2</button>
+                    <button class="btn" onclick="appendNum('3')">3</button>
+                    <button class="btn op" onclick="appendNum('.')">.</button>
+                    <button class="btn" onclick="appendNum('(')">(</button>
+                    <button class="btn" onclick="appendNum('0')">0</button>
+                    <button class="btn" onclick="appendNum(')')">)</button>
+                    <button class="btn op" onclick="appendOp('^')">x&#x207F;</button>
+                    <button class="btn" onclick="appendNum(Math.PI.toString())">&#x3C0;</button>
+                    <button class="btn" onclick="appendNum(Math.E.toString())">e</button>
+                    <button class="btn equals" onclick="calculate()">=</button>
+                </div>
+                <div class="unit-circle-wrap">
+                    <h3 style="color:#818cf8; margin: 16px 0 8px;">Unit Circle</h3>
+                    <canvas id="unitCircle"></canvas>
+                </div>
             </div>
-            <div class="btn-grid">
-                <button class="btn trig" onclick="trigFn('sin')">sin</button>
-                <button class="btn trig" onclick="trigFn('cos')">cos</button>
-                <button class="btn trig" onclick="trigFn('tan')">tan</button>
-                <button class="btn clear" onclick="clearDisplay()">C</button>
-
-                <button class="btn inv-trig" onclick="trigFn('asin')">sin⁻¹</button>
-                <button class="btn inv-trig" onclick="trigFn('acos')">cos⁻¹</button>
-                <button class="btn inv-trig" onclick="trigFn('atan')">tan⁻¹</button>
-                <button class="btn" onclick="backspace()">&#x232B;</button>
-
-                <button class="btn trig" onclick="trigFn('sec')">sec</button>
-                <button class="btn trig" onclick="trigFn('csc')">csc</button>
-                <button class="btn trig" onclick="trigFn('cot')">cot</button>
-                <button class="btn op" onclick="appendOp('/')">&#xF7;</button>
-
-                <button class="btn inv-trig" onclick="trigFn('asec')">sec⁻¹</button>
-                <button class="btn inv-trig" onclick="trigFn('acsc')">csc⁻¹</button>
-                <button class="btn inv-trig" onclick="trigFn('acot')">cot⁻¹</button>
-                <button class="btn op" onclick="appendOp('*')">&#xD7;</button>
-
-                <button class="btn" onclick="appendNum('7')">7</button>
-                <button class="btn" onclick="appendNum('8')">8</button>
-                <button class="btn" onclick="appendNum('9')">9</button>
-                <button class="btn op" onclick="appendOp('-')">&#x2212;</button>
-
-                <button class="btn" onclick="appendNum('4')">4</button>
-                <button class="btn" onclick="appendNum('5')">5</button>
-                <button class="btn" onclick="appendNum('6')">6</button>
-                <button class="btn op" onclick="appendOp('+')">+</button>
-
-                <button class="btn" onclick="appendNum('1')">1</button>
-                <button class="btn" onclick="appendNum('2')">2</button>
-                <button class="btn" onclick="appendNum('3')">3</button>
-                <button class="btn op" onclick="appendNum('.')">.</button>
-
-                <button class="btn" onclick="appendNum('(')">(</button>
-                <button class="btn" onclick="appendNum('0')">0</button>
-                <button class="btn" onclick="appendNum(')')">)</button>
-                <button class="btn op" onclick="appendOp('^')">x&#x207F;</button>
-
-                <button class="btn" onclick="appendNum(Math.PI.toString())">&#x3C0;</button>
-                <button class="btn" onclick="appendNum(Math.E.toString())">e</button>
-                <button class="btn equals" onclick="calculate()">=</button>
-            </div>
-
-            <div class="unit-circle-wrap">
-                <h3 style="color:#818cf8; margin: 16px 0 8px;">Unit Circle</h3>
-                <canvas id="unitCircle"></canvas>
+            <div class="panel interactive-panel">
+                <h2>Interactive Triangle Explorer</h2>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-swatch" style="background:#a855f7;"></div>
+                        <span style="color:#a855f7;">Hypotenuse (r=1)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-swatch" style="background:#ef4444;"></div>
+                        <span style="color:#ef4444;">Opposite = sin(&#x3B8;)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-swatch" style="background:#38bdf8;"></div>
+                        <span style="color:#38bdf8;">Adjacent = cos(&#x3B8;)</span>
+                    </div>
+                </div>
+                <div class="canvas-wrap">
+                    <canvas id="triCircleCanvas"></canvas>
+                    <div class="drag-hint">Drag the point</div>
+                </div>
+                <div class="canvas-wrap">
+                    <canvas id="wavesCanvas"></canvas>
+                </div>
+                <div class="trig-readout" id="trigReadout"></div>
             </div>
         </div>
+    </div>
 
-        <!-- Interactive Triangle + Waves Panel -->
-        <div class="panel interactive-panel">
-            <h2>Interactive Triangle Explorer</h2>
+    <!-- ========== LEARNING TAB ========== -->
+    <div class="tab-content" id="tab-learning">
+        <div class="learn-container">
 
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-swatch" style="background:#a855f7;"></div>
-                    <span style="color:#a855f7;">Hypotenuse (r=1)</span>
+            <div class="section-progress" id="sectionProgress"></div>
+
+            <!-- Section 1: What is a Function? -->
+            <div class="learn-section" id="learn-s1">
+                <h2><span class="step-num">1</span> What is a Function?</h2>
+                <p>Imagine a machine. You put a number in one side, something happens inside, and a number comes out the other side. That's a function.</p>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: Pick an input number</div>
+                    <div class="learn-controls">
+                        <label>Input (x):</label>
+                        <input type="range" id="machineInput" min="-5" max="5" step="0.5" value="3">
+                        <span class="val-display" id="machineInputVal">3</span>
+                    </div>
+                    <div class="learn-controls" style="margin-bottom:4px;">
+                        <label>Function:</label>
+                        <button class="learn-btn active" onclick="setMachineFunc('double', this)">Double it</button>
+                        <button class="learn-btn" onclick="setMachineFunc('square', this)">Square it</button>
+                        <button class="learn-btn" onclick="setMachineFunc('add3', this)">Add 3</button>
+                    </div>
+                    <div class="machine-demo" id="machineDemoArea">
+                        <div class="machine-box">
+                            <div class="label">INPUT</div>
+                            <div class="value" style="color:#38bdf8;" id="machineIn">3</div>
+                        </div>
+                        <div class="machine-arrow">&rarr;</div>
+                        <div class="machine-fn">
+                            <div class="label">FUNCTION</div>
+                            <div class="value" id="machineFnLabel">&#xD7; 2</div>
+                        </div>
+                        <div class="machine-arrow">&rarr;</div>
+                        <div class="machine-box">
+                            <div class="label">OUTPUT</div>
+                            <div class="value" style="color:#ef4444;" id="machineOut">6</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-swatch" style="background:#ef4444;"></div>
-                    <span style="color:#ef4444;">Opposite = sin(&#x3B8;)</span>
+
+                <div class="key-idea">A function is a rule that takes each input and gives back exactly <span class="highlight">one</span> output. No surprises, no randomness &mdash; the same input always gives the same output.</div>
+
+                <p>We write functions like this: <strong style="color:#38bdf8">f(x) = 2x</strong>. This means "the function f takes a number x and gives back 2 times x." The <strong>x</strong> is the input, and <strong>f(x)</strong> is the output.</p>
+
+                <h3>Seeing a function as a graph</h3>
+                <p>Every function can be drawn as a picture. The input (x) goes along the bottom, and the output goes up the side. Each point on the curve says "when the input is <em>here</em>, the output is <em>there</em>."</p>
+
+                <div class="learn-canvas-wrap">
+                    <canvas id="learnFuncGraph"></canvas>
+                    <div class="canvas-label">Move your mouse across the graph</div>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-swatch" style="background:#38bdf8;"></div>
-                    <span style="color:#38bdf8;">Adjacent = cos(&#x3B8;)</span>
+                <div class="learn-controls">
+                    <label>Function:</label>
+                    <button class="learn-btn active" onclick="setGraphFunc('double', this)">f(x) = 2x</button>
+                    <button class="learn-btn" onclick="setGraphFunc('square', this)">f(x) = x&sup2;</button>
+                    <button class="learn-btn" onclick="setGraphFunc('add3', this)">f(x) = x + 3</button>
+                </div>
+
+                <div class="key-idea">On a graph, a function means: <span class="highlight">every vertical line crosses the curve at most once.</span> If a vertical line hits the curve twice, the graph is not a function (because one input would give two outputs).</div>
+
+                <div class="nav-buttons">
+                    <div></div>
+                    <button class="nav-btn primary" onclick="goToSection(2)">Next: Inverse Functions &rarr;</button>
                 </div>
             </div>
 
-            <div class="canvas-wrap">
-                <canvas id="triCircleCanvas"></canvas>
-                <div class="drag-hint">Drag the point</div>
+            <!-- Section 2: Inverse Functions -->
+            <div class="learn-section" id="learn-s2" style="display:none;">
+                <h2><span class="step-num">2</span> Inverse Functions: Running the Machine Backwards</h2>
+
+                <p>Now imagine you see the <em>output</em> of the machine, and you want to figure out what the input was. You're running the function <strong>backwards</strong>. That's the inverse function.</p>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: Given the output, find the input</div>
+                    <div class="learn-controls">
+                        <label>Output (y):</label>
+                        <input type="range" id="inverseOutput" min="-10" max="10" step="0.5" value="6">
+                        <span class="val-display" id="inverseOutputVal">6</span>
+                    </div>
+                    <div class="machine-demo" id="inverseDemoArea">
+                        <div class="machine-box">
+                            <div class="label">WHAT WAS THE INPUT?</div>
+                            <div class="value" style="color:#38bdf8;" id="inverseIn">3</div>
+                        </div>
+                        <div class="machine-arrow">&larr;</div>
+                        <div class="machine-fn">
+                            <div class="label">INVERSE</div>
+                            <div class="value" id="inverseFnLabel">&#xF7; 2</div>
+                        </div>
+                        <div class="machine-arrow">&larr;</div>
+                        <div class="machine-box">
+                            <div class="label">WE KNOW THE OUTPUT</div>
+                            <div class="value" style="color:#ef4444;" id="inverseOut">6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>If <strong style="color:#38bdf8">f(x) = 2x</strong>, then the inverse is <strong style="color:#818cf8">f&sup1;(y) = y / 2</strong>. The inverse undoes what the original function did.</p>
+
+                <h3>Seeing it on the graph</h3>
+                <p>The inverse function is the original function <span class="highlight">reflected across the diagonal line y = x</span>. If the point (3, 6) is on the original function, then (6, 3) is on the inverse.</p>
+
+                <div class="learn-canvas-wrap">
+                    <canvas id="learnInverseGraph"></canvas>
+                    <div class="canvas-label">Move your mouse to trace both functions</div>
+                </div>
+                <div class="learn-controls">
+                    <label>Show:</label>
+                    <button class="learn-btn active" id="invShowOrigBtn" onclick="toggleInvShow('orig')">f(x) = 2x</button>
+                    <button class="learn-btn active" id="invShowInvBtn" onclick="toggleInvShow('inv')">f⁻¹(x) = x/2</button>
+                    <button class="learn-btn active" id="invShowMirrorBtn" onclick="toggleInvShow('mirror')">y = x mirror line</button>
+                </div>
+
+                <div class="key-idea">f(f&sup1;(x)) = x and f&sup1;(f(x)) = x. The function and its inverse <span class="highlight">cancel each other out</span>, like how addition cancels subtraction, or how multiplying cancels dividing.</div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="goToSection(1)">&larr; Back</button>
+                    <button class="nav-btn primary" onclick="goToSection(3)">Next: The Problem with Inverses &rarr;</button>
+                </div>
             </div>
 
-            <div class="canvas-wrap">
-                <canvas id="wavesCanvas"></canvas>
+            <!-- Section 3: Not Every Function Has a Simple Inverse -->
+            <div class="learn-section" id="learn-s3" style="display:none;">
+                <h2><span class="step-num">3</span> The Problem: Some Functions Can't Be Reversed Simply</h2>
+
+                <p>Here's the tricky part. Consider the function <strong style="color:#38bdf8">f(x) = x&sup2;</strong>.</p>
+
+                <p>If I tell you the output is <strong>9</strong>, what was the input? Well... it could have been <strong>3</strong> (because 3&sup2; = 9), but it also could have been <strong>-3</strong> (because (-3)&sup2; = 9). <em>Two different inputs gave the same output!</em></p>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: See the problem with x&sup2;</div>
+                    <div class="learn-controls">
+                        <label>Output (y):</label>
+                        <input type="range" id="squareProblemY" min="0" max="9" step="0.25" value="4">
+                        <span class="val-display" id="squareProblemYVal">4</span>
+                    </div>
+                    <div class="machine-demo">
+                        <div class="machine-box">
+                            <div class="label">INPUT COULD BE</div>
+                            <div class="value" style="color:#38bdf8;" id="sqPos">2</div>
+                        </div>
+                        <div class="machine-arrow" style="color:#ef4444; font-size:1.2rem;">or</div>
+                        <div class="machine-box">
+                            <div class="label">INPUT COULD BE</div>
+                            <div class="value" style="color:#a855f7;" id="sqNeg">-2</div>
+                        </div>
+                        <div class="machine-arrow">&rarr;</div>
+                        <div class="machine-box">
+                            <div class="label">BOTH GIVE OUTPUT</div>
+                            <div class="value" style="color:#ef4444;" id="sqOut">4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning">A function that sends two different inputs to the same output <strong>doesn't have an inverse</strong> (at least, not in the normal sense) because you can't un-do it without ambiguity.</div>
+
+                <h3>The solution: Restrict the domain</h3>
+                <p>We fix this by choosing to only look at <em>part</em> of the function &mdash; a section where each output only happens once. For x&sup2;, if we only look at x &ge; 0, then each output has exactly one input, and the inverse is the square root: &radic;y.</p>
+
+                <div class="learn-canvas-wrap">
+                    <canvas id="learnRestrictGraph"></canvas>
+                    <div class="canvas-label">Click to toggle domain restriction</div>
+                </div>
+                <div class="learn-controls">
+                    <button class="learn-btn" id="restrictToggle" onclick="toggleRestrict()">Show restricted domain (x &ge; 0)</button>
+                    <button class="learn-btn" id="restrictInvToggle" onclick="toggleRestrictInv()" style="display:none;">Show inverse: &radic;x</button>
+                </div>
+
+                <div class="key-idea">To create an inverse, we sometimes need to <span class="highlight">restrict the domain</span> &mdash; only use part of the function where each output happens exactly once. The square root function is the inverse of x&sup2;, but only for x &ge; 0.</div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="goToSection(2)">&larr; Back</button>
+                    <button class="nav-btn primary" onclick="goToSection(4)">Next: Inverse Trig Functions &rarr;</button>
+                </div>
             </div>
 
-            <div class="trig-readout" id="trigReadout"></div>
+            <!-- Section 4: Inverse Trig Functions -->
+            <div class="learn-section" id="learn-s4" style="display:none;">
+                <h2><span class="step-num">4</span> Inverse Trig Functions (like arccos)</h2>
+
+                <p>The cosine function has exactly this problem. Many different angles give the same cosine value.</p>
+
+                <p>For example, <strong>cos(60&deg;) = 0.5</strong>, but also <strong>cos(300&deg;) = 0.5</strong>, and <strong>cos(420&deg;) = 0.5</strong>, and infinitely more. So if someone says "the cosine is 0.5, what's the angle?" &mdash; there are infinitely many correct answers!</p>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: See how cosine repeats</div>
+                    <div class="learn-controls">
+                        <label>Cosine value:</label>
+                        <input type="range" id="cosValueSlider" min="-1" max="1" step="0.05" value="0.5">
+                        <span class="val-display" id="cosValueDisplay">0.50</span>
+                    </div>
+                    <div class="learn-canvas-wrap">
+                        <canvas id="learnCosGraph"></canvas>
+                        <div class="canvas-label">The horizontal line shows all angles with this cosine</div>
+                    </div>
+                </div>
+
+                <h3>arccos: Picking one answer</h3>
+                <p>We solve this the same way as with x&sup2;: we <span class="highlight">restrict the domain</span>. For cosine, we only look at angles from <strong>0&deg; to 180&deg;</strong> (0 to &pi; radians). In that range, each cosine value happens exactly once.</p>
+
+                <p>The inverse cosine, written <strong style="color:#818cf8">arccos</strong> or <strong style="color:#818cf8">cos&sup1;</strong>, answers the question: "What angle <em>between 0&deg; and 180&deg;</em> has this cosine value?"</p>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: arccos in action</div>
+                    <div class="learn-controls">
+                        <label>cos value:</label>
+                        <input type="range" id="arccosInput" min="-1" max="1" step="0.05" value="0.5">
+                        <span class="val-display" id="arccosInputVal">0.50</span>
+                    </div>
+                    <div class="machine-demo">
+                        <div class="machine-box">
+                            <div class="label">COSINE VALUE</div>
+                            <div class="value" style="color:#38bdf8;" id="arccosInVal">0.50</div>
+                        </div>
+                        <div class="machine-arrow">&rarr;</div>
+                        <div class="machine-fn">
+                            <div class="label">ARCCOS</div>
+                            <div class="value">cos⁻¹</div>
+                        </div>
+                        <div class="machine-arrow">&rarr;</div>
+                        <div class="machine-box">
+                            <div class="label">ANGLE (0&deg; to 180&deg;)</div>
+                            <div class="value" style="color:#ef4444;" id="arccosOutVal">60.0&deg;</div>
+                        </div>
+                    </div>
+
+                    <div class="learn-canvas-wrap">
+                        <canvas id="learnArccosGraph"></canvas>
+                        <div class="canvas-label">Move slider to see arccos trace the restricted curve</div>
+                    </div>
+                </div>
+
+                <div class="key-idea"><strong>arccos(0.5) = 60&deg;</strong> because 60&deg; is the angle <em>between 0&deg; and 180&deg;</em> whose cosine is 0.5. There are other angles with cosine 0.5 (like 300&deg;), but arccos always picks the one in its restricted range.</div>
+
+                <h3>Summary of all inverse trig ranges</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:14px 0;">
+                    <div class="machine-box">
+                        <div class="label">arcsin (sin⁻¹)</div>
+                        <div class="value" style="font-size:0.9rem; color:#ef4444;">-90&deg; to 90&deg;</div>
+                    </div>
+                    <div class="machine-box">
+                        <div class="label">arccos (cos⁻¹)</div>
+                        <div class="value" style="font-size:0.9rem; color:#38bdf8;">0&deg; to 180&deg;</div>
+                    </div>
+                    <div class="machine-box">
+                        <div class="label">arctan (tan⁻¹)</div>
+                        <div class="value" style="font-size:0.9rem; color:#fbbf24;">-90&deg; to 90&deg;</div>
+                    </div>
+                </div>
+
+                <div class="key-idea">Inverse trig functions answer the question: "What angle gives this value?" They always pick <span class="highlight">one specific answer</span> from a restricted range, even though many angles would work. That's the whole trick!</div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="goToSection(3)">&larr; Back</button>
+                    <button class="nav-btn primary" onclick="switchTab('calculator')">Go try the calculator! &rarr;</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========== PRACTICE TAB ========== -->
+    <div class="tab-content" id="tab-practice">
+        <div class="practice-container">
+
+            <div class="practice-header">
+                <div>
+                    <h2 style="color:#38bdf8; margin-bottom:4px; font-size:1.2rem;">Trig Practice</h2>
+                    <p style="color:#94a3b8; font-size:0.85rem;">Answer questions to build your streak</p>
+                </div>
+                <div class="practice-difficulty">
+                    <button class="diff-btn active" id="diffEasy" onclick="setDifficulty('easy')">Easy</button>
+                    <button class="diff-btn" id="diffMedium" onclick="setDifficulty('medium')">Medium</button>
+                    <button class="diff-btn" id="diffHard" onclick="setDifficulty('hard')">Hard</button>
+                </div>
+                <div class="practice-score">
+                    <div class="stat">
+                        <div class="stat-num" style="color:#10b981;" id="practiceCorrect">0</div>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num" style="color:#ef4444;" id="practiceWrong">0</div>
+                        <div class="stat-label">Wrong</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num" style="color:#fbbf24;" id="practiceStreak">0</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="streak-bar">
+                <div class="streak-fill" id="streakFill" style="width:0%"></div>
+            </div>
+
+            <div class="practice-card" id="practiceCard">
+                <div class="problem-type" id="problemType">Basic Trig</div>
+                <div class="problem-question" id="problemQuestion">Loading...</div>
+                <div class="practice-diagram">
+                    <canvas id="problemDiagram"></canvas>
+                </div>
+                <div class="problem-hint" id="problemHint"></div>
+                <div class="answer-input-row">
+                    <input type="text" id="answerInput" placeholder="Type your answer..." autocomplete="off">
+                    <span class="unit-label" id="answerUnit"></span>
+                    <button class="check-btn" id="checkBtn" onclick="checkAnswer()">Check</button>
+                </div>
+                <div class="correct-answer-display" id="correctAnswerDisplay"></div>
+                <div class="explanation" id="problemExplanation"></div>
+                <div class="practice-actions" id="practiceActions">
+                    <button class="learn-btn" onclick="showHint()" id="hintBtn">Show hint</button>
+                    <button class="learn-btn" onclick="skipProblem()">Skip</button>
+                    <button class="learn-btn primary" onclick="nextProblem()" id="nextBtn" style="display:none; background:#38bdf8; color:#0f172a; font-weight:600; border-color:#38bdf8;">Next problem &rarr;</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
+        // ===== TAB SWITCHING =====
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            const btns = document.querySelectorAll('.tab-btn');
+            if (tab === 'calculator') btns[0].classList.add('active');
+            else if (tab === 'learning') btns[1].classList.add('active');
+            else if (tab === 'practice') btns[2].classList.add('active');
+
+            if (tab === 'learning') {
+                initLearningCanvases();
+            }
+            if (tab === 'calculator') {
+                drawUnitCircle();
+                redraw();
+            }
+            if (tab === 'practice' && !practiceInitialized) {
+                practiceInitialized = true;
+                nextProblem();
+            }
+        }
+
         // ===== CALCULATOR =====
         let expression = '';
         let angleMode = 'deg';
@@ -313,13 +1040,11 @@
             document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
             document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
         }
-
         function updateDisplay(val) { display.textContent = val || '0'; }
         function appendNum(n) { expression += n; updateDisplay(expression); }
         function appendOp(op) { expression += op; updateDisplay(expression); }
         function clearDisplay() { expression = ''; updateDisplay('0'); }
         function backspace() { expression = expression.slice(0, -1); updateDisplay(expression || '0'); }
-
         function toRad(deg) { return deg * Math.PI / 180; }
         function toDeg(rad) { return rad * 180 / Math.PI; }
 
@@ -374,19 +1099,17 @@
         }
 
         // ===== INTERACTIVE TRIANGLE + WAVES =====
-        let currentAngle = Math.PI / 6; // 30 degrees
+        let currentAngle = Math.PI / 6;
         let isDragging = false;
-
         const triCanvas = document.getElementById('triCircleCanvas');
         const triCtx = triCanvas.getContext('2d');
         const wavesCanvas = document.getElementById('wavesCanvas');
         const wavesCtx = wavesCanvas.getContext('2d');
 
-        // Colors
-        const COL_HYP = '#a855f7';   // purple - hypotenuse
-        const COL_SIN = '#ef4444';   // red - opposite/sin
-        const COL_COS = '#38bdf8';   // cyan - adjacent/cos
-        const COL_ARC = '#fbbf24';   // yellow - angle arc
+        const COL_HYP = '#a855f7';
+        const COL_SIN = '#ef4444';
+        const COL_COS = '#38bdf8';
+        const COL_ARC = '#fbbf24';
         const COL_GRID = '#1e293b';
         const COL_AXIS = '#475569';
         const COL_TEXT = '#94a3b8';
@@ -400,7 +1123,6 @@
             return { w: rect.width, h: rect.height };
         }
 
-        // ---- Triangle / Unit Circle ----
         function getTriCircleLayout(w, h) {
             const r = Math.min(w, h) * 0.34;
             const cx = w * 0.42;
@@ -415,22 +1137,17 @@
             const a = currentAngle;
             const sinA = Math.sin(a);
             const cosA = Math.cos(a);
-
-            // Point on circle
             const px = cx + r * cosA;
             const py = cy - r * sinA;
-            // Foot of perpendicular
             const fx = cx + r * cosA;
             const fy = cy;
 
-            // Unit circle
             ctx.beginPath();
             ctx.arc(cx, cy, r, 0, Math.PI * 2);
             ctx.strokeStyle = '#334155';
             ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            // Axes
             ctx.strokeStyle = COL_AXIS;
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -438,7 +1155,6 @@
             ctx.moveTo(cx, cy - r - 30); ctx.lineTo(cx, cy + r + 30);
             ctx.stroke();
 
-            // Axis labels
             ctx.font = '12px system-ui';
             ctx.fillStyle = COL_TEXT;
             ctx.textAlign = 'center';
@@ -450,34 +1166,29 @@
             ctx.fillText('1', cx + 6, cy - r);
             ctx.fillText('-1', cx + 6, cy + r);
 
-            // Triangle fill
             ctx.beginPath();
             ctx.moveTo(cx, cy); ctx.lineTo(fx, fy); ctx.lineTo(px, py); ctx.closePath();
             ctx.fillStyle = 'rgba(168, 85, 247, 0.06)';
             ctx.fill();
 
-            // Adjacent (cos) - horizontal line
             ctx.beginPath();
             ctx.moveTo(cx, cy); ctx.lineTo(fx, cy);
             ctx.strokeStyle = COL_COS;
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // Opposite (sin) - vertical line
             ctx.beginPath();
             ctx.moveTo(fx, cy); ctx.lineTo(px, py);
             ctx.strokeStyle = COL_SIN;
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // Hypotenuse - diagonal
             ctx.beginPath();
             ctx.moveTo(cx, cy); ctx.lineTo(px, py);
             ctx.strokeStyle = COL_HYP;
             ctx.lineWidth = 3;
             ctx.stroke();
 
-            // Right angle square
             if (Math.abs(cosA) > 0.05 && Math.abs(sinA) > 0.05) {
                 const sq = 10;
                 const dirX = cosA > 0 ? -1 : 1;
@@ -491,27 +1202,20 @@
                 ctx.stroke();
             }
 
-            // Angle arc
             ctx.beginPath();
             ctx.arc(cx, cy, 28, 0, -a, true);
             ctx.strokeStyle = COL_ARC;
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Angle label
             const angleDeg = toDeg(a);
             const labelA = a / 2;
             ctx.font = 'bold 14px system-ui';
             ctx.fillStyle = COL_ARC;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.fillText(
-                `${angleDeg.toFixed(1)}°`,
-                cx + 36 * Math.cos(labelA),
-                cy - 36 * Math.sin(labelA)
-            );
+            ctx.fillText(`${angleDeg.toFixed(1)}°`, cx + 36 * Math.cos(labelA), cy - 36 * Math.sin(labelA));
 
-            // Draggable point
             ctx.beginPath();
             ctx.arc(px, py, 10, 0, Math.PI * 2);
             ctx.fillStyle = '#f1f5f9';
@@ -519,97 +1223,70 @@
             ctx.strokeStyle = COL_HYP;
             ctx.lineWidth = 2;
             ctx.stroke();
-
-            // Inner dot
             ctx.beginPath();
             ctx.arc(px, py, 4, 0, Math.PI * 2);
             ctx.fillStyle = COL_HYP;
             ctx.fill();
 
-            // Value labels on the edges
             ctx.font = 'bold 13px Courier New, monospace';
-
-            // cos value along bottom
             ctx.fillStyle = COL_COS;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
-            const cosLabel = cosA.toFixed(3);
-            ctx.fillText(cosLabel, (cx + fx) / 2, cy + 8);
+            ctx.fillText(cosA.toFixed(3), (cx + fx) / 2, cy + 8);
 
-            // sin value along right side
             ctx.fillStyle = COL_SIN;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            const sinLabel = sinA.toFixed(3);
-            ctx.fillText(sinLabel, fx + 8, (cy + py) / 2);
+            ctx.fillText(sinA.toFixed(3), fx + 8, (cy + py) / 2);
 
-            // Coordinates at point
             ctx.font = '12px system-ui';
             ctx.fillStyle = '#e2e8f0';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'bottom';
             ctx.fillText(`(${cosA.toFixed(2)}, ${sinA.toFixed(2)})`, px + 14, py - 4);
 
-            // Connecting line from sin to waves canvas (visual bridge)
-            // Draw small arrows/dots at the right edge showing sin and cos values
             const rightEdge = w - 16;
             const sinY = cy - sinA * r;
             const cosY = cy - cosA * r;
-
-            // Dashed guide lines from triangle to right edge
             ctx.setLineDash([4, 4]);
             ctx.lineWidth = 1;
-
-            // sin guide
             ctx.beginPath();
             ctx.moveTo(px, py); ctx.lineTo(rightEdge, sinY);
             ctx.strokeStyle = COL_SIN + '60';
             ctx.stroke();
-
-            // cos guide
             ctx.beginPath();
             ctx.moveTo(fx, cy); ctx.lineTo(rightEdge, cosY);
             ctx.strokeStyle = COL_COS + '60';
             ctx.stroke();
-
             ctx.setLineDash([]);
 
-            // Endpoint dots on right edge
             ctx.beginPath();
             ctx.arc(rightEdge, sinY, 5, 0, Math.PI * 2);
             ctx.fillStyle = COL_SIN;
             ctx.fill();
-
             ctx.beginPath();
             ctx.arc(rightEdge, cosY, 5, 0, Math.PI * 2);
             ctx.fillStyle = COL_COS;
             ctx.fill();
         }
 
-        // ---- Sine & Cosine Waves ----
         function drawWaves() {
             const { w, h } = resizeCanvas(wavesCanvas);
             const ctx = wavesCtx;
             const a = currentAngle;
-
             const pad = { left: 45, right: 20, top: 20, bottom: 28 };
             const plotW = w - pad.left - pad.right;
             const plotH = h - pad.top - pad.bottom;
             const midY = pad.top + plotH / 2;
 
-            // Grid lines
             ctx.strokeStyle = COL_GRID;
             ctx.lineWidth = 1;
-            // Horizontal: -1, 0, 1
             for (let v = -1; v <= 1; v++) {
                 const y = midY - v * (plotH / 2);
                 ctx.beginPath();
-                ctx.moveTo(pad.left, y);
-                ctx.lineTo(w - pad.right, y);
+                ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y);
                 ctx.stroke();
             }
-
-            // Vertical: every 90 degrees
             ctx.font = '11px system-ui';
             ctx.fillStyle = COL_TEXT;
             ctx.textAlign = 'center';
@@ -617,66 +1294,53 @@
             for (let deg = 0; deg <= 360; deg += 90) {
                 const x = pad.left + (deg / 360) * plotW;
                 ctx.beginPath();
-                ctx.moveTo(x, pad.top);
-                ctx.lineTo(x, h - pad.bottom);
+                ctx.moveTo(x, pad.top); ctx.lineTo(x, h - pad.bottom);
                 ctx.strokeStyle = COL_GRID;
                 ctx.stroke();
                 ctx.fillText(deg + '\u00B0', x, h - pad.bottom + 6);
             }
-
-            // Y-axis labels
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             ctx.fillText('1', pad.left - 8, pad.top);
             ctx.fillText('0', pad.left - 8, midY);
             ctx.fillText('-1', pad.left - 8, h - pad.bottom);
 
-            // Axis line
             ctx.beginPath();
-            ctx.moveTo(pad.left, midY);
-            ctx.lineTo(w - pad.right, midY);
+            ctx.moveTo(pad.left, midY); ctx.lineTo(w - pad.right, midY);
             ctx.strokeStyle = COL_AXIS;
             ctx.lineWidth = 1;
             ctx.stroke();
 
-            // Draw sin wave
             ctx.beginPath();
             for (let i = 0; i <= plotW; i++) {
                 const angle = (i / plotW) * Math.PI * 2;
                 const y = midY - Math.sin(angle) * (plotH / 2);
-                if (i === 0) ctx.moveTo(pad.left + i, y);
-                else ctx.lineTo(pad.left + i, y);
+                if (i === 0) ctx.moveTo(pad.left + i, y); else ctx.lineTo(pad.left + i, y);
             }
             ctx.strokeStyle = COL_SIN;
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Draw cos wave
             ctx.beginPath();
             for (let i = 0; i <= plotW; i++) {
                 const angle = (i / plotW) * Math.PI * 2;
                 const y = midY - Math.cos(angle) * (plotH / 2);
-                if (i === 0) ctx.moveTo(pad.left + i, y);
-                else ctx.lineTo(pad.left + i, y);
+                if (i === 0) ctx.moveTo(pad.left + i, y); else ctx.lineTo(pad.left + i, y);
             }
             ctx.strokeStyle = COL_COS;
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Current angle vertical line
             const normalizedAngle = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
             const curX = pad.left + (normalizedAngle / (Math.PI * 2)) * plotW;
-
             ctx.beginPath();
-            ctx.moveTo(curX, pad.top);
-            ctx.lineTo(curX, h - pad.bottom);
+            ctx.moveTo(curX, pad.top); ctx.lineTo(curX, h - pad.bottom);
             ctx.strokeStyle = COL_ARC + '80';
             ctx.lineWidth = 1.5;
             ctx.setLineDash([6, 4]);
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // Sin dot
             const sinVal = Math.sin(a);
             const sinDotY = midY - sinVal * (plotH / 2);
             ctx.beginPath();
@@ -687,7 +1351,6 @@
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Cos dot
             const cosVal = Math.cos(a);
             const cosDotY = midY - cosVal * (plotH / 2);
             ctx.beginPath();
@@ -698,29 +1361,22 @@
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Value labels next to dots
             ctx.font = 'bold 12px Courier New, monospace';
             ctx.textBaseline = 'middle';
-
-            // sin label
             ctx.fillStyle = COL_SIN;
             const sinLabelX = curX + 14;
             const sinLabelSide = sinLabelX + 60 > w ? curX - 14 : sinLabelX;
             ctx.textAlign = sinLabelX + 60 > w ? 'right' : 'left';
             ctx.fillText(`sin ${sinVal.toFixed(3)}`, sinLabelSide, sinDotY);
 
-            // cos label (offset vertically if too close to sin)
             ctx.fillStyle = COL_COS;
             let cosLabelY = cosDotY;
-            if (Math.abs(sinDotY - cosDotY) < 20) {
-                cosLabelY = cosDotY + (cosDotY > sinDotY ? 18 : -18);
-            }
+            if (Math.abs(sinDotY - cosDotY) < 20) cosLabelY = cosDotY + (cosDotY > sinDotY ? 18 : -18);
             const cosLabelX = curX + 14;
             const cosLabelSide = cosLabelX + 60 > w ? curX - 14 : cosLabelX;
             ctx.textAlign = cosLabelX + 60 > w ? 'right' : 'left';
             ctx.fillText(`cos ${cosVal.toFixed(3)}`, cosLabelSide, cosLabelY);
 
-            // Wave labels
             ctx.font = 'bold 13px system-ui';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
@@ -730,14 +1386,12 @@
             ctx.fillText('cos(\u03B8)', pad.left + 60, pad.top + 2);
         }
 
-        // ---- Trig Readout ----
         function updateReadout() {
             const a = currentAngle;
             const deg = toDeg(a);
             const sinA = Math.sin(a);
             const cosA = Math.cos(a);
             const tanA = Math.tan(a);
-
             const items = [
                 { name: '\u03B8', val: `${deg.toFixed(1)}\u00B0 (${a.toFixed(4)} rad)` },
                 { name: 'sin(\u03B8)', val: sinA.toFixed(6) },
@@ -746,94 +1400,56 @@
                 { name: 'csc(\u03B8)', val: Math.abs(sinA) < 1e-10 ? 'Undefined' : (1/sinA).toFixed(6) },
                 { name: 'sec(\u03B8)', val: Math.abs(cosA) < 1e-10 ? 'Undefined' : (1/cosA).toFixed(6) },
             ];
-
             document.getElementById('trigReadout').innerHTML = items.map(i =>
                 `<div class="item"><span class="fn-name">${i.name}</span> = <span class="fn-val">${i.val}</span></div>`
             ).join('');
         }
 
-        // ---- Drag Interaction ----
         function getCanvasPos(e) {
             const rect = triCanvas.getBoundingClientRect();
             const touch = e.touches ? e.touches[0] : e;
-            return {
-                x: touch.clientX - rect.left,
-                y: touch.clientY - rect.top
-            };
+            return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
         }
-
         function posToAngle(pos) {
             const rect = triCanvas.getBoundingClientRect();
             const { cx, cy } = getTriCircleLayout(rect.width, rect.height);
-            const dx = pos.x - cx;
-            const dy = -(pos.y - cy); // flip y
-            let angle = Math.atan2(dy, dx);
-            // Keep angle in [0, 2pi)
+            let angle = Math.atan2(-(pos.y - cy), pos.x - cx);
             if (angle < 0) angle += Math.PI * 2;
             return angle;
         }
-
         function isNearPoint(pos) {
             const rect = triCanvas.getBoundingClientRect();
             const { cx, cy, r } = getTriCircleLayout(rect.width, rect.height);
             const px = cx + r * Math.cos(currentAngle);
             const py = cy - r * Math.sin(currentAngle);
-            const dx = pos.x - px;
-            const dy = pos.y - py;
-            return dx * dx + dy * dy < 400; // 20px radius
+            return (pos.x - px) ** 2 + (pos.y - py) ** 2 < 400;
         }
-
         function onPointerDown(e) {
             const pos = getCanvasPos(e);
-            if (isNearPoint(pos)) {
-                isDragging = true;
-                triCanvas.classList.add('dragging');
-                e.preventDefault();
-            }
+            if (isNearPoint(pos)) { isDragging = true; triCanvas.classList.add('dragging'); e.preventDefault(); }
         }
-
         function onPointerMove(e) {
-            if (!isDragging) {
-                // Change cursor near point
-                const pos = getCanvasPos(e);
-                triCanvas.style.cursor = isNearPoint(pos) ? 'grab' : 'default';
-                return;
-            }
+            if (!isDragging) { triCanvas.style.cursor = isNearPoint(getCanvasPos(e)) ? 'grab' : 'default'; return; }
             e.preventDefault();
-            const pos = getCanvasPos(e);
-            currentAngle = posToAngle(pos);
+            currentAngle = posToAngle(getCanvasPos(e));
             redraw();
         }
+        function onPointerUp() { isDragging = false; triCanvas.classList.remove('dragging'); }
 
-        function onPointerUp() {
-            isDragging = false;
-            triCanvas.classList.remove('dragging');
-        }
-
-        // Mouse events
         triCanvas.addEventListener('mousedown', onPointerDown);
         window.addEventListener('mousemove', onPointerMove);
         window.addEventListener('mouseup', onPointerUp);
-
-        // Touch events
         triCanvas.addEventListener('touchstart', onPointerDown, { passive: false });
         window.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
             e.preventDefault();
-            const pos = getCanvasPos(e);
-            currentAngle = posToAngle(pos);
+            currentAngle = posToAngle(getCanvasPos(e));
             redraw();
         }, { passive: false });
         window.addEventListener('touchend', onPointerUp);
 
-        // ---- Redraw all ----
-        function redraw() {
-            drawTriCircle();
-            drawWaves();
-            updateReadout();
-        }
+        function redraw() { drawTriCircle(); drawWaves(); updateReadout(); }
 
-        // ===== UNIT CIRCLE (calculator panel) =====
         function drawUnitCircle() {
             const canvas = document.getElementById('unitCircle');
             const rect = canvas.getBoundingClientRect();
@@ -843,7 +1459,6 @@
             const ctx = canvas.getContext('2d');
             ctx.scale(dpr, dpr);
             const w = rect.width, h = rect.height;
-
             const cx = w / 2, cy = h / 2;
             const r = Math.min(w, h) * 0.38;
 
@@ -862,7 +1477,6 @@
 
             const angles = [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330];
             ctx.font = '11px monospace';
-
             angles.forEach(deg => {
                 const rad = toRad(deg);
                 const x = cx + r * Math.cos(rad);
@@ -871,15 +1485,11 @@
                 ctx.arc(x, y, 3, 0, Math.PI * 2);
                 ctx.fillStyle = '#f59e0b';
                 ctx.fill();
-
-                const lx = cx + (r + 22) * Math.cos(rad);
-                const ly = cy - (r + 22) * Math.sin(rad);
                 ctx.fillStyle = '#94a3b8';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(deg + '\u00B0', lx, ly);
+                ctx.fillText(deg + '\u00B0', cx + (r + 22) * Math.cos(rad), cy - (r + 22) * Math.sin(rad));
             });
-
             ctx.fillStyle = '#e2e8f0';
             ctx.font = 'bold 14px system-ui';
             ctx.textAlign = 'center';
@@ -887,6 +1497,2536 @@
             ctx.fillText('-1', cx - r - 12, cy + 16);
             ctx.fillText('1', cx + 10, cy - r - 8);
             ctx.fillText('-1', cx + 14, cy + r + 16);
+        }
+
+        // ===== LEARNING SECTION =====
+        let currentLearnSection = 1;
+        const totalSections = 4;
+
+        // Section navigation
+        function goToSection(n) {
+            currentLearnSection = n;
+            for (let i = 1; i <= totalSections; i++) {
+                document.getElementById('learn-s' + i).style.display = i === n ? 'block' : 'none';
+            }
+            updateProgressDots();
+            initLearningCanvases();
+            // Scroll to top of learning area
+            document.getElementById('tab-learning').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function updateProgressDots() {
+            const container = document.getElementById('sectionProgress');
+            container.innerHTML = '';
+            for (let i = 1; i <= totalSections; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === currentLearnSection ? ' active' : (i < currentLearnSection ? ' visited' : ''));
+                dot.onclick = () => goToSection(i);
+                container.appendChild(dot);
+            }
+        }
+        updateProgressDots();
+
+        // ---- Section 1: Function Machine ----
+        let machineFunc = 'double';
+        function applyMachineFunc(x) {
+            if (machineFunc === 'double') return x * 2;
+            if (machineFunc === 'square') return x * x;
+            if (machineFunc === 'add3') return x + 3;
+        }
+        function getMachineFnLabel() {
+            if (machineFunc === 'double') return '\u00D7 2';
+            if (machineFunc === 'square') return 'x\u00B2';
+            if (machineFunc === 'add3') return '+ 3';
+        }
+        function setMachineFunc(fn, btn) {
+            machineFunc = fn;
+            btn.parentElement.querySelectorAll('.learn-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateMachineDemo();
+        }
+        function updateMachineDemo() {
+            const x = parseFloat(document.getElementById('machineInput').value);
+            const y = applyMachineFunc(x);
+            document.getElementById('machineInputVal').textContent = x;
+            document.getElementById('machineIn').textContent = x;
+            document.getElementById('machineOut').textContent = Math.round(y * 100) / 100;
+            document.getElementById('machineFnLabel').textContent = getMachineFnLabel();
+        }
+        document.getElementById('machineInput').addEventListener('input', updateMachineDemo);
+
+        // ---- Section 1: Function Graph ----
+        let graphFunc = 'double';
+        let graphHoverX = null;
+
+        function graphFn(x) {
+            if (graphFunc === 'double') return 2 * x;
+            if (graphFunc === 'square') return x * x;
+            if (graphFunc === 'add3') return x + 3;
+        }
+        function graphFnLabel() {
+            if (graphFunc === 'double') return 'f(x) = 2x';
+            if (graphFunc === 'square') return 'f(x) = x\u00B2';
+            if (graphFunc === 'add3') return 'f(x) = x + 3';
+        }
+        function setGraphFunc(fn, btn) {
+            graphFunc = fn;
+            btn.parentElement.querySelectorAll('.learn-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            drawFuncGraph();
+        }
+
+        function drawFuncGraph() {
+            const canvas = document.getElementById('learnFuncGraph');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const pad = { left: 50, right: 20, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+
+            // Determine range
+            const xMin = -5, xMax = 5;
+            let yMin = -5, yMax = 10;
+            if (graphFunc === 'square') { yMin = -2; yMax = 12; }
+
+            function toScreenX(x) { return pad.left + ((x - xMin) / (xMax - xMin)) * pw; }
+            function toScreenY(y) { return pad.top + ((yMax - y) / (yMax - yMin)) * ph; }
+            function fromScreenX(sx) { return xMin + ((sx - pad.left) / pw) * (xMax - xMin); }
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let x = Math.ceil(xMin); x <= xMax; x++) {
+                ctx.beginPath();
+                ctx.moveTo(toScreenX(x), pad.top);
+                ctx.lineTo(toScreenX(x), h - pad.bottom);
+                ctx.stroke();
+            }
+            for (let y = Math.ceil(yMin); y <= yMax; y++) {
+                ctx.beginPath();
+                ctx.moveTo(pad.left, toScreenY(y));
+                ctx.lineTo(w - pad.right, toScreenY(y));
+                ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, toScreenY(0)); ctx.lineTo(w - pad.right, toScreenY(0));
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(toScreenX(0), pad.top); ctx.lineTo(toScreenX(0), h - pad.bottom);
+            ctx.stroke();
+
+            // Axis labels
+            ctx.font = '11px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            for (let x = Math.ceil(xMin); x <= xMax; x++) {
+                if (x === 0) continue;
+                ctx.fillText(x, toScreenX(x), toScreenY(0) + 4);
+            }
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let y = Math.ceil(yMin); y <= yMax; y += 2) {
+                if (y === 0) continue;
+                ctx.fillText(y, toScreenX(0) - 6, toScreenY(y));
+            }
+
+            // Function curve
+            ctx.beginPath();
+            let started = false;
+            for (let i = 0; i <= pw; i++) {
+                const x = fromScreenX(pad.left + i);
+                const y = graphFn(x);
+                const sy = toScreenY(y);
+                if (sy < pad.top - 50 || sy > h - pad.bottom + 50) { started = false; continue; }
+                if (!started) { ctx.moveTo(pad.left + i, sy); started = true; }
+                else ctx.lineTo(pad.left + i, sy);
+            }
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Label
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = '#38bdf8';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(graphFnLabel(), pad.left + 8, pad.top + 6);
+
+            // Hover interaction
+            if (graphHoverX !== null) {
+                const x = graphHoverX;
+                const y = graphFn(x);
+                const sx = toScreenX(x);
+                const sy = toScreenY(y);
+
+                // Vertical dashed line from x-axis to curve
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = '#fbbf2480';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(sx, toScreenY(0)); ctx.lineTo(sx, sy);
+                ctx.stroke();
+                // Horizontal dashed line from y-axis to curve
+                ctx.beginPath();
+                ctx.moveTo(toScreenX(0), sy); ctx.lineTo(sx, sy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Dot
+                ctx.beginPath();
+                ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#fbbf24';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Labels
+                ctx.font = 'bold 13px Courier New, monospace';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(`x = ${x.toFixed(1)}`, sx, toScreenY(0) + 16);
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(`f(x) = ${y.toFixed(1)}`, sx, sy - 12);
+            }
+
+            // x and y axis names
+            ctx.font = 'bold 12px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'top';
+            ctx.fillText('x (input)', w - pad.right, toScreenY(0) + 4);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('f(x) (output)', toScreenX(0) + 6, pad.top + 2);
+        }
+
+        // Mouse tracking for func graph
+        const funcGraphCanvas = document.getElementById('learnFuncGraph');
+        funcGraphCanvas.addEventListener('mousemove', (e) => {
+            const rect = funcGraphCanvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const pad = { left: 50, right: 20 };
+            const pw = rect.width - pad.left - pad.right;
+            const xMin = -5, xMax = 5;
+            graphHoverX = xMin + ((mx - pad.left) / pw) * (xMax - xMin);
+            graphHoverX = Math.max(xMin, Math.min(xMax, graphHoverX));
+            graphHoverX = Math.round(graphHoverX * 2) / 2; // snap to 0.5
+            drawFuncGraph();
+        });
+        funcGraphCanvas.addEventListener('mouseleave', () => { graphHoverX = null; drawFuncGraph(); });
+
+        // ---- Section 2: Inverse Graph ----
+        let invHoverX = null;
+        let invShow = { orig: true, inv: true, mirror: true };
+
+        function toggleInvShow(key) {
+            invShow[key] = !invShow[key];
+            const btnId = key === 'orig' ? 'invShowOrigBtn' : key === 'inv' ? 'invShowInvBtn' : 'invShowMirrorBtn';
+            document.getElementById(btnId).classList.toggle('active', invShow[key]);
+            drawInverseGraph();
+        }
+
+        function drawInverseGraph() {
+            const canvas = document.getElementById('learnInverseGraph');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const pad = { left: 50, right: 20, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+            const xMin = -5, xMax = 10, yMin = -5, yMax = 10;
+
+            function toSX(x) { return pad.left + ((x - xMin) / (xMax - xMin)) * pw; }
+            function toSY(y) { return pad.top + ((yMax - y) / (yMax - yMin)) * ph; }
+            function fromSX(sx) { return xMin + ((sx - pad.left) / pw) * (xMax - xMin); }
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let x = Math.ceil(xMin); x <= xMax; x++) {
+                ctx.beginPath(); ctx.moveTo(toSX(x), pad.top); ctx.lineTo(toSX(x), h - pad.bottom); ctx.stroke();
+            }
+            for (let y = Math.ceil(yMin); y <= yMax; y++) {
+                ctx.beginPath(); ctx.moveTo(pad.left, toSY(y)); ctx.lineTo(w - pad.right, toSY(y)); ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, toSY(0)); ctx.lineTo(w - pad.right, toSY(0)); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(toSX(0), pad.top); ctx.lineTo(toSX(0), h - pad.bottom); ctx.stroke();
+
+            // Mirror line y = x
+            if (invShow.mirror) {
+                ctx.setLineDash([6, 6]);
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                const lineStart = Math.max(xMin, yMin);
+                const lineEnd = Math.min(xMax, yMax);
+                ctx.moveTo(toSX(lineStart), toSY(lineStart));
+                ctx.lineTo(toSX(lineEnd), toSY(lineEnd));
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.font = '12px system-ui';
+                ctx.fillStyle = '#64748b';
+                ctx.textAlign = 'left';
+                ctx.fillText('y = x', toSX(lineEnd) + 4, toSY(lineEnd) - 4);
+            }
+
+            // f(x) = 2x
+            if (invShow.orig) {
+                ctx.beginPath();
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    const y = 2 * x;
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) continue;
+                    if (i === 0) ctx.moveTo(pad.left + i, sy); else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.font = 'bold 13px system-ui';
+                ctx.fillStyle = '#38bdf8';
+                ctx.textAlign = 'left';
+                ctx.fillText('f(x) = 2x', pad.left + 8, pad.top + 6);
+            }
+
+            // f⁻¹(x) = x/2
+            if (invShow.inv) {
+                ctx.beginPath();
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    const y = x / 2;
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) continue;
+                    if (i === 0) ctx.moveTo(pad.left + i, sy); else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#818cf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.font = 'bold 13px system-ui';
+                ctx.fillStyle = '#818cf8';
+                ctx.textAlign = 'left';
+                ctx.fillText('f\u207B\u00B9(x) = x/2', pad.left + 8, pad.top + 24);
+            }
+
+            // Hover
+            if (invHoverX !== null) {
+                const x = invHoverX;
+                const y = 2 * x;
+                const sx = toSX(x), sy = toSY(y);
+
+                if (invShow.orig && sy >= pad.top && sy <= h - pad.bottom) {
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.font = 'bold 12px Courier New';
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(`(${x.toFixed(1)}, ${y.toFixed(1)})`, sx + 12, sy - 4);
+                }
+
+                // Mirror point on inverse
+                if (invShow.inv) {
+                    const ix = y, iy = x;
+                    const isx = toSX(ix), isy = toSY(iy);
+                    if (isy >= pad.top && isy <= h - pad.bottom && isx >= pad.left && isx <= w - pad.right) {
+                        ctx.beginPath();
+                        ctx.arc(isx, isy, 7, 0, Math.PI * 2);
+                        ctx.fillStyle = '#818cf8';
+                        ctx.fill();
+                        ctx.strokeStyle = '#fff';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                        ctx.font = 'bold 12px Courier New';
+                        ctx.fillStyle = '#818cf8';
+                        ctx.textAlign = 'left';
+                        ctx.fillText(`(${ix.toFixed(1)}, ${iy.toFixed(1)})`, isx + 12, isy - 4);
+
+                        // Connect them
+                        if (invShow.orig && sy >= pad.top && sy <= h - pad.bottom) {
+                            ctx.setLineDash([3, 3]);
+                            ctx.strokeStyle = '#fbbf2460';
+                            ctx.lineWidth = 1.5;
+                            ctx.beginPath();
+                            ctx.moveTo(sx, sy);
+                            ctx.lineTo(isx, isy);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+                        }
+                    }
+                }
+            }
+        }
+
+        const invGraphCanvas = document.getElementById('learnInverseGraph');
+        invGraphCanvas.addEventListener('mousemove', (e) => {
+            const rect = invGraphCanvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const pad = { left: 50, right: 20 };
+            const pw = rect.width - pad.left - pad.right;
+            invHoverX = -5 + ((mx - pad.left) / pw) * 15;
+            invHoverX = Math.max(-5, Math.min(10, invHoverX));
+            invHoverX = Math.round(invHoverX * 2) / 2;
+            drawInverseGraph();
+        });
+        invGraphCanvas.addEventListener('mouseleave', () => { invHoverX = null; drawInverseGraph(); });
+
+        // ---- Section 2: Inverse Machine ----
+        function updateInverseDemo() {
+            const y = parseFloat(document.getElementById('inverseOutput').value);
+            const x = y / 2;
+            document.getElementById('inverseOutputVal').textContent = y;
+            document.getElementById('inverseOut').textContent = y;
+            document.getElementById('inverseIn').textContent = Math.round(x * 100) / 100;
+        }
+        document.getElementById('inverseOutput').addEventListener('input', updateInverseDemo);
+
+        // ---- Section 3: Restriction ----
+        let showRestriction = false;
+        let showRestrictInv = false;
+
+        function toggleRestrict() {
+            showRestriction = !showRestriction;
+            const btn = document.getElementById('restrictToggle');
+            btn.classList.toggle('active', showRestriction);
+            btn.textContent = showRestriction ? 'Showing restricted domain (x \u2265 0)' : 'Show restricted domain (x \u2265 0)';
+            if (showRestriction) {
+                document.getElementById('restrictInvToggle').style.display = '';
+            } else {
+                showRestrictInv = false;
+                document.getElementById('restrictInvToggle').style.display = 'none';
+                document.getElementById('restrictInvToggle').classList.remove('active');
+            }
+            drawRestrictGraph();
+        }
+        function toggleRestrictInv() {
+            showRestrictInv = !showRestrictInv;
+            document.getElementById('restrictInvToggle').classList.toggle('active', showRestrictInv);
+            drawRestrictGraph();
+        }
+
+        function drawRestrictGraph() {
+            const canvas = document.getElementById('learnRestrictGraph');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const pad = { left: 50, right: 20, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+            const xMin = -5, xMax = 8, yMin = -2, yMax = 10;
+
+            function toSX(x) { return pad.left + ((x - xMin) / (xMax - xMin)) * pw; }
+            function toSY(y) { return pad.top + ((yMax - y) / (yMax - yMin)) * ph; }
+            function fromSX(sx) { return xMin + ((sx - pad.left) / pw) * (xMax - xMin); }
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let x = Math.ceil(xMin); x <= xMax; x++) {
+                ctx.beginPath(); ctx.moveTo(toSX(x), pad.top); ctx.lineTo(toSX(x), h - pad.bottom); ctx.stroke();
+            }
+            for (let y = Math.ceil(yMin); y <= yMax; y += 2) {
+                ctx.beginPath(); ctx.moveTo(pad.left, toSY(y)); ctx.lineTo(w - pad.right, toSY(y)); ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(pad.left, toSY(0)); ctx.lineTo(w - pad.right, toSY(0)); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(toSX(0), pad.top); ctx.lineTo(toSX(0), h - pad.bottom); ctx.stroke();
+
+            // Mirror line y = x (when showing inverse)
+            if (showRestrictInv) {
+                ctx.setLineDash([6, 6]);
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(toSX(Math.max(xMin, yMin)), toSY(Math.max(xMin, yMin)));
+                ctx.lineTo(toSX(Math.min(xMax, yMax)), toSY(Math.min(xMax, yMax)));
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // f(x) = x² - dimmed part (x < 0) when restricted
+            if (showRestriction) {
+                ctx.beginPath();
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    if (x >= 0) break;
+                    const y = x * x;
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) { continue; }
+                    if (i === 0) ctx.moveTo(pad.left + i, sy); else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#38bdf830';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Restricted part (x >= 0) - bright
+                ctx.beginPath();
+                let s = false;
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    if (x < 0) continue;
+                    const y = x * x;
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) { s = false; continue; }
+                    if (!s) { ctx.moveTo(pad.left + i, sy); s = true; } else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            } else {
+                // Full parabola
+                ctx.beginPath();
+                let started = false;
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    const y = x * x;
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) { started = false; continue; }
+                    if (!started) { ctx.moveTo(pad.left + i, sy); started = true; } else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+
+            // Inverse sqrt(x)
+            if (showRestrictInv) {
+                ctx.beginPath();
+                let s = false;
+                for (let i = 0; i <= pw; i++) {
+                    const x = fromSX(pad.left + i);
+                    if (x < 0) continue;
+                    const y = Math.sqrt(x);
+                    const sy = toSY(y);
+                    if (sy < pad.top - 50 || sy > h - pad.bottom + 50) { s = false; continue; }
+                    if (!s) { ctx.moveTo(pad.left + i, sy); s = true; } else ctx.lineTo(pad.left + i, sy);
+                }
+                ctx.strokeStyle = '#818cf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.font = 'bold 13px system-ui';
+                ctx.fillStyle = '#818cf8';
+                ctx.textAlign = 'left';
+                ctx.fillText('f\u207B\u00B9(x) = \u221Ax', toSX(5) + 8, toSY(Math.sqrt(5)));
+            }
+
+            // Labels
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = '#38bdf8';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('f(x) = x\u00B2', pad.left + 8, pad.top + 6);
+
+            // Show example: y=4 has two inputs
+            if (!showRestriction) {
+                const yVal = 4;
+                const sy = toSY(yVal);
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = '#ef444480';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, sy); ctx.lineTo(w - pad.right, sy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Two intersection dots
+                ctx.beginPath();
+                ctx.arc(toSX(2), sy, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(toSX(-2), sy, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#a855f7';
+                ctx.fill();
+
+                ctx.font = 'bold 12px Courier New';
+                ctx.fillStyle = '#ef4444';
+                ctx.textAlign = 'left';
+                ctx.fillText('x = 2', toSX(2) + 10, sy);
+                ctx.fillStyle = '#a855f7';
+                ctx.textAlign = 'right';
+                ctx.fillText('x = -2', toSX(-2) - 10, sy);
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'right';
+                ctx.fillText('y = 4 \u2190 two x values!', w - pad.right - 4, sy - 12);
+            }
+        }
+
+        // ---- Section 3: Square problem slider ----
+        document.getElementById('squareProblemY').addEventListener('input', () => {
+            const y = parseFloat(document.getElementById('squareProblemY').value);
+            document.getElementById('squareProblemYVal').textContent = y;
+            document.getElementById('sqOut').textContent = y;
+            const r = Math.sqrt(y);
+            document.getElementById('sqPos').textContent = (Math.round(r * 100) / 100).toString();
+            document.getElementById('sqNeg').textContent = (Math.round(-r * 100) / 100).toString();
+        });
+
+        // ---- Section 4: Cosine graph ----
+        function drawCosGraph() {
+            const canvas = document.getElementById('learnCosGraph');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const cosVal = parseFloat(document.getElementById('cosValueSlider').value);
+
+            const pad = { left: 50, right: 20, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+            const midY = pad.top + ph / 2;
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let v = -1; v <= 1; v++) {
+                const y = midY - v * (ph / 2);
+                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+            }
+
+            // x-axis labels in degrees: 0 to 720
+            ctx.font = '11px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            for (let deg = 0; deg <= 720; deg += 90) {
+                const x = pad.left + (deg / 720) * pw;
+                ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, h - pad.bottom);
+                ctx.strokeStyle = '#1e293b'; ctx.stroke();
+                ctx.fillText(deg + '\u00B0', x, h - pad.bottom + 6);
+            }
+
+            // y labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('1', pad.left - 8, pad.top);
+            ctx.fillText('0', pad.left - 8, midY);
+            ctx.fillText('-1', pad.left - 8, h - pad.bottom);
+
+            // Axis
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(pad.left, midY); ctx.lineTo(w - pad.right, midY); ctx.stroke();
+
+            // Highlight 0-180 region
+            const x0 = pad.left;
+            const x180 = pad.left + (180 / 720) * pw;
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.06)';
+            ctx.fillRect(x0, pad.top, x180 - x0, ph);
+            ctx.font = '11px system-ui';
+            ctx.fillStyle = '#38bdf860';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('arccos range', (x0 + x180) / 2, pad.top + 16);
+
+            // Cosine curve
+            ctx.beginPath();
+            for (let i = 0; i <= pw; i++) {
+                const deg = (i / pw) * 720;
+                const rad = toRad(deg);
+                const y = midY - Math.cos(rad) * (ph / 2);
+                if (i === 0) ctx.moveTo(pad.left + i, y); else ctx.lineTo(pad.left + i, y);
+            }
+            ctx.strokeStyle = COL_COS;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.font = 'bold 13px system-ui';
+            ctx.fillStyle = COL_COS;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('cos(\u03B8)', pad.left + 8, pad.top + 4);
+
+            // Horizontal line at cosVal
+            const lineY = midY - cosVal * (ph / 2);
+            ctx.setLineDash([6, 4]);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, lineY);
+            ctx.lineTo(w - pad.right, lineY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.font = 'bold 12px Courier New';
+            ctx.fillStyle = '#ef4444';
+            ctx.textAlign = 'right';
+            ctx.fillText(`y = ${cosVal.toFixed(2)}`, w - pad.right - 4, lineY - 8);
+
+            // Find intersections
+            const intersections = [];
+            for (let deg = 0; deg <= 720; deg += 0.5) {
+                const c = Math.cos(toRad(deg));
+                const cNext = Math.cos(toRad(deg + 0.5));
+                if ((c - cosVal) * (cNext - cosVal) <= 0) {
+                    // Linear interpolation
+                    const t = (cosVal - c) / (cNext - c);
+                    intersections.push(deg + t * 0.5);
+                }
+            }
+
+            // Draw intersection dots
+            intersections.forEach((deg, idx) => {
+                const x = pad.left + (deg / 720) * pw;
+                const isInArccosRange = deg >= -0.5 && deg <= 180.5;
+                ctx.beginPath();
+                ctx.arc(x, lineY, 8, 0, Math.PI * 2);
+                ctx.fillStyle = isInArccosRange ? '#fbbf24' : '#ef4444';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.font = 'bold 11px system-ui';
+                ctx.fillStyle = isInArccosRange ? '#fbbf24' : '#ef4444';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                const label = isInArccosRange ? `${Math.round(deg)}\u00B0 \u2190 arccos picks this!` : `${Math.round(deg)}\u00B0`;
+                ctx.fillText(label, x, lineY - 12);
+            });
+        }
+
+        document.getElementById('cosValueSlider').addEventListener('input', () => {
+            const v = parseFloat(document.getElementById('cosValueSlider').value);
+            document.getElementById('cosValueDisplay').textContent = v.toFixed(2);
+            drawCosGraph();
+        });
+
+        // ---- Section 4: Arccos machine + graph ----
+        function updateArccosDemo() {
+            const v = parseFloat(document.getElementById('arccosInput').value);
+            document.getElementById('arccosInputVal').textContent = v.toFixed(2);
+            document.getElementById('arccosInVal').textContent = v.toFixed(2);
+            const angle = toDeg(Math.acos(v));
+            document.getElementById('arccosOutVal').textContent = angle.toFixed(1) + '\u00B0';
+            drawArccosGraph();
+        }
+        document.getElementById('arccosInput').addEventListener('input', updateArccosDemo);
+
+        function drawArccosGraph() {
+            const canvas = document.getElementById('learnArccosGraph');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const inputVal = parseFloat(document.getElementById('arccosInput').value);
+
+            const pad = { left: 50, right: 30, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+
+            const xMin = -1.2, xMax = 1.2;
+            const yMin = -10, yMax = 200;
+
+            function toSX(x) { return pad.left + ((x - xMin) / (xMax - xMin)) * pw; }
+            function toSY(y) { return pad.top + ((yMax - y) / (yMax - yMin)) * ph; }
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let y = 0; y <= 180; y += 30) {
+                const sy = toSY(y);
+                ctx.beginPath(); ctx.moveTo(pad.left, sy); ctx.lineTo(w - pad.right, sy); ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(pad.left, toSY(0)); ctx.lineTo(w - pad.right, toSY(0)); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(toSX(0), pad.top); ctx.lineTo(toSX(0), h - pad.bottom); ctx.stroke();
+
+            // x-axis labels
+            ctx.font = '11px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            [-1, -0.5, 0, 0.5, 1].forEach(x => {
+                ctx.fillText(x, toSX(x), toSY(0) + 4);
+            });
+
+            // y-axis labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let y = 0; y <= 180; y += 30) {
+                ctx.fillText(y + '\u00B0', pad.left - 6, toSY(y));
+            }
+
+            // arccos curve
+            ctx.beginPath();
+            let started = false;
+            for (let i = 0; i <= pw; i++) {
+                const x = xMin + (i / pw) * (xMax - xMin);
+                if (x < -1 || x > 1) { started = false; continue; }
+                const y = toDeg(Math.acos(x));
+                const sy = toSY(y);
+                if (!started) { ctx.moveTo(pad.left + i, sy); started = true; }
+                else ctx.lineTo(pad.left + i, sy);
+            }
+            ctx.strokeStyle = '#818cf8';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = '#818cf8';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('arccos(x)', pad.left + 8, pad.top + 6);
+
+            // Axis labels
+            ctx.font = 'bold 12px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText('cosine value (input)', pad.left + pw / 2, h - pad.bottom + 22);
+            ctx.save();
+            ctx.translate(14, pad.top + ph / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('angle (output)', 0, 0);
+            ctx.restore();
+
+            // Current value
+            if (inputVal >= -1 && inputVal <= 1) {
+                const angle = toDeg(Math.acos(inputVal));
+                const sx = toSX(inputVal);
+                const sy = toSY(angle);
+
+                // Crosshair
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = '#fbbf2460';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(sx, toSY(0)); ctx.lineTo(sx, sy); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(toSX(xMin), sy); ctx.lineTo(sx, sy); ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Dot
+                ctx.beginPath();
+                ctx.arc(sx, sy, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#fbbf24';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.font = 'bold 12px Courier New';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'left';
+                ctx.fillText(`arccos(${inputVal.toFixed(2)}) = ${angle.toFixed(1)}\u00B0`, sx + 14, sy - 4);
+            }
+        }
+
+        // ===== PRACTICE PROBLEMS =====
+        let practiceInitialized = false;
+        let practiceDifficulty = 'easy';
+        let practiceStats = { correct: 0, wrong: 0, streak: 0, best: 0 };
+        let currentProblem = null;
+        let answered = false;
+
+        function setDifficulty(d) {
+            practiceDifficulty = d;
+            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('diff' + d.charAt(0).toUpperCase() + d.slice(1)).classList.add('active');
+            nextProblem();
+        }
+
+        function updatePracticeUI() {
+            document.getElementById('practiceCorrect').textContent = practiceStats.correct;
+            document.getElementById('practiceWrong').textContent = practiceStats.wrong;
+            document.getElementById('practiceStreak').textContent = practiceStats.streak;
+            const pct = Math.min(100, (practiceStats.streak / 10) * 100);
+            document.getElementById('streakFill').style.width = pct + '%';
+        }
+
+        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        // ---- Diagram drawing ----
+        function drawProblemDiagram() {
+            const canvas = document.getElementById('problemDiagram');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+            if (!currentProblem || !currentProblem.drawDiagram) {
+                canvas.style.display = 'none';
+                return;
+            }
+            canvas.style.display = 'block';
+            currentProblem.drawDiagram(ctx, w, h);
+        }
+
+        // Helper: draw a right triangle with labels
+        function drawRightTriangle(ctx, w, h, opts) {
+            const { angle, opp, adj, hyp, highlightSide, showAngle, labelAngle } = opts;
+            const pad = 50;
+            const triW = Math.min(w - pad * 2, 320);
+            const triH = Math.min(h - pad * 2, 200);
+            const bx = pad + 20;
+            const by = h - pad;
+            const tx = bx + triW;
+            const ty = by;
+            const apex = { x: bx, y: by - triH };
+
+            // Triangle fill
+            ctx.beginPath();
+            ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.lineTo(apex.x, apex.y); ctx.closePath();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+            ctx.fill();
+
+            // Sides
+            const sides = [
+                { from: {x:bx, y:by}, to: {x:tx, y:ty}, label: adj, name: 'adj', color: '#38bdf8' },
+                { from: {x:bx, y:by}, to: apex, label: opp, name: 'opp', color: '#ef4444' },
+                { from: {x:tx, y:ty}, to: apex, label: hyp, name: 'hyp', color: '#a855f7' },
+            ];
+            sides.forEach(s => {
+                const isHL = highlightSide === s.name;
+                ctx.beginPath();
+                ctx.moveTo(s.from.x, s.from.y);
+                ctx.lineTo(s.to.x, s.to.y);
+                ctx.strokeStyle = isHL ? '#fbbf24' : s.color;
+                ctx.lineWidth = isHL ? 4 : 2.5;
+                ctx.stroke();
+
+                // Label
+                const mx = (s.from.x + s.to.x) / 2;
+                const my = (s.from.y + s.to.y) / 2;
+                ctx.font = `bold ${isHL ? 16 : 14}px system-ui`;
+                ctx.fillStyle = isHL ? '#fbbf24' : s.color;
+                if (s.name === 'adj') {
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+                    ctx.fillText(s.label, mx, my + 8);
+                } else if (s.name === 'opp') {
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                    ctx.fillText(s.label, mx - 10, my);
+                } else {
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                    ctx.fillText(s.label, mx + 10, my);
+                }
+            });
+
+            // Right angle marker
+            const sq = 14;
+            ctx.beginPath();
+            ctx.moveTo(bx + sq, by);
+            ctx.lineTo(bx + sq, by - sq);
+            ctx.lineTo(bx, by - sq);
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Angle arc at bottom-right
+            if (showAngle) {
+                const angleRad = Math.atan2(triH, triW);
+                ctx.beginPath();
+                ctx.arc(tx, ty, 30, Math.PI, Math.PI + angleRad, false);
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+                ctx.font = 'bold 15px system-ui';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillText(labelAngle || '\u03B8', tx - 36, ty - 22);
+            }
+
+            // Question mark on highlighted side
+            if (highlightSide) {
+                const s = sides.find(s => s.name === highlightSide);
+                const mx = (s.from.x + s.to.x) / 2;
+                const my = (s.from.y + s.to.y) / 2;
+                ctx.font = 'bold 22px system-ui';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                if (highlightSide === 'adj') ctx.fillText('?', mx, my + 28);
+                else if (highlightSide === 'opp') ctx.fillText('?', mx - 28, my);
+                else ctx.fillText('?', mx + 28, my);
+            }
+        }
+
+        // Helper: draw unit circle with angle
+        function drawUnitCircleDiagram(ctx, w, h, opts) {
+            const { angleDeg, fn, showValue, highlightArc } = opts;
+            const cx = w / 2;
+            const cy = h / 2;
+            const r = Math.min(w, h) * 0.34;
+            const angleRad = toRad(angleDeg);
+
+            // Circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(cx - r - 20, cy); ctx.lineTo(cx + r + 20, cy);
+            ctx.moveTo(cx, cy - r - 20); ctx.lineTo(cx, cy + r + 20);
+            ctx.stroke();
+
+            // Axis labels
+            ctx.font = '12px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText('1', cx + r, cy + 6);
+            ctx.fillText('-1', cx - r, cy + 6);
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.fillText('1', cx + 6, cy - r);
+            ctx.fillText('-1', cx + 6, cy + r);
+
+            const px = cx + r * Math.cos(angleRad);
+            const py = cy - r * Math.sin(angleRad);
+            const fx = px;
+            const fy = cy;
+
+            // Triangle
+            ctx.beginPath();
+            ctx.moveTo(cx, cy); ctx.lineTo(fx, fy); ctx.lineTo(px, py); ctx.closePath();
+            ctx.fillStyle = 'rgba(168, 85, 247, 0.06)';
+            ctx.fill();
+
+            // cos side (horizontal)
+            ctx.beginPath();
+            ctx.moveTo(cx, cy); ctx.lineTo(fx, cy);
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // sin side (vertical)
+            ctx.beginPath();
+            ctx.moveTo(fx, cy); ctx.lineTo(px, py);
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // hyp
+            ctx.beginPath();
+            ctx.moveTo(cx, cy); ctx.lineTo(px, py);
+            ctx.strokeStyle = '#a855f7';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Angle arc
+            ctx.beginPath();
+            if (angleDeg >= 0) {
+                ctx.arc(cx, cy, 30, 0, -angleRad, true);
+            } else {
+                ctx.arc(cx, cy, 30, 0, -angleRad, false);
+            }
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Angle label
+            ctx.font = 'bold 15px system-ui';
+            ctx.fillStyle = '#fbbf24';
+            const labelR = angleRad / 2;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(angleDeg + '\u00B0', cx + 38 * Math.cos(labelR), cy - 38 * Math.sin(labelR));
+
+            // Point
+            ctx.beginPath();
+            ctx.arc(px, py, 7, 0, Math.PI * 2);
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fill();
+            ctx.strokeStyle = '#a855f7';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Highlight which value we're asking about
+            if (fn === 'sin' || fn === 'cos') {
+                const sinA = Math.sin(angleRad);
+                const cosA = Math.cos(angleRad);
+                ctx.font = 'bold 13px Courier New, monospace';
+                if (fn === 'sin') {
+                    ctx.fillStyle = '#ef4444';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('sin = ?', fx + 10, (cy + py) / 2);
+                    // Show cos value as given
+                    ctx.fillStyle = '#38bdf880';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText('cos = ' + cosA.toFixed(3), (cx + fx) / 2, cy + 8);
+                } else {
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText('cos = ?', (cx + fx) / 2, cy + 8);
+                    // Show sin value as given
+                    ctx.fillStyle = '#ef444480';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('sin = ' + sinA.toFixed(3), fx + 10, (cy + py) / 2);
+                }
+            }
+
+            if (fn === 'tan') {
+                const sinA = Math.sin(angleRad);
+                const cosA = Math.cos(angleRad);
+                ctx.font = 'bold 13px Courier New, monospace';
+                ctx.fillStyle = '#ef444480';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('sin = ' + sinA.toFixed(3), fx + 10, (cy + py) / 2);
+                ctx.fillStyle = '#38bdf880';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText('cos = ' + cosA.toFixed(3), (cx + fx) / 2, cy + 8);
+                ctx.font = 'bold 14px system-ui';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillText('tan = sin/cos = ?', w - 20, 14);
+            }
+
+            // For inverse: show the horizontal line
+            if (highlightArc) {
+                // Shade the restricted range
+                ctx.beginPath();
+                if (fn === 'arccos') {
+                    ctx.arc(cx, cy, r, 0, -Math.PI, true);
+                } else if (fn === 'arcsin') {
+                    ctx.arc(cx, cy, r, -Math.PI/2, Math.PI/2, true);
+                }
+                ctx.strokeStyle = '#818cf840';
+                ctx.lineWidth = 8;
+                ctx.stroke();
+                ctx.font = '11px system-ui';
+                ctx.fillStyle = '#818cf8';
+                ctx.textAlign = 'center';
+                if (fn === 'arccos') {
+                    ctx.fillText('arccos range (0\u00B0\u2013180\u00B0)', cx, cy - r - 14);
+                } else if (fn === 'arcsin') {
+                    ctx.fillText('arcsin range (-90\u00B0\u201390\u00B0)', cx + r + 10, cy);
+                }
+            }
+
+            // Coordinate at point
+            ctx.font = '12px system-ui';
+            ctx.fillStyle = '#e2e8f0';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'bottom';
+            const cosA = Math.cos(angleRad);
+            const sinA = Math.sin(angleRad);
+            ctx.fillText(`(${cosA.toFixed(2)}, ${sinA.toFixed(2)})`, px + 12, py - 6);
+        }
+
+        // Helper: draw a triangle with given sides for SOH-CAH-TOA problems
+        function drawSidesTriangle(ctx, w, h, opts) {
+            const { opp, adj, hyp, angleDeg, askSide, askFn } = opts;
+            const pad = 50;
+            const scale = Math.min((w - pad * 2) / hyp, (h - pad * 2) / opp, 40);
+            const drawAdj = adj * scale;
+            const drawOpp = opp * scale;
+            const bx = (w - drawAdj) / 2;
+            const by = h - pad;
+
+            // Bottom-left, bottom-right, top-left
+            const A = { x: bx, y: by };
+            const B = { x: bx + drawAdj, y: by };
+            const C = { x: bx, y: by - drawOpp };
+
+            // Fill
+            ctx.beginPath();
+            ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.closePath();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+            ctx.fill();
+
+            // Sides
+            const sideData = [
+                { from: A, to: B, val: adj, name: 'adj', color: '#38bdf8', labelPos: 'bottom' },
+                { from: A, to: C, val: opp, name: 'opp', color: '#ef4444', labelPos: 'left' },
+                { from: B, to: C, val: hyp, name: 'hyp', color: '#a855f7', labelPos: 'right' },
+            ];
+
+            sideData.forEach(s => {
+                const isAsk = s.name === askSide;
+                ctx.beginPath();
+                ctx.moveTo(s.from.x, s.from.y); ctx.lineTo(s.to.x, s.to.y);
+                ctx.strokeStyle = isAsk ? '#fbbf24' : s.color;
+                ctx.lineWidth = isAsk ? 4 : 2.5;
+                ctx.stroke();
+
+                const mx = (s.from.x + s.to.x) / 2;
+                const my = (s.from.y + s.to.y) / 2;
+                ctx.font = `bold ${isAsk ? 16 : 14}px system-ui`;
+                ctx.fillStyle = isAsk ? '#fbbf24' : s.color;
+                const label = isAsk ? '?' : s.val.toString();
+                if (s.labelPos === 'bottom') {
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+                    ctx.fillText(label, mx, my + 8);
+                } else if (s.labelPos === 'left') {
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                    ctx.fillText(label, mx - 10, my);
+                } else {
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                    ctx.fillText(label, mx + 10, my);
+                }
+            });
+
+            // Right angle
+            const sq = 14;
+            ctx.beginPath();
+            ctx.moveTo(A.x + sq, A.y); ctx.lineTo(A.x + sq, A.y - sq); ctx.lineTo(A.x, A.y - sq);
+            ctx.strokeStyle = COL_AXIS; ctx.lineWidth = 1.5; ctx.stroke();
+
+            // Angle at B
+            ctx.beginPath();
+            const angRad = Math.atan2(drawOpp, drawAdj);
+            ctx.arc(B.x, B.y, 28, Math.PI, Math.PI + angRad, false);
+            ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.stroke();
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = '#fbbf24';
+            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+            ctx.fillText(angleDeg + '\u00B0', B.x - 34, B.y - 22);
+
+            // Formula hint at top
+            if (askFn) {
+                ctx.font = 'bold 14px Courier New, monospace';
+                ctx.fillStyle = '#94a3b8';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(askFn, w / 2, 14);
+            }
+        }
+
+        // ---- Problem generators ----
+        function generateProblem() {
+            const d = practiceDifficulty;
+            const types = [];
+            if (d === 'easy') types.push('tri_find_side', 'unit_circle_sin', 'unit_circle_cos', 'tri_find_angle', 'quadrant', 'word_easy');
+            if (d === 'medium') types.push('unit_circle_tan', 'inverse_basic', 'tri_harder', 'reference_angle', 'unit_circle_big', 'word_medium');
+            if (d === 'hard') types.push('inverse_exact', 'inverse_negative', 'tri_word', 'identity_fill', 'compose');
+            return genByType(pick(types));
+        }
+
+        function genByType(type) {
+            switch (type) {
+                case 'word_easy': return genWordEasy();
+                case 'word_medium': return genWordMedium();
+                case 'tri_find_side': return genTriFindSide();
+                case 'unit_circle_sin': return genUnitCircle('sin');
+                case 'unit_circle_cos': return genUnitCircle('cos');
+                case 'unit_circle_tan': return genUnitCircle('tan');
+                case 'tri_find_angle': return genTriFindAngle();
+                case 'quadrant': return genQuadrant();
+                case 'inverse_basic': return genInverseBasic();
+                case 'tri_harder': return genTriHarder();
+                case 'reference_angle': return genReferenceAngle();
+                case 'unit_circle_big': return genUnitCircle('sin', true);
+                case 'inverse_exact': return genInverseExact();
+                case 'inverse_negative': return genInverseNegative();
+                case 'tri_word': return genTriWord();
+                case 'identity_fill': return genIdentityFill();
+                case 'compose': return genCompose();
+                default: return genTriFindSide();
+            }
+        }
+
+        // Easy: Find missing side of right triangle
+        function genTriFindSide() {
+            const angles = [30, 45, 60];
+            const deg = pick(angles);
+            const hyp = pick([5, 8, 10, 12, 13, 15, 20]);
+            const rad = toRad(deg);
+            const opp = Math.round(hyp * Math.sin(rad) * 100) / 100;
+            const adj = Math.round(hyp * Math.cos(rad) * 100) / 100;
+            const askWhich = pick(['opp', 'adj']);
+            const correctVal = askWhich === 'opp' ? opp : adj;
+
+            return {
+                type: 'Find the Missing Side',
+                question: `Find the ${askWhich === 'opp' ? 'opposite' : 'adjacent'} side.`,
+                correctNum: correctVal,
+                tolerance: 0.1,
+                unit: '',
+                hint: askWhich === 'opp'
+                    ? `sin(${deg}\u00B0) = opposite / hypotenuse. So opposite = hyp \u00D7 sin(${deg}\u00B0).`
+                    : `cos(${deg}\u00B0) = adjacent / hypotenuse. So adjacent = hyp \u00D7 cos(${deg}\u00B0).`,
+                explanation: askWhich === 'opp'
+                    ? `opposite = ${hyp} \u00D7 sin(${deg}\u00B0) = ${hyp} \u00D7 ${Math.sin(rad).toFixed(4)} = <strong>${correctVal}</strong>`
+                    : `adjacent = ${hyp} \u00D7 cos(${deg}\u00B0) = ${hyp} \u00D7 ${Math.cos(rad).toFixed(4)} = <strong>${correctVal}</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawSidesTriangle(ctx, w, h, {
+                        opp: askWhich === 'opp' ? '?' : opp,
+                        adj: askWhich === 'adj' ? '?' : adj,
+                        hyp, angleDeg: deg,
+                        askSide: askWhich,
+                        askFn: askWhich === 'opp' ? `sin(${deg}\u00B0) = opp / ${hyp}` : `cos(${deg}\u00B0) = adj / ${hyp}`
+                    });
+                }
+            };
+        }
+
+        // Easy: unit circle sin/cos
+        function genUnitCircle(fn, bigAngle) {
+            const easyDegs = [30, 45, 60];
+            const bigDegs = [120, 135, 150, 210, 225, 240, 300, 315, 330];
+            const deg = bigAngle ? pick(bigDegs) : pick(easyDegs);
+            const rad = toRad(deg);
+            let correctVal;
+            if (fn === 'sin') correctVal = Math.round(Math.sin(rad) * 10000) / 10000;
+            else if (fn === 'cos') correctVal = Math.round(Math.cos(rad) * 10000) / 10000;
+            else correctVal = Math.abs(Math.cos(rad)) < 0.001 ? null : Math.round(Math.tan(rad) * 10000) / 10000;
+
+            if (correctVal === null) return genUnitCircle(fn, bigAngle); // avoid tan(90)
+
+            return {
+                type: fn === 'tan' ? 'Tangent' : 'Unit Circle',
+                question: `${fn}(${deg}\u00B0) = ?`,
+                correctNum: correctVal,
+                tolerance: 0.01,
+                unit: '',
+                hint: fn === 'sin' ? `sin is the y-coordinate of the point on the unit circle at ${deg}\u00B0.`
+                    : fn === 'cos' ? `cos is the x-coordinate of the point on the unit circle at ${deg}\u00B0.`
+                    : `tan = sin / cos. Calculate sin(${deg}\u00B0) / cos(${deg}\u00B0).`,
+                explanation: `On the unit circle at ${deg}\u00B0: <strong>${fn}(${deg}\u00B0) = ${correctVal}</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawUnitCircleDiagram(ctx, w, h, { angleDeg: deg, fn });
+                }
+            };
+        }
+
+        // Easy: find angle from triangle sides
+        function genTriFindAngle() {
+            const triples = [
+                { opp: 3, adj: 4, hyp: 5 },
+                { opp: 5, adj: 12, hyp: 13 },
+                { opp: 8, adj: 6, hyp: 10 },
+                { opp: 7, adj: 24, hyp: 25 },
+            ];
+            const t = pick(triples);
+            const angleDeg = Math.round(toDeg(Math.atan2(t.opp, t.adj)) * 10) / 10;
+            const useFn = pick(['sin', 'cos', 'tan']);
+            let hintText;
+            if (useFn === 'sin') hintText = `\u03B8 = arcsin(opp/hyp) = arcsin(${t.opp}/${t.hyp})`;
+            else if (useFn === 'cos') hintText = `\u03B8 = arccos(adj/hyp) = arccos(${t.adj}/${t.hyp})`;
+            else hintText = `\u03B8 = arctan(opp/adj) = arctan(${t.opp}/${t.adj})`;
+
+            return {
+                type: 'Find the Angle',
+                question: `Find angle \u03B8 (in degrees). Round to 1 decimal.`,
+                correctNum: angleDeg,
+                tolerance: 0.2,
+                unit: '\u00B0',
+                hint: `Use an inverse trig function: ${hintText}`,
+                explanation: `\u03B8 = arctan(${t.opp}/${t.adj}) = <strong>${angleDeg}\u00B0</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawSidesTriangle(ctx, w, h, {
+                        opp: t.opp, adj: t.adj, hyp: t.hyp,
+                        angleDeg: '?', askSide: null,
+                        askFn: 'Find \u03B8'
+                    });
+                }
+            };
+        }
+
+        // Easy: quadrant identification
+        function genQuadrant() {
+            const angle = pick([35, 100, 135, 200, 225, 280, 315, 350]);
+            let correctQ;
+            if (angle < 90) correctQ = 1;
+            else if (angle < 180) correctQ = 2;
+            else if (angle < 270) correctQ = 3;
+            else correctQ = 4;
+
+            return {
+                type: 'Quadrants',
+                question: `${angle}\u00B0 is in which quadrant? (Type 1, 2, 3, or 4)`,
+                correctNum: correctQ,
+                tolerance: 0,
+                unit: '',
+                hint: 'Q1: 0\u00B0\u201390\u00B0, Q2: 90\u00B0\u2013180\u00B0, Q3: 180\u00B0\u2013270\u00B0, Q4: 270\u00B0\u2013360\u00B0',
+                explanation: `${angle}\u00B0 is in <strong>Quadrant ${correctQ}</strong>.`,
+                drawDiagram: (ctx, w, h) => {
+                    drawUnitCircleDiagram(ctx, w, h, { angleDeg: angle, fn: 'none' });
+                }
+            };
+        }
+
+        // Medium: inverse basic
+        function genInverseBasic() {
+            const fn = pick(['arcsin', 'arccos']);
+            const pairs = fn === 'arcsin'
+                ? [{v: 0.5, a: 30}, {v: Math.SQRT2/2, a: 45}, {v: Math.sqrt(3)/2, a: 60}, {v: 1, a: 90}, {v: 0, a: 0}]
+                : [{v: 1, a: 0}, {v: Math.sqrt(3)/2, a: 30}, {v: Math.SQRT2/2, a: 45}, {v: 0.5, a: 60}, {v: 0, a: 90}];
+            const pair = pick(pairs);
+            const inputDisplay = Math.round(pair.v * 10000) / 10000;
+
+            return {
+                type: 'Inverse Trig',
+                question: `${fn}(${inputDisplay}) = ? (in degrees)`,
+                correctNum: pair.a,
+                tolerance: 0.5,
+                unit: '\u00B0',
+                hint: fn === 'arcsin'
+                    ? `arcsin asks: which angle between -90\u00B0 and 90\u00B0 has sin = ${inputDisplay}?`
+                    : `arccos asks: which angle between 0\u00B0 and 180\u00B0 has cos = ${inputDisplay}?`,
+                explanation: `<strong>${fn}(${inputDisplay}) = ${pair.a}\u00B0</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawUnitCircleDiagram(ctx, w, h, { angleDeg: pair.a, fn: fn, highlightArc: true });
+                }
+            };
+        }
+
+        // Medium: harder triangle
+        function genTriHarder() {
+            const deg = pick([25, 35, 40, 50, 55, 65, 70]);
+            const givenSide = pick(['opp', 'adj']);
+            const givenVal = pick([6, 8, 10, 14, 18]);
+            const rad = toRad(deg);
+            let hyp, opp, adj, correctVal, question, explanation;
+
+            if (givenSide === 'opp') {
+                opp = givenVal;
+                hyp = Math.round(opp / Math.sin(rad) * 100) / 100;
+                adj = Math.round(opp / Math.tan(rad) * 100) / 100;
+                correctVal = hyp;
+                question = 'Find the hypotenuse.';
+                explanation = `hyp = opp / sin(${deg}\u00B0) = ${opp} / ${Math.sin(rad).toFixed(4)} = <strong>${hyp}</strong>`;
+            } else {
+                adj = givenVal;
+                hyp = Math.round(adj / Math.cos(rad) * 100) / 100;
+                opp = Math.round(adj * Math.tan(rad) * 100) / 100;
+                correctVal = opp;
+                question = 'Find the opposite side.';
+                explanation = `opp = adj \u00D7 tan(${deg}\u00B0) = ${adj} \u00D7 ${Math.tan(rad).toFixed(4)} = <strong>${opp}</strong>`;
+            }
+
+            return {
+                type: 'Triangle Problem',
+                question,
+                correctNum: correctVal,
+                tolerance: 0.2,
+                unit: '',
+                hint: givenSide === 'opp'
+                    ? `sin(${deg}\u00B0) = ${opp} / hyp. Solve for hyp.`
+                    : `tan(${deg}\u00B0) = opp / ${adj}. Solve for opp.`,
+                explanation,
+                drawDiagram: (ctx, w, h) => {
+                    drawSidesTriangle(ctx, w, h, {
+                        opp: givenSide === 'opp' ? opp : '?',
+                        adj: givenSide === 'adj' ? adj : Math.round(adj * 100) / 100,
+                        hyp: givenSide === 'opp' ? '?' : Math.round(hyp * 100) / 100,
+                        angleDeg: deg,
+                        askSide: givenSide === 'opp' ? 'hyp' : 'opp',
+                        askFn: givenSide === 'opp' ? `sin(${deg}\u00B0) = ${opp} / hyp` : `tan(${deg}\u00B0) = opp / ${adj}`
+                    });
+                }
+            };
+        }
+
+        // Medium: reference angle
+        function genReferenceAngle() {
+            const angle = pick([120, 135, 150, 210, 225, 240, 300, 315, 330]);
+            let ref;
+            if (angle <= 180) ref = 180 - angle;
+            else if (angle <= 270) ref = angle - 180;
+            else ref = 360 - angle;
+
+            return {
+                type: 'Reference Angles',
+                question: `Reference angle for ${angle}\u00B0 = ? (in degrees)`,
+                correctNum: ref,
+                tolerance: 0,
+                unit: '\u00B0',
+                hint: 'Q2: 180\u00B0\u2212\u03B8, Q3: \u03B8\u2212180\u00B0, Q4: 360\u00B0\u2212\u03B8',
+                explanation: `Reference angle for ${angle}\u00B0 = <strong>${ref}\u00B0</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    // Draw unit circle showing the angle and its reference angle
+                    drawUnitCircleDiagram(ctx, w, h, { angleDeg: angle, fn: 'none' });
+                    // Add ref angle arc
+                    const rad = toRad(angle);
+                    const cx = w / 2, cy = h / 2, r = Math.min(w, h) * 0.34;
+                    const refRad = toRad(ref);
+                    ctx.setLineDash([4, 3]);
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    if (angle <= 180) {
+                        ctx.arc(cx, cy, 22, -Math.PI, -Math.PI + refRad, false);
+                    } else if (angle <= 270) {
+                        ctx.arc(cx, cy, 22, 0, refRad, true);
+                    } else {
+                        ctx.arc(cx, cy, 22, 0, -refRad, true);
+                    }
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.font = 'bold 12px system-ui';
+                    ctx.fillStyle = '#10b981';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText('ref = ?', cx, h - 10);
+                }
+            };
+        }
+
+        // Hard: inverse with negative values
+        function genInverseNegative() {
+            const problems = [
+                { q: 'arccos(-0.5)', a: 120 },
+                { q: 'arcsin(-0.5)', a: -30 },
+                { q: 'arccos(-\u221A2/2)', aNum: 135, a: 135 },
+                { q: 'arcsin(-\u221A3/2)', a: -60 },
+                { q: 'arctan(-1)', a: -45 },
+            ];
+            const p = pick(problems);
+            const isArccos = p.q.startsWith('arccos');
+
+            return {
+                type: 'Inverse Trig (Negative)',
+                question: `${p.q} = ? (in degrees)`,
+                correctNum: p.a,
+                tolerance: 0.5,
+                unit: '\u00B0',
+                hint: isArccos
+                    ? 'arccos returns 0\u00B0 to 180\u00B0. For negative values, the answer is in Q2 (90\u00B0\u2013180\u00B0).'
+                    : 'arcsin/arctan return -90\u00B0 to 90\u00B0. For negative values, the answer is negative.',
+                explanation: `<strong>${p.q} = ${p.a}\u00B0</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawUnitCircleDiagram(ctx, w, h, {
+                        angleDeg: p.a,
+                        fn: isArccos ? 'arccos' : p.q.startsWith('arcsin') ? 'arcsin' : 'none',
+                        highlightArc: true
+                    });
+                }
+            };
+        }
+
+        // Hard: inverse exact
+        function genInverseExact() {
+            const p = pick([
+                { q: 'arccos(\u221A3/2)', a: 30, fn: 'arccos' },
+                { q: 'arcsin(\u221A2/2)', a: 45, fn: 'arcsin' },
+                { q: 'arctan(\u221A3)', a: 60, fn: 'arctan' },
+                { q: 'arccos(-1)', a: 180, fn: 'arccos' },
+                { q: 'arcsin(-1)', a: -90, fn: 'arcsin' },
+            ]);
+            return {
+                type: 'Inverse Trig (Exact)',
+                question: `${p.q} = ? (in degrees)`,
+                correctNum: p.a,
+                tolerance: 0.5,
+                unit: '\u00B0',
+                hint: `Think: which angle in the restricted range has this value?`,
+                explanation: `<strong>${p.q} = ${p.a}\u00B0</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    drawUnitCircleDiagram(ctx, w, h, {
+                        angleDeg: p.a,
+                        fn: p.fn,
+                        highlightArc: true
+                    });
+                }
+            };
+        }
+
+        // Hard: word problem with triangle
+        // ---- Scene drawing helpers for word problems ----
+        function drawGround(ctx, w, h, y) {
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, y); ctx.lineTo(w, y);
+            ctx.stroke();
+            // grass ticks
+            ctx.strokeStyle = '#22c55e40';
+            ctx.lineWidth = 1;
+            for (let x = 10; x < w; x += 15) {
+                ctx.beginPath();
+                ctx.moveTo(x, y); ctx.lineTo(x - 4, y + 6);
+                ctx.stroke();
+            }
+        }
+
+        function drawPerson(ctx, x, y, scale) {
+            const s = scale || 1;
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            // head
+            ctx.beginPath();
+            ctx.arc(x, y - 28 * s, 6 * s, 0, Math.PI * 2);
+            ctx.stroke();
+            // body
+            ctx.beginPath();
+            ctx.moveTo(x, y - 22 * s); ctx.lineTo(x, y - 6 * s);
+            ctx.stroke();
+            // legs
+            ctx.beginPath();
+            ctx.moveTo(x, y - 6 * s); ctx.lineTo(x - 6 * s, y);
+            ctx.moveTo(x, y - 6 * s); ctx.lineTo(x + 6 * s, y);
+            ctx.stroke();
+            // arms
+            ctx.beginPath();
+            ctx.moveTo(x - 8 * s, y - 16 * s); ctx.lineTo(x + 8 * s, y - 16 * s);
+            ctx.stroke();
+        }
+
+        function drawTree(ctx, x, groundY, height) {
+            // trunk
+            ctx.fillStyle = '#92400e';
+            ctx.fillRect(x - 5, groundY - height * 0.35, 10, height * 0.35);
+            // canopy
+            ctx.beginPath();
+            ctx.moveTo(x, groundY - height);
+            ctx.lineTo(x - height * 0.3, groundY - height * 0.3);
+            ctx.lineTo(x + height * 0.3, groundY - height * 0.3);
+            ctx.closePath();
+            ctx.fillStyle = '#166534';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(x, groundY - height * 0.85);
+            ctx.lineTo(x - height * 0.35, groundY - height * 0.2);
+            ctx.lineTo(x + height * 0.35, groundY - height * 0.2);
+            ctx.closePath();
+            ctx.fillStyle = '#15803d';
+            ctx.fill();
+        }
+
+        function drawBuilding(ctx, x, groundY, bw, bh) {
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(x, groundY - bh, bw, bh);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(x, groundY - bh, bw, bh);
+            // windows
+            ctx.fillStyle = '#fbbf2440';
+            const rows = Math.floor(bh / 30);
+            const cols = Math.floor(bw / 25);
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    ctx.fillRect(x + 8 + c * 25, groundY - bh + 10 + r * 30, 12, 15);
+                }
+            }
+        }
+
+        function drawSun(ctx, x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, 18, 0, Math.PI * 2);
+            ctx.fillStyle = '#fbbf24';
+            ctx.fill();
+            ctx.strokeStyle = '#fbbf2460';
+            ctx.lineWidth = 2;
+            for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+                ctx.beginPath();
+                ctx.moveTo(x + 22 * Math.cos(a), y + 22 * Math.sin(a));
+                ctx.lineTo(x + 30 * Math.cos(a), y + 30 * Math.sin(a));
+                ctx.stroke();
+            }
+        }
+
+        function drawLadder(ctx, x1, y1, x2, y2, rungs) {
+            const dx = x2 - x1, dy = y2 - y1;
+            const len = Math.sqrt(dx * dx + dy * dy);
+            const nx = -dy / len * 6, ny = dx / len * 6;
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2.5;
+            // rails
+            ctx.beginPath();
+            ctx.moveTo(x1 + nx, y1 + ny); ctx.lineTo(x2 + nx, y2 + ny);
+            ctx.moveTo(x1 - nx, y1 - ny); ctx.lineTo(x2 - nx, y2 - ny);
+            ctx.stroke();
+            // rungs
+            ctx.lineWidth = 1.5;
+            for (let i = 1; i < rungs; i++) {
+                const t = i / rungs;
+                const rx = x1 + dx * t, ry = y1 + dy * t;
+                ctx.beginPath();
+                ctx.moveTo(rx + nx, ry + ny); ctx.lineTo(rx - nx, ry - ny);
+                ctx.stroke();
+            }
+        }
+
+        function drawKite(ctx, x, y) {
+            ctx.beginPath();
+            ctx.moveTo(x, y - 14); ctx.lineTo(x + 10, y); ctx.lineTo(x, y + 18); ctx.lineTo(x - 10, y); ctx.closePath();
+            ctx.fillStyle = '#ef4444';
+            ctx.fill();
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            // tail
+            ctx.beginPath();
+            ctx.moveTo(x, y + 18);
+            ctx.quadraticCurveTo(x + 8, y + 28, x - 4, y + 36);
+            ctx.strokeStyle = '#818cf8';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+
+        function drawBoat(ctx, x, y) {
+            ctx.beginPath();
+            ctx.moveTo(x - 20, y); ctx.lineTo(x - 14, y + 10); ctx.lineTo(x + 14, y + 10); ctx.lineTo(x + 20, y);
+            ctx.closePath();
+            ctx.fillStyle = '#1e3a5f';
+            ctx.fill();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            // mast
+            ctx.beginPath();
+            ctx.moveTo(x, y); ctx.lineTo(x, y - 24);
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            // sail
+            ctx.beginPath();
+            ctx.moveTo(x, y - 22); ctx.lineTo(x + 14, y - 6); ctx.lineTo(x, y - 4);
+            ctx.fillStyle = '#f1f5f980';
+            ctx.fill();
+        }
+
+        function drawMountain(ctx, x, groundY, mh, mw) {
+            ctx.beginPath();
+            ctx.moveTo(x - mw / 2, groundY);
+            ctx.lineTo(x, groundY - mh);
+            ctx.lineTo(x + mw / 2, groundY);
+            ctx.closePath();
+            ctx.fillStyle = '#334155';
+            ctx.fill();
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            // snow cap
+            ctx.beginPath();
+            ctx.moveTo(x - mw * 0.08, groundY - mh * 0.85);
+            ctx.lineTo(x, groundY - mh);
+            ctx.lineTo(x + mw * 0.08, groundY - mh * 0.85);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fill();
+        }
+
+        function drawAngleArc(ctx, cx, cy, startRad, endRad, r, label) {
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, startRad, endRad, endRad < startRad);
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            if (label) {
+                const mid = (startRad + endRad) / 2;
+                ctx.font = 'bold 13px system-ui';
+                ctx.fillStyle = '#fbbf24';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(label, cx + (r + 14) * Math.cos(mid), cy + (r + 14) * Math.sin(mid));
+            }
+        }
+
+        function drawDimLine(ctx, x1, y1, x2, y2, label, color, side) {
+            ctx.strokeStyle = color || '#38bdf8';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.font = 'bold 13px system-ui';
+            ctx.fillStyle = color || '#38bdf8';
+            const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+            if (side === 'left') { ctx.textAlign = 'right'; ctx.fillText(label, mx - 8, my); }
+            else if (side === 'right') { ctx.textAlign = 'left'; ctx.fillText(label, mx + 8, my); }
+            else if (side === 'above') { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(label, mx, my - 6); }
+            else { ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText(label, mx, my + 6); }
+        }
+
+        function drawQuestionLabel(ctx, x, y, label) {
+            ctx.font = 'bold 16px system-ui';
+            ctx.fillStyle = '#fbbf24';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(label, x, y);
+        }
+
+        // ---- Easy word problems ----
+        function genWordEasy() {
+            const problems = [
+                genWordShadow,
+                genWordKite,
+                genWordSlide,
+                genWordFlagpole,
+            ];
+            return pick(problems)();
+        }
+
+        function genWordShadow() {
+            const poleH = pick([5, 6, 8, 10, 12]);
+            const sunAngle = pick([30, 40, 45, 50, 55, 60]);
+            const rad = toRad(sunAngle);
+            const shadow = Math.round(poleH / Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A ${poleH}m tall pole casts a shadow. The sun is at ${sunAngle}\u00B0 above the horizon. How long is the shadow? Round to 2 decimals.`,
+                correctNum: shadow,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `tan(sun angle) = pole height / shadow length. Solve for shadow.`,
+                explanation: `shadow = ${poleH} / tan(${sunAngle}\u00B0) = ${poleH} / ${Math.tan(rad).toFixed(4)} = <strong>${shadow}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    drawSun(ctx, w - 60, 40);
+                    // pole
+                    const poleX = w * 0.35;
+                    const poleTop = gy - 150;
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
+                    ctx.beginPath(); ctx.moveTo(poleX, gy); ctx.lineTo(poleX, poleTop); ctx.stroke();
+                    // shadow on ground
+                    const shadowEnd = poleX + 160;
+                    ctx.strokeStyle = '#47556980'; ctx.lineWidth = 6;
+                    ctx.beginPath(); ctx.moveTo(poleX, gy); ctx.lineTo(shadowEnd, gy); ctx.stroke();
+                    // sun ray (hypotenuse)
+                    ctx.setLineDash([6, 4]);
+                    ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(shadowEnd, gy); ctx.lineTo(poleX, poleTop); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // labels
+                    drawDimLine(ctx, poleX - 6, gy, poleX - 6, poleTop, poleH + 'm', '#ef4444', 'left');
+                    drawQuestionLabel(ctx, (poleX + shadowEnd) / 2, gy + 20, '? m');
+                    drawAngleArc(ctx, shadowEnd, gy, Math.PI, Math.PI + Math.atan2(150, 160), 28, sunAngle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordKite() {
+            const stringLen = pick([30, 40, 50, 60, 80]);
+            const angle = pick([35, 40, 45, 50, 55, 60, 65]);
+            const rad = toRad(angle);
+            const height = Math.round(stringLen * Math.sin(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A kite is on a ${stringLen}m string at ${angle}\u00B0 above horizontal. How high is the kite? Round to 2 decimals.`,
+                correctNum: height,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `sin(angle) = height / string length. So height = string \u00D7 sin(angle).`,
+                explanation: `height = ${stringLen} \u00D7 sin(${angle}\u00B0) = ${stringLen} \u00D7 ${Math.sin(rad).toFixed(4)} = <strong>${height}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    const personX = w * 0.25;
+                    drawPerson(ctx, personX, gy, 1);
+                    // string
+                    const stringAngle = toRad(angle);
+                    const kiteX = personX + 200 * Math.cos(stringAngle);
+                    const kiteY = gy - 34 - 200 * Math.sin(stringAngle);
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(personX, gy - 30); ctx.lineTo(kiteX, kiteY); ctx.stroke();
+                    drawKite(ctx, kiteX, kiteY);
+                    // string length label
+                    const smx = (personX + kiteX) / 2, smy = (gy - 30 + kiteY) / 2;
+                    ctx.font = 'bold 13px system-ui'; ctx.fillStyle = '#a855f7';
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+                    ctx.fillText(stringLen + 'm', smx - 8, smy);
+                    // height dashed line
+                    ctx.setLineDash([4, 3]); ctx.strokeStyle = '#ef444480'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(kiteX, kiteY); ctx.lineTo(kiteX, gy); ctx.stroke();
+                    ctx.setLineDash([]);
+                    drawQuestionLabel(ctx, kiteX + 20, (kiteY + gy) / 2, '? m');
+                    // angle arc
+                    drawAngleArc(ctx, personX, gy - 30, 0, -stringAngle, 30, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordSlide() {
+            const slideLen = pick([3, 4, 5, 6]);
+            const angle = pick([30, 35, 40, 45, 50]);
+            const rad = toRad(angle);
+            const height = Math.round(slideLen * Math.sin(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A playground slide is ${slideLen}m long and makes a ${angle}\u00B0 angle with the ground. How high is the top of the slide? Round to 2 decimals.`,
+                correctNum: height,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `sin(angle) = height / slide length.`,
+                explanation: `height = ${slideLen} \u00D7 sin(${angle}\u00B0) = <strong>${height}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    const bx = w * 0.25, by = gy;
+                    const slideH = 150;
+                    const slideW = slideH / Math.tan(toRad(angle));
+                    const topX = bx, topY = by - slideH;
+                    const bottomX = bx + slideW, bottomY = by;
+                    // slide structure
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(topX, topY); ctx.lineTo(topX, by); ctx.stroke(); // vertical support
+                    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 4;
+                    ctx.beginPath(); ctx.moveTo(topX, topY); ctx.lineTo(bottomX, bottomY); ctx.stroke(); // slide surface
+                    // labels
+                    const smx = (topX + bottomX) / 2, smy = (topY + bottomY) / 2;
+                    ctx.font = 'bold 13px system-ui'; ctx.fillStyle = '#38bdf8';
+                    ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+                    ctx.fillText(slideLen + 'm', smx + 8, smy);
+                    drawDimLine(ctx, topX - 10, by, topX - 10, topY, '?', '#fbbf24', 'left');
+                    drawAngleArc(ctx, bottomX, by, Math.PI, Math.PI + toRad(angle), 28, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordFlagpole() {
+            const dist = pick([15, 20, 25, 30, 40]);
+            const angle = pick([25, 30, 35, 40, 50, 55]);
+            const rad = toRad(angle);
+            const height = Math.round(dist * Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `You stand ${dist}m from a flagpole. You look up at ${angle}\u00B0 to see the top. How tall is the flagpole? Round to 2 decimals.`,
+                correctNum: height,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `tan(angle) = height / distance. So height = distance \u00D7 tan(angle).`,
+                explanation: `height = ${dist} \u00D7 tan(${angle}\u00B0) = <strong>${height}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    const personX = w * 0.2;
+                    drawPerson(ctx, personX, gy, 1);
+                    const poleX = w * 0.75;
+                    const poleH = 160;
+                    // flagpole
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(poleX, gy); ctx.lineTo(poleX, gy - poleH); ctx.stroke();
+                    // flag
+                    ctx.fillStyle = '#ef444480';
+                    ctx.beginPath();
+                    ctx.moveTo(poleX, gy - poleH); ctx.lineTo(poleX + 24, gy - poleH + 8);
+                    ctx.lineTo(poleX, gy - poleH + 16); ctx.fill();
+                    // sight line
+                    ctx.setLineDash([5, 4]); ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(personX, gy - 28); ctx.lineTo(poleX, gy - poleH); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // distance
+                    drawDimLine(ctx, personX, gy + 6, poleX, gy + 6, dist + 'm', '#38bdf8', 'below');
+                    drawQuestionLabel(ctx, poleX + 24, gy - poleH / 2, '? m');
+                    // angle
+                    drawAngleArc(ctx, personX, gy - 28, 0, -toRad(angle), 35, angle + '\u00B0');
+                }
+            };
+        }
+
+        // ---- Medium word problems ----
+        function genWordMedium() {
+            const problems = [
+                genWordLadder,
+                genWordRiver,
+                genWordPlane,
+                genWordRamp,
+                genWordLighthouse,
+                genWordMountain,
+            ];
+            return pick(problems)();
+        }
+
+        function genWordLadder() {
+            const wallH = pick([4, 5, 6, 8, 10]);
+            const angle = pick([55, 60, 65, 70, 75]);
+            const rad = toRad(angle);
+            const ladderLen = Math.round(wallH / Math.sin(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A ladder must reach ${wallH}m up a wall. It makes a ${angle}\u00B0 angle with the ground. How long must the ladder be? Round to 2 decimals.`,
+                correctNum: ladderLen,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `sin(angle) = wall height / ladder length. Solve for ladder.`,
+                explanation: `ladder = ${wallH} / sin(${angle}\u00B0) = <strong>${ladderLen}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    // wall
+                    const wallX = w * 0.65;
+                    const wallTop = gy - 180;
+                    ctx.fillStyle = '#33415580';
+                    ctx.fillRect(wallX, wallTop - 20, 60, gy - wallTop + 20);
+                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(wallX, wallTop - 20); ctx.lineTo(wallX, gy); ctx.stroke();
+                    // ladder
+                    const footX = wallX - 80;
+                    drawLadder(ctx, footX, gy, wallX, wallTop, 8);
+                    // labels
+                    drawDimLine(ctx, wallX + 8, gy, wallX + 8, wallTop, wallH + 'm', '#ef4444', 'right');
+                    const lmx = (footX + wallX) / 2, lmy = (gy + wallTop) / 2;
+                    drawQuestionLabel(ctx, lmx - 20, lmy, '? m');
+                    drawAngleArc(ctx, footX, gy, 0, -toRad(angle), 28, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordRiver() {
+            const baseline = pick([20, 30, 40, 50]);
+            const angle = pick([35, 40, 45, 50, 55, 60]);
+            const rad = toRad(angle);
+            const riverW = Math.round(baseline * Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `To measure a river's width, you walk ${baseline}m along the bank, then sight a tree directly across. The angle is ${angle}\u00B0. How wide is the river? Round to 2 decimals.`,
+                correctNum: riverW,
+                tolerance: 0.15,
+                unit: 'm',
+                hint: `tan(angle) = river width / baseline distance.`,
+                explanation: `width = ${baseline} \u00D7 tan(${angle}\u00B0) = <strong>${riverW}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    // river
+                    ctx.fillStyle = '#0c4a6e40';
+                    ctx.fillRect(0, gy - 140, w, 90);
+                    ctx.strokeStyle = '#38bdf840'; ctx.lineWidth = 1;
+                    for (let x = 0; x < w; x += 30) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, gy - 100); ctx.quadraticCurveTo(x + 15, gy - 104, x + 30, gy - 100);
+                        ctx.stroke();
+                    }
+                    // banks
+                    drawGround(ctx, w, h, gy);
+                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(0, gy - 140); ctx.lineTo(w, gy - 140); ctx.stroke();
+                    // tree on far bank
+                    drawTree(ctx, w * 0.7, gy - 140, 60);
+                    // you on near bank
+                    const youX = w * 0.2;
+                    drawPerson(ctx, youX, gy, 0.8);
+                    // walk point
+                    const walkX = w * 0.7;
+                    ctx.beginPath(); ctx.arc(walkX, gy - 4, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#38bdf8'; ctx.fill();
+                    // baseline along bank
+                    drawDimLine(ctx, youX, gy + 8, walkX, gy + 8, baseline + 'm', '#38bdf8', 'below');
+                    // sight line
+                    ctx.setLineDash([5, 4]); ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(youX, gy - 28); ctx.lineTo(w * 0.7, gy - 140); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // river width
+                    drawQuestionLabel(ctx, w * 0.7 + 28, gy - 90, '? m');
+                    // angle
+                    drawAngleArc(ctx, youX, gy - 28, 0, -Math.atan2(112, walkX - youX), 32, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordPlane() {
+            const altitude = pick([5000, 8000, 10000, 12000]);
+            const angle = pick([20, 25, 30, 35, 40]);
+            const rad = toRad(angle);
+            const groundDist = Math.round(altitude / Math.tan(rad));
+            return {
+                type: 'Word Problem',
+                question: `A plane is at ${altitude}ft altitude. You see it at ${angle}\u00B0 above the horizon. How far away is it along the ground? Round to the nearest foot.`,
+                correctNum: groundDist,
+                tolerance: 5,
+                unit: 'ft',
+                hint: `tan(angle) = altitude / ground distance.`,
+                explanation: `ground dist = ${altitude} / tan(${angle}\u00B0) = <strong>${groundDist}ft</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    const personX = w * 0.15;
+                    drawPerson(ctx, personX, gy, 0.8);
+                    // plane
+                    const planeX = w * 0.78, planeY = 45;
+                    ctx.font = '28px system-ui';
+                    ctx.fillText('\u2708', planeX - 14, planeY + 10);
+                    // altitude line
+                    ctx.setLineDash([4, 3]); ctx.strokeStyle = '#ef444460'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(planeX, planeY + 14); ctx.lineTo(planeX, gy); ctx.stroke();
+                    ctx.setLineDash([]);
+                    drawDimLine(ctx, planeX + 8, planeY + 14, planeX + 8, gy, altitude + 'ft', '#ef4444', 'right');
+                    // sight line
+                    ctx.setLineDash([5, 4]); ctx.strokeStyle = '#fbbf2440'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(personX, gy - 28); ctx.lineTo(planeX, planeY); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // ground distance
+                    drawQuestionLabel(ctx, (personX + planeX) / 2, gy + 20, '? ft');
+                    drawAngleArc(ctx, personX, gy - 28, 0, -toRad(angle), 40, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordRamp() {
+            const rampLen = pick([8, 10, 12, 15, 20]);
+            const angle = pick([5, 8, 10, 12, 15]);
+            const rad = toRad(angle);
+            const rise = Math.round(rampLen * Math.sin(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A wheelchair ramp is ${rampLen}m long at ${angle}\u00B0. How high does it rise? Round to 2 decimals.`,
+                correctNum: rise,
+                tolerance: 0.05,
+                unit: 'm',
+                hint: `sin(angle) = rise / ramp length.`,
+                explanation: `rise = ${rampLen} \u00D7 sin(${angle}\u00B0) = <strong>${rise}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 50;
+                    drawGround(ctx, w, h, gy);
+                    const bx = w * 0.15;
+                    const rampW = w * 0.6;
+                    const rampH = rampW * Math.tan(toRad(angle)) * 2.5; // exaggerate for visibility
+                    const topX = bx + rampW, topY = gy - rampH;
+                    // ramp surface
+                    ctx.fillStyle = '#33415540';
+                    ctx.beginPath(); ctx.moveTo(bx, gy); ctx.lineTo(topX, topY); ctx.lineTo(topX, gy); ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(bx, gy); ctx.lineTo(topX, topY); ctx.stroke();
+                    // vertical side
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(topX, topY); ctx.lineTo(topX, gy); ctx.stroke();
+                    // platform at top
+                    ctx.fillStyle = '#334155';
+                    ctx.fillRect(topX, topY - 4, 50, gy - topY + 4);
+                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
+                    ctx.strokeRect(topX, topY - 4, 50, gy - topY + 4);
+                    // labels
+                    const smx = (bx + topX) / 2, smy = (gy + topY) / 2;
+                    ctx.font = 'bold 13px system-ui'; ctx.fillStyle = '#38bdf8';
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+                    ctx.fillText(rampLen + 'm', smx - 4, smy - 4);
+                    drawQuestionLabel(ctx, topX + 30, (topY + gy) / 2, '? m');
+                    drawAngleArc(ctx, bx, gy, 0, -Math.atan2(rampH, rampW), 40, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordLighthouse() {
+            const lightH = pick([25, 30, 40, 50, 60]);
+            const angle = pick([20, 25, 30, 35, 40, 45]);
+            const rad = toRad(angle);
+            const dist = Math.round(lightH / Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A ${lightH}m tall lighthouse shines down at a boat at ${angle}\u00B0 below horizontal. How far is the boat from the base? Round to 2 decimals.`,
+                correctNum: dist,
+                tolerance: 0.15,
+                unit: 'm',
+                hint: `This is an angle of depression. tan(angle) = lighthouse height / distance.`,
+                explanation: `distance = ${lightH} / tan(${angle}\u00B0) = <strong>${dist}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    // water
+                    ctx.fillStyle = '#0c4a6e30';
+                    ctx.fillRect(0, gy - 4, w, 44);
+                    ctx.strokeStyle = '#38bdf820'; ctx.lineWidth = 1;
+                    for (let x = 0; x < w; x += 25) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, gy); ctx.quadraticCurveTo(x + 12, gy - 3, x + 25, gy);
+                        ctx.stroke();
+                    }
+                    // lighthouse
+                    const lhX = w * 0.15;
+                    const lhTop = gy - 180;
+                    ctx.fillStyle = '#f1f5f9';
+                    ctx.beginPath();
+                    ctx.moveTo(lhX - 16, gy); ctx.lineTo(lhX - 10, lhTop + 10);
+                    ctx.lineTo(lhX + 10, lhTop + 10); ctx.lineTo(lhX + 16, gy);
+                    ctx.closePath(); ctx.fill();
+                    ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1;
+                    for (let y = lhTop + 30; y < gy; y += 30) {
+                        ctx.beginPath(); ctx.moveTo(lhX - 14 + (gy-y)/180*4, y); ctx.lineTo(lhX + 14 - (gy-y)/180*4, y); ctx.stroke();
+                    }
+                    // light housing
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.fillRect(lhX - 12, lhTop, 24, 12);
+                    // light beam
+                    ctx.setLineDash([6, 4]); ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 2;
+                    const boatX = w * 0.75;
+                    ctx.beginPath(); ctx.moveTo(lhX + 12, lhTop + 6); ctx.lineTo(boatX, gy); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // horizontal from top
+                    ctx.setLineDash([3, 3]); ctx.strokeStyle = '#94a3b840'; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(lhX + 12, lhTop + 6); ctx.lineTo(boatX + 20, lhTop + 6); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // boat
+                    drawBoat(ctx, boatX, gy - 4);
+                    // labels
+                    drawDimLine(ctx, lhX - 22, gy, lhX - 22, lhTop, lightH + 'm', '#ef4444', 'left');
+                    drawQuestionLabel(ctx, (lhX + boatX) / 2, gy + 20, '? m');
+                    // angle of depression
+                    drawAngleArc(ctx, lhX + 12, lhTop + 6, 0, Math.atan2(gy - lhTop - 6, boatX - lhX - 12), 32, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordMountain() {
+            const dist = pick([500, 800, 1000, 1500, 2000]);
+            const angle = pick([20, 25, 30, 35, 40]);
+            const rad = toRad(angle);
+            const mHeight = Math.round(dist * Math.tan(rad));
+            return {
+                type: 'Word Problem',
+                question: `From ${dist}m away, you measure the angle to a mountain peak as ${angle}\u00B0. How tall is the mountain? Round to the nearest meter.`,
+                correctNum: mHeight,
+                tolerance: 2,
+                unit: 'm',
+                hint: `tan(angle) = mountain height / distance.`,
+                explanation: `height = ${dist} \u00D7 tan(${angle}\u00B0) = <strong>${mHeight}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    drawMountain(ctx, w * 0.7, gy, 170, 200);
+                    const personX = w * 0.12;
+                    drawPerson(ctx, personX, gy, 0.8);
+                    // sight line
+                    ctx.setLineDash([5, 4]); ctx.strokeStyle = '#fbbf2440'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(personX, gy - 28); ctx.lineTo(w * 0.7, gy - 170); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // height
+                    drawQuestionLabel(ctx, w * 0.7 + 30, gy - 85, '? m');
+                    // distance
+                    drawDimLine(ctx, personX, gy + 8, w * 0.7, gy + 8, dist + 'm', '#38bdf8', 'below');
+                    drawAngleArc(ctx, personX, gy - 28, 0, -toRad(angle), 38, angle + '\u00B0');
+                }
+            };
+        }
+
+        // ---- Hard word problems (expanded) ----
+        function genTriWord() {
+            const problems = [
+                genWordLadder,
+                genWordRiver,
+                genWordPlane,
+                genWordLighthouse,
+                genWordMountain,
+                genWordCliff,
+                genWordBridge,
+                genWordSatellite,
+            ];
+            return pick(problems)();
+        }
+
+        function genWordCliff() {
+            const cliffH = pick([40, 50, 60, 80, 100]);
+            const depAngle = pick([25, 30, 35, 40, 45, 50]);
+            const rad = toRad(depAngle);
+            const dist = Math.round(cliffH / Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `From the top of a ${cliffH}m cliff, you look down at a boat at a ${depAngle}\u00B0 angle of depression. How far is the boat from the base of the cliff? Round to 2 decimals.`,
+                correctNum: dist,
+                tolerance: 0.15,
+                unit: 'm',
+                hint: `Angle of depression = angle at the top. tan(angle) = cliff height / distance.`,
+                explanation: `distance = ${cliffH} / tan(${depAngle}\u00B0) = <strong>${dist}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    // water
+                    ctx.fillStyle = '#0c4a6e25';
+                    ctx.fillRect(0, gy - 4, w, 44);
+                    // cliff
+                    const cliffX = w * 0.2;
+                    const cliffTop = gy - 180;
+                    ctx.fillStyle = '#44403c';
+                    ctx.beginPath();
+                    ctx.moveTo(0, cliffTop); ctx.lineTo(cliffX, cliffTop);
+                    ctx.lineTo(cliffX + 10, gy); ctx.lineTo(0, gy); ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#78716c'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(0, cliffTop); ctx.lineTo(cliffX, cliffTop);
+                    ctx.lineTo(cliffX + 10, gy); ctx.stroke();
+                    // person on cliff
+                    drawPerson(ctx, cliffX - 14, cliffTop, 0.7);
+                    // boat
+                    const boatX = w * 0.75;
+                    drawBoat(ctx, boatX, gy - 4);
+                    // sight line
+                    ctx.setLineDash([5, 4]); ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(cliffX - 6, cliffTop - 18); ctx.lineTo(boatX, gy - 4); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // horizontal reference
+                    ctx.setLineDash([3, 3]); ctx.strokeStyle = '#94a3b830'; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(cliffX - 6, cliffTop - 18); ctx.lineTo(boatX + 20, cliffTop - 18); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // labels
+                    drawDimLine(ctx, cliffX + 16, gy, cliffX + 16, cliffTop, cliffH + 'm', '#ef4444', 'right');
+                    drawQuestionLabel(ctx, (cliffX + boatX) / 2, gy + 20, '? m');
+                    drawAngleArc(ctx, cliffX - 6, cliffTop - 18, 0, Math.atan2(gy - cliffTop + 14, boatX - cliffX + 6), 30, depAngle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordBridge() {
+            const span = pick([40, 60, 80, 100, 120]);
+            const angle = pick([5, 8, 10, 12, 15]);
+            const rad = toRad(angle);
+            const rise = Math.round((span / 2) * Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A bridge spans ${span}m. Its roadway rises at ${angle}\u00B0 from each end to the center. How high is the center above the ends? Round to 2 decimals.`,
+                correctNum: rise,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `The triangle goes from one end to the center. The base is half the span. tan(angle) = rise / (span/2).`,
+                explanation: `rise = (${span}/2) \u00D7 tan(${angle}\u00B0) = ${span/2} \u00D7 ${Math.tan(rad).toFixed(4)} = <strong>${rise}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 50;
+                    // water under bridge
+                    ctx.fillStyle = '#0c4a6e20';
+                    ctx.fillRect(0, gy, w, 50);
+                    // bridge abutments
+                    const lx = w * 0.1, rx = w * 0.9;
+                    const cx = w / 2;
+                    const bridgeRise = 50;
+                    ctx.fillStyle = '#44403c';
+                    ctx.fillRect(lx - 10, gy - 20, 20, 70);
+                    ctx.fillRect(rx - 10, gy - 20, 20, 70);
+                    // bridge roadway
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(lx, gy - 20); ctx.lineTo(cx, gy - 20 - bridgeRise); ctx.lineTo(rx, gy - 20);
+                    ctx.stroke();
+                    // road surface
+                    ctx.fillStyle = '#33415580';
+                    ctx.beginPath();
+                    ctx.moveTo(lx, gy - 20); ctx.lineTo(cx, gy - 20 - bridgeRise); ctx.lineTo(rx, gy - 20);
+                    ctx.lineTo(rx, gy - 14); ctx.lineTo(cx, gy - 14 - bridgeRise); ctx.lineTo(lx, gy - 14);
+                    ctx.closePath(); ctx.fill();
+                    // span label
+                    drawDimLine(ctx, lx, gy + 14, rx, gy + 14, span + 'm', '#38bdf8', 'below');
+                    // half span
+                    ctx.setLineDash([3, 3]); ctx.strokeStyle = '#94a3b840'; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(cx, gy - 20 - bridgeRise); ctx.lineTo(cx, gy - 14); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // rise question
+                    drawQuestionLabel(ctx, cx + 20, gy - 20 - bridgeRise / 2, '? m');
+                    // angle
+                    drawAngleArc(ctx, lx, gy - 20, 0, -Math.atan2(bridgeRise, cx - lx), 40, angle + '\u00B0');
+                }
+            };
+        }
+
+        function genWordSatellite() {
+            const dishDist = pick([3, 4, 5, 6]);
+            const elevAngle = pick([25, 30, 35, 40, 45, 50, 55]);
+            const rad = toRad(elevAngle);
+            const poleH = Math.round(dishDist * Math.tan(rad) * 100) / 100;
+            return {
+                type: 'Word Problem',
+                question: `A satellite dish must point at ${elevAngle}\u00B0 above horizontal. The dish is on a pole ${dishDist}m from a building. How high on the building does the signal hit? Round to 2 decimals.`,
+                correctNum: poleH,
+                tolerance: 0.1,
+                unit: 'm',
+                hint: `tan(angle) = height / distance.`,
+                explanation: `height = ${dishDist} \u00D7 tan(${elevAngle}\u00B0) = <strong>${poleH}m</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    const gy = h - 40;
+                    drawGround(ctx, w, h, gy);
+                    // building
+                    const bx = w * 0.65;
+                    drawBuilding(ctx, bx, gy, 80, 200);
+                    // dish pole
+                    const dishX = w * 0.25;
+                    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(dishX, gy); ctx.lineTo(dishX, gy - 30); ctx.stroke();
+                    // dish
+                    ctx.beginPath();
+                    ctx.arc(dishX, gy - 36, 14, Math.PI * 0.8, Math.PI * 0.2, true);
+                    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.stroke();
+                    // signal line
+                    const hitY = gy - 140;
+                    ctx.setLineDash([6, 4]); ctx.strokeStyle = '#fbbf2460'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(dishX + 10, gy - 38); ctx.lineTo(bx, hitY); ctx.stroke();
+                    ctx.setLineDash([]);
+                    // target point
+                    ctx.beginPath(); ctx.arc(bx, hitY, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fbbf24'; ctx.fill();
+                    // labels
+                    drawDimLine(ctx, dishX, gy + 8, bx, gy + 8, dishDist + 'm', '#38bdf8', 'below');
+                    drawQuestionLabel(ctx, bx + 50, (hitY + gy) / 2, '? m');
+                    drawAngleArc(ctx, dishX + 10, gy - 38, 0, -toRad(elevAngle), 35, elevAngle + '\u00B0');
+                }
+            };
+        }
+
+        // Hard: fill in identity
+        function genIdentityFill() {
+            const p = pick([
+                { q: 'sin\u00B2(\u03B8) + cos\u00B2(\u03B8) = ?', a: 1 },
+                { q: 'If sin(\u03B8) = 0.6 and cos(\u03B8) = 0.8, what is tan(\u03B8)?', a: 0.75 },
+                { q: 'If sin(\u03B8) = 3/5 = 0.6, what is cos\u00B2(\u03B8)?', a: 0.64 },
+            ]);
+            return {
+                type: 'Trig Identity',
+                question: p.q,
+                correctNum: p.a,
+                tolerance: 0.01,
+                unit: '',
+                hint: 'sin\u00B2 + cos\u00B2 = 1, and tan = sin/cos.',
+                explanation: `Answer: <strong>${p.a}</strong>`,
+                drawDiagram: (ctx, w, h) => {
+                    // Draw the identity visually on unit circle with theta
+                    const deg = p.a === 1 ? 40 : (p.a === 0.75 ? toDeg(Math.asin(0.6)) : toDeg(Math.asin(0.6)));
+                    drawUnitCircleDiagram(ctx, w, h, { angleDeg: deg, fn: 'none' });
+                    ctx.font = 'bold 16px Courier New, monospace';
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(p.q.replace(' = ?', ' = ?'), w / 2, 10);
+                }
+            };
+        }
+
+        // Hard: compose function with inverse
+        function genCompose() {
+            const p = pick([
+                { q: 'cos(arccos(0.3)) = ?', a: 0.3 },
+                { q: 'sin(arcsin(0.7)) = ?', a: 0.7 },
+                { q: 'arcsin(sin(30\u00B0)) = ? (degrees)', a: 30 },
+                { q: 'arccos(cos(45\u00B0)) = ? (degrees)', a: 45 },
+            ]);
+            const isDeg = p.q.includes('degrees');
+            return {
+                type: 'Composing Functions',
+                question: p.q,
+                correctNum: p.a,
+                tolerance: isDeg ? 0.5 : 0.01,
+                unit: isDeg ? '\u00B0' : '',
+                hint: 'A function composed with its inverse cancels out (when the value is in the right range).',
+                explanation: `<strong>${p.q.replace(' = ?', '').replace(' (degrees)','')} = ${p.a}${isDeg ? '\u00B0' : ''}</strong>. The function and its inverse cancel each other.`,
+                drawDiagram: (ctx, w, h) => {
+                    // Show machine diagram
+                    const cx = w / 2, cy = h / 2;
+                    ctx.font = 'bold 20px system-ui';
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p.q.replace(' = ?', '').replace(' (degrees)',''), cx, cy - 40);
+                    ctx.fillText('= ?', cx, cy + 10);
+
+                    // Arrow showing cancellation
+                    ctx.font = '14px system-ui';
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.fillText('f( f\u207B\u00B9(x) ) = x', cx, cy + 60);
+                    ctx.fillText('A function and its inverse undo each other', cx, cy + 85);
+                }
+            };
+        }
+
+        // ---- Answer checking ----
+        function parseAnswer(text) {
+            text = text.trim().replace(/\u00B0/g, '').replace(/degrees?/gi, '').trim();
+            // Handle fractions like 3/5
+            if (text.includes('/')) {
+                const parts = text.split('/');
+                if (parts.length === 2) {
+                    const num = parseFloat(parts[0]);
+                    const den = parseFloat(parts[1]);
+                    if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den;
+                }
+            }
+            return parseFloat(text);
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            const input = document.getElementById('answerInput');
+            const val = parseAnswer(input.value);
+            if (isNaN(val)) {
+                input.style.borderColor = '#f59e0b';
+                input.placeholder = 'Enter a number...';
+                return;
+            }
+
+            answered = true;
+            const correct = Math.abs(val - currentProblem.correctNum) <= currentProblem.tolerance;
+
+            if (correct) {
+                input.classList.add('correct');
+                practiceStats.correct++;
+                practiceStats.streak++;
+                if (practiceStats.streak > practiceStats.best) practiceStats.best = practiceStats.streak;
+            } else {
+                input.classList.add('wrong');
+                practiceStats.wrong++;
+                practiceStats.streak = 0;
+                const disp = document.getElementById('correctAnswerDisplay');
+                disp.textContent = 'Correct answer: ' + currentProblem.correctNum + currentProblem.unit;
+                disp.classList.add('visible');
+            }
+
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('problemExplanation').innerHTML = currentProblem.explanation;
+            document.getElementById('problemExplanation').classList.add('visible');
+            document.getElementById('hintBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = '';
+            updatePracticeUI();
+        }
+
+        function nextProblem() {
+            answered = false;
+            currentProblem = generateProblem();
+            document.getElementById('problemType').textContent = currentProblem.type;
+            document.getElementById('problemQuestion').textContent = currentProblem.question;
+            document.getElementById('problemHint').textContent = currentProblem.hint;
+            document.getElementById('problemHint').classList.remove('visible');
+            document.getElementById('problemExplanation').classList.remove('visible');
+            document.getElementById('correctAnswerDisplay').classList.remove('visible');
+            document.getElementById('hintBtn').style.display = '';
+            document.getElementById('nextBtn').style.display = 'none';
+            const input = document.getElementById('answerInput');
+            input.value = '';
+            input.className = '';
+            input.placeholder = 'Type your answer...';
+            document.getElementById('checkBtn').disabled = false;
+            document.getElementById('answerUnit').textContent = currentProblem.unit;
+            drawProblemDiagram();
+        }
+
+        // Enter key submits answer
+        document.getElementById('answerInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                if (answered) nextProblem();
+                else checkAnswer();
+            }
+        });
+
+        function showHint() {
+            document.getElementById('problemHint').classList.add('visible');
+        }
+
+        function skipProblem() {
+            practiceStats.streak = 0;
+            updatePracticeUI();
+            nextProblem();
+        }
+
+        // ---- Init all learning canvases ----
+        function initLearningCanvases() {
+            requestAnimationFrame(() => {
+                if (currentLearnSection === 1) { drawFuncGraph(); }
+                if (currentLearnSection === 2) { drawInverseGraph(); }
+                if (currentLearnSection === 3) { drawRestrictGraph(); }
+                if (currentLearnSection === 4) { drawCosGraph(); drawArccosGraph(); }
+            });
         }
 
         // ===== INIT =====
@@ -897,6 +4037,9 @@
         window.addEventListener('resize', () => {
             drawUnitCircle();
             redraw();
+            if (document.getElementById('tab-learning').classList.contains('active')) {
+                initLearningCanvases();
+            }
         });
     </script>
 </body>
