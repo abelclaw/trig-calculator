@@ -1974,6 +1974,7 @@
     <script src="geometry.js"></script>
     <script src="quadrilaterals.js"></script>
     <script src="algebra2.js"></script>
+    <script src="review.js"></script>
     <script>
         // ===== TAB SWITCHING =====
         function switchTab(tab) {
@@ -5180,11 +5181,13 @@
                 ctx.strokeStyle = '#fbbf24';
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
+                // Position label at bisector of angle arc
+                const bisect = Math.PI + angleRad / 2;
                 ctx.font = 'bold 15px system-ui';
                 ctx.fillStyle = '#fbbf24';
-                ctx.textAlign = 'right';
-                ctx.textBaseline = 'top';
-                ctx.fillText(labelAngle || '\u03B8', tx - 36, ty - 22);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(labelAngle || '\u03B8', tx + 44 * Math.cos(bisect), ty + 44 * Math.sin(bisect));
             }
 
             // Question mark on highlighted side
@@ -5440,10 +5443,12 @@
             const angRad = Math.atan2(drawOpp, drawAdj);
             ctx.arc(B.x, B.y, 28, Math.PI, Math.PI + angRad, false);
             ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.stroke();
+            // Position label at bisector of angle arc
+            const angBisect = Math.PI + angRad / 2;
             ctx.font = 'bold 14px system-ui';
             ctx.fillStyle = '#fbbf24';
-            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
-            ctx.fillText(angleDeg + '\u00B0', B.x - 34, B.y - 22);
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(angleDeg + '\u00B0', B.x + 42 * Math.cos(angBisect), B.y + 42 * Math.sin(angBisect));
 
             // Formula hint at top
             if (askFn) {

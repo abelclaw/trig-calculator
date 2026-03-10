@@ -334,7 +334,7 @@ function drawIsosceles(ctx, w, h, opts) {
             const px = v[vi].x * w, py = v[vi].y * h;
             const dx = cx - px, dy = cy - py;
             const len = Math.sqrt(dx * dx + dy * dy);
-            ctx.fillText(baseAngleLabel, px + dx / len * 28, py + dy / len * 22);
+            ctx.fillText(baseAngleLabel, px + dx / len * 26, py + dy / len * 26);
         }
     }
     if (vertexAngleLabel) {
@@ -1161,13 +1161,26 @@ const MEDIUM_PROBLEMS = [
                 // Exterior angle arc
                 ctx.beginPath();
                 const bx = pts[1].x * w, by = pts[1].y * h;
-                ctx.arc(bx, by, 24, -Math.atan2(pts[1].y - pts[2].y, pts[2].x - pts[1].x) - Math.PI, 0);
+                const extStart = -Math.atan2(pts[1].y - pts[2].y, pts[2].x - pts[1].x) - Math.PI;
+                ctx.arc(bx, by, 24, extStart, 0);
                 ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.stroke();
+                // Position '?' at bisector of exterior angle arc
+                const extBisect = extStart / 2;
                 ctx.font = 'bold 14px system-ui'; ctx.fillStyle = '#fbbf24';
-                ctx.textAlign = 'left'; ctx.fillText('?', bx + 28, by - 14);
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText('?', bx + 36 * Math.cos(extBisect), by + 36 * Math.sin(extBisect));
+                // Interior angle labels - position toward triangle centroid
+                const triCx = (pts[0].x + pts[1].x + pts[2].x) / 3 * w;
+                const triCy = (pts[0].y + pts[1].y + pts[2].y) / 3 * h;
                 ctx.font = 'bold 13px system-ui';
-                ctx.fillStyle = '#ef4444'; ctx.textAlign = 'left'; ctx.fillText(a + '\u00B0', pts[0].x * w + 26, pts[0].y * h - 14);
-                ctx.fillStyle = '#38bdf8'; ctx.textAlign = 'right'; ctx.fillText(b + '\u00B0', pts[1].x * w - 30, pts[1].y * h - 14);
+                const aDx = triCx - pts[0].x * w, aDy = triCy - pts[0].y * h;
+                const aLen = Math.sqrt(aDx * aDx + aDy * aDy);
+                ctx.fillStyle = '#ef4444'; ctx.textAlign = 'center';
+                ctx.fillText(a + '\u00B0', pts[0].x * w + aDx / aLen * 30, pts[0].y * h + aDy / aLen * 24);
+                const bDx = triCx - pts[1].x * w, bDy = triCy - pts[1].y * h;
+                const bLen = Math.sqrt(bDx * bDx + bDy * bDy);
+                ctx.fillStyle = '#38bdf8';
+                ctx.fillText(b + '\u00B0', pts[1].x * w + bDx / bLen * 30, pts[1].y * h + bDy / bLen * 24);
             }
         };
     },
@@ -1935,10 +1948,13 @@ const HARD_PROBLEMS = [
             ctx.font = 'bold 14px system-ui'; ctx.fillStyle = '#fbbf24';
             ctx.textAlign = 'left'; ctx.fillText('D', 0.88 * w + 4, B.y * h);
             // Exterior angle arc
+            const extS2 = -Math.atan2(B.y - C.y, C.x - B.x) - Math.PI;
             ctx.beginPath();
-            ctx.arc(B.x * w, B.y * h, 22, -Math.atan2(B.y - C.y, C.x - B.x) - Math.PI, 0);
+            ctx.arc(B.x * w, B.y * h, 22, extS2, 0);
             ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.stroke();
-            ctx.fillStyle = '#fbbf24'; ctx.fillText('\u2220ACD', B.x * w + 28, B.y * h - 16);
+            const extB2 = extS2 / 2;
+            ctx.fillStyle = '#fbbf24'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('\u2220ACD', B.x * w + 34 * Math.cos(extB2), B.y * h + 34 * Math.sin(extB2));
         }
     }),
     // Two-column proof: prove diagonals of parallelogram bisect each other
