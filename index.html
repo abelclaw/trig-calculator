@@ -880,6 +880,7 @@
 <body>
     <div class="banner-wrapper">
         <img src="banner.png" alt="ChalGeo Banner" class="banner-img">
+        <div onclick="hardRefresh()" style="position:absolute; top:0; right:0; width:50px; height:50px; cursor:pointer; z-index:10;"></div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('learning')">Learning</button>
             <button class="tab-btn" onclick="switchTab('review')">Review</button>
@@ -1974,10 +1975,18 @@
     </div>
 
     <script src="geometry.js?v=2"></script>
-    <script src="quadrilaterals.js?v=2"></script>
-    <script src="algebra2.js?v=2"></script>
-    <script src="review.js?v=3"></script>
+    <script src="quadrilaterals.js?v=3"></script>
+    <script src="algebra2.js?v=3"></script>
+    <script src="review.js?v=4"></script>
     <script>
+        // ===== HARD REFRESH =====
+        function hardRefresh() {
+            if ('caches' in window) {
+                caches.keys().then(names => names.forEach(n => caches.delete(n)));
+            }
+            window.location.href = window.location.pathname + '?t=' + Date.now();
+        }
+
         // ===== TAB SWITCHING =====
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
