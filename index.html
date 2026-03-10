@@ -867,15 +867,15 @@
 
     <!-- Tab Bar -->
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('calculator')">Calculator</button>
-        <button class="tab-btn" onclick="switchTab('learning')">Learning</button>
+        <button class="tab-btn active" onclick="switchTab('learning')">Learning</button>
         <button class="tab-btn" onclick="switchTab('review')">Review</button>
         <button class="tab-btn" onclick="switchTab('practice')">Practice</button>
         <button class="tab-btn" onclick="switchTab('algebra2')">Algebra 2 Readiness</button>
+        <button class="tab-btn" onclick="switchTab('calculator')">Calculator</button>
     </div>
 
     <!-- ========== CALCULATOR TAB ========== -->
-    <div class="tab-content active" id="tab-calculator">
+    <div class="tab-content" id="tab-calculator">
         <div style="display:flex; justify-content:center; width:100%;">
             <div class="panel calc-panel">
                 <h2>Calculator</h2>
@@ -926,7 +926,7 @@
     </div>
 
     <!-- ========== LEARNING TAB ========== -->
-    <div class="tab-content" id="tab-learning">
+    <div class="tab-content active" id="tab-learning">
         <div class="learn-container">
 
             <div class="learn-index" id="learnIndex">
@@ -1969,11 +1969,11 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tab).classList.add('active');
             const btns = document.querySelectorAll('.tab-btn');
-            if (tab === 'calculator') btns[0].classList.add('active');
-            else if (tab === 'learning') btns[1].classList.add('active');
-            else if (tab === 'review') btns[2].classList.add('active');
-            else if (tab === 'practice') btns[3].classList.add('active');
-            else if (tab === 'algebra2') btns[4].classList.add('active');
+            if (tab === 'learning') btns[0].classList.add('active');
+            else if (tab === 'review') btns[1].classList.add('active');
+            else if (tab === 'practice') btns[2].classList.add('active');
+            else if (tab === 'algebra2') btns[3].classList.add('active');
+            else if (tab === 'calculator') btns[4].classList.add('active');
 
             if (tab === 'learning') {
                 initLearningCanvases();
