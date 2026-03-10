@@ -867,13 +867,87 @@
 
                 <div class="nav-buttons">
                     <div></div>
-                    <button class="nav-btn primary" onclick="goToSection(2)">Next: Undoing Functions &rarr;</button>
+                    <button class="nav-btn primary" onclick="goToSection(2)">Next: Trig Functions &rarr;</button>
                 </div>
             </div>
 
-            <!-- Section 2: Inverse Functions -->
+            <!-- Section 2: Trig Functions -->
             <div class="learn-section" id="learn-s2" style="display:none;">
-                <h2><span class="step-num">2</span> Inverse Functions: Undoing a Function</h2>
+                <h2><span class="step-num">2</span> Trig Functions: Ratios from a Right Triangle</h2>
+
+                <p>The trig functions <strong style="color:#ef4444;">sin</strong>, <strong style="color:#38bdf8;">cos</strong>, and <strong style="color:#fbbf24;">tan</strong> come from right triangles. Given an angle &theta; in a right triangle, they tell you the <em>ratio</em> between two sides.</p>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:14px 0;">
+                    <div class="machine-box" style="background:#1a1a2e;">
+                        <div class="label" style="color:#ef4444;">SOH</div>
+                        <div class="value" style="font-size:0.8rem; color:#ef4444;">sin = opp / hyp</div>
+                    </div>
+                    <div class="machine-box" style="background:#1a1a2e;">
+                        <div class="label" style="color:#38bdf8;">CAH</div>
+                        <div class="value" style="font-size:0.8rem; color:#38bdf8;">cos = adj / hyp</div>
+                    </div>
+                    <div class="machine-box" style="background:#1a1a2e;">
+                        <div class="label" style="color:#fbbf24;">TOA</div>
+                        <div class="value" style="font-size:0.8rem; color:#fbbf24;">tan = opp / adj</div>
+                    </div>
+                </div>
+
+                <div class="try-it">
+                    <div class="try-label">Try it: Drag the angle and watch the ratios change</div>
+                    <div class="learn-controls">
+                        <label>Angle &theta;:</label>
+                        <input type="range" id="learnTrigAngle" min="5" max="85" step="1" value="45">
+                        <span class="val-display" id="learnTrigAngleVal">45&deg;</span>
+                    </div>
+                    <div class="learn-canvas-wrap">
+                        <canvas id="learnTrigTriCanvas"></canvas>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:8px 0;">
+                        <div class="machine-box">
+                            <div class="label" style="color:#ef4444;">sin(&theta;)</div>
+                            <div class="value" style="font-size:1rem; color:#ef4444;" id="learnSinVal">0.7071</div>
+                        </div>
+                        <div class="machine-box">
+                            <div class="label" style="color:#38bdf8;">cos(&theta;)</div>
+                            <div class="value" style="font-size:1rem; color:#38bdf8;" id="learnCosVal">0.7071</div>
+                        </div>
+                        <div class="machine-box">
+                            <div class="label" style="color:#fbbf24;">tan(&theta;)</div>
+                            <div class="value" style="font-size:1rem; color:#fbbf24;" id="learnTanVal">1.0000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>Notice: as the angle gets bigger, the <strong style="color:#ef4444;">opposite side</strong> gets longer (sin goes up) and the <strong style="color:#38bdf8;">adjacent side</strong> gets shorter (cos goes down).</p>
+
+                <h3>Classic angles you should know</h3>
+                <p>Click each angle to see the exact side lengths:</p>
+                <div class="learn-controls" style="margin-bottom:8px;">
+                    <button class="learn-btn" id="classicBtn30" onclick="setClassicAngle(30)">30&deg;</button>
+                    <button class="learn-btn" id="classicBtn45" onclick="setClassicAngle(45)">45&deg;</button>
+                    <button class="learn-btn" id="classicBtn60" onclick="setClassicAngle(60)">60&deg;</button>
+                </div>
+                <div class="learn-canvas-wrap">
+                    <canvas id="learnClassicTriCanvas"></canvas>
+                </div>
+
+                <h3>How the three functions look as a graph</h3>
+                <p>Here are sin, cos, and tan plotted from 0&deg; to 90&deg;. The vertical line shows the current angle.</p>
+                <div class="learn-canvas-wrap">
+                    <canvas id="learnTrigGraphCanvas"></canvas>
+                </div>
+
+                <div class="key-idea"><strong style="color:#ef4444;">sin</strong>, <strong style="color:#38bdf8;">cos</strong>, and <strong style="color:#fbbf24;">tan</strong> are just <span class="highlight">ratios of sides</span> in a right triangle. Change the angle, and the ratios change. That's all trig is!</div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="goToSection(1)">&larr; Back</button>
+                    <button class="nav-btn primary" onclick="goToSection(3)">Next: Undoing Functions &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 3: Inverse Functions -->
+            <div class="learn-section" id="learn-s3" style="display:none;">
+                <h2><span class="step-num">3</span> Inverse Functions: Undoing a Function</h2>
 
                 <p>An inverse function <strong>undoes</strong> what the original function did. It's like going backwards through the machine to figure out what the input was.</p>
 
@@ -914,18 +988,16 @@
                 <div class="key-idea">An inverse function <span class="highlight">undoes</span> what the original function did &mdash; like how division undoes multiplication, or how subtraction undoes addition.</div>
 
                 <div class="nav-buttons">
-                    <button class="nav-btn" onclick="goToSection(1)">&larr; Back</button>
-                    <button class="nav-btn primary" onclick="goToSection(3)">Next: Inverse Trig Functions &rarr;</button>
+                    <button class="nav-btn" onclick="goToSection(2)">&larr; Back</button>
+                    <button class="nav-btn primary" onclick="goToSection(4)">Next: Inverse Trig Functions &rarr;</button>
                 </div>
             </div>
 
-            <!-- Section 3: Inverse Trig Functions -->
-            <div class="learn-section" id="learn-s3" style="display:none;">
-                <h2><span class="step-num">3</span> Inverse Trig Functions</h2>
+            <!-- Section 4: Inverse Trig Functions -->
+            <div class="learn-section" id="learn-s4" style="display:none;">
+                <h2><span class="step-num">4</span> Inverse Trig Functions</h2>
 
-                <p>You already know how to use sin, cos, and tan: you put in an <strong>angle</strong> and get out a <strong>ratio</strong> (a number).</p>
-
-                <p>But what if you know the ratio and need to find the angle? That's where <strong>inverse trig functions</strong> come in. They undo sin, cos, and tan &mdash; they tell you <em>what angle</em> gives that ratio.</p>
+                <p>You know that sin, cos, and tan take an <strong>angle</strong> and give you a <strong>ratio</strong>. The inverse trig functions do the opposite: they take a <strong>ratio</strong> and give you the <strong>angle</strong>.</p>
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0;">
                     <div class="machine-box" style="background:#1a1a2e;">
@@ -938,11 +1010,11 @@
                     </div>
                 </div>
 
-                <h3>Try each inverse trig function</h3>
-                <p>Move the sliders to see how each inverse function finds the angle (between 0&deg; and 90&deg;) for a given ratio.</p>
+                <h3>Try each one &mdash; see the triangle change</h3>
+                <p>Move the slider. The triangle shows which sides you know and the angle you're finding.</p>
 
                 <div class="try-it">
-                    <div class="try-label">arcsin &mdash; "what angle has this sine?"</div>
+                    <div class="try-label">arcsin (sin&sup1;) &mdash; you know opposite &amp; hypotenuse, find the angle</div>
                     <div class="learn-controls">
                         <label>Sine value:</label>
                         <input type="range" id="arcsinInput" min="0" max="1" step="0.05" value="0.5">
@@ -951,23 +1023,26 @@
                     <div class="machine-demo">
                         <div class="machine-box">
                             <div class="label">SINE VALUE</div>
-                            <div class="value" style="color:#38bdf8;" id="arcsinInVal">0.50</div>
+                            <div class="value" style="color:#ef4444;" id="arcsinInVal">0.50</div>
                         </div>
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-fn">
                             <div class="label">ARCSIN</div>
-                            <div class="value">sin⁻¹</div>
+                            <div class="value">sin&sup1;</div>
                         </div>
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-box">
                             <div class="label">ANGLE</div>
-                            <div class="value" style="color:#ef4444;" id="arcsinOutVal">30.0&deg;</div>
+                            <div class="value" style="color:#fbbf24;" id="arcsinOutVal">30.0&deg;</div>
                         </div>
+                    </div>
+                    <div class="learn-canvas-wrap" style="margin-top:8px;">
+                        <canvas id="learnArcsinTriCanvas" style="height:220px;"></canvas>
                     </div>
                 </div>
 
                 <div class="try-it">
-                    <div class="try-label">arccos &mdash; "what angle has this cosine?"</div>
+                    <div class="try-label">arccos (cos&sup1;) &mdash; you know adjacent &amp; hypotenuse, find the angle</div>
                     <div class="learn-controls">
                         <label>Cosine value:</label>
                         <input type="range" id="arccosInput" min="0" max="1" step="0.05" value="0.5">
@@ -981,18 +1056,21 @@
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-fn">
                             <div class="label">ARCCOS</div>
-                            <div class="value">cos⁻¹</div>
+                            <div class="value">cos&sup1;</div>
                         </div>
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-box">
                             <div class="label">ANGLE</div>
-                            <div class="value" style="color:#ef4444;" id="arccosOutVal">60.0&deg;</div>
+                            <div class="value" style="color:#fbbf24;" id="arccosOutVal">60.0&deg;</div>
                         </div>
+                    </div>
+                    <div class="learn-canvas-wrap" style="margin-top:8px;">
+                        <canvas id="learnArccosTriCanvas" style="height:220px;"></canvas>
                     </div>
                 </div>
 
                 <div class="try-it">
-                    <div class="try-label">arctan &mdash; "what angle has this tangent?"</div>
+                    <div class="try-label">arctan (tan&sup1;) &mdash; you know opposite &amp; adjacent, find the angle</div>
                     <div class="learn-controls">
                         <label>Tangent value:</label>
                         <input type="range" id="arctanInput" min="0" max="5" step="0.1" value="1">
@@ -1001,33 +1079,28 @@
                     <div class="machine-demo">
                         <div class="machine-box">
                             <div class="label">TANGENT VALUE</div>
-                            <div class="value" style="color:#38bdf8;" id="arctanInVal">1.00</div>
+                            <div class="value" style="color:#fbbf24;" id="arctanInVal">1.00</div>
                         </div>
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-fn">
                             <div class="label">ARCTAN</div>
-                            <div class="value">tan⁻¹</div>
+                            <div class="value">tan&sup1;</div>
                         </div>
                         <div class="machine-arrow">&rarr;</div>
                         <div class="machine-box">
                             <div class="label">ANGLE</div>
-                            <div class="value" style="color:#ef4444;" id="arctanOutVal">45.0&deg;</div>
+                            <div class="value" style="color:#fbbf24;" id="arctanOutVal">45.0&deg;</div>
                         </div>
+                    </div>
+                    <div class="learn-canvas-wrap" style="margin-top:8px;">
+                        <canvas id="learnArctanTriCanvas" style="height:220px;"></canvas>
                     </div>
                 </div>
 
-                <h3>When do you use these?</h3>
-                <p>In a right triangle, if you know two sides but need the angle, use an inverse trig function:</p>
-                <ul style="margin:8px 0 8px 20px; line-height:1.8;">
-                    <li>You know <strong>opposite &amp; hypotenuse</strong> &rarr; use <strong style="color:#ef4444;">arcsin</strong> (sin&sup1;)</li>
-                    <li>You know <strong>adjacent &amp; hypotenuse</strong> &rarr; use <strong style="color:#38bdf8;">arccos</strong> (cos&sup1;)</li>
-                    <li>You know <strong>opposite &amp; adjacent</strong> &rarr; use <strong style="color:#fbbf24;">arctan</strong> (tan&sup1;)</li>
-                </ul>
-
-                <div class="key-idea">Inverse trig functions answer: <span class="highlight">"What angle gives this ratio?"</span> You give them a number, and they give you the angle. That's it!</div>
+                <div class="key-idea">Inverse trig functions answer: <span class="highlight">"What angle gives this ratio?"</span> You give them a number, and they give you the angle. In a right triangle, if you know two sides, you can always find the angle!</div>
 
                 <div class="nav-buttons">
-                    <button class="nav-btn" onclick="goToSection(2)">&larr; Back</button>
+                    <button class="nav-btn" onclick="goToSection(3)">&larr; Back</button>
                     <button class="nav-btn primary" onclick="switchTab('calculator')">Go try the calculator! &rarr;</button>
                 </div>
             </div>
@@ -1257,6 +1330,7 @@
         const COL_SIN = '#ef4444';
         const COL_COS = '#38bdf8';
         const COL_ARC = '#fbbf24';
+        const COL_TAN = '#fbbf24';
         const COL_GRID = '#1e293b';
         const COL_AXIS = '#475569';
         const COL_TEXT = '#94a3b8';
@@ -1648,7 +1722,7 @@
 
         // ===== LEARNING SECTION =====
         let currentLearnSection = 1;
-        const totalSections = 3;
+        const totalSections = 4;
 
         // Section navigation
         function goToSection(n) {
@@ -1881,34 +1955,443 @@
         }
         document.getElementById('inverseOutput').addEventListener('input', updateInverseDemo);
 
-        // ---- Section 3: Inverse Trig Sliders ----
-        // arcsin slider
+        // ---- Section 2: Trig Functions ----
+        let currentClassicAngle = 45;
+
+        function drawLearnTrigTriangle() {
+            const canvas = document.getElementById('learnTrigTriCanvas');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const angleDeg = parseFloat(document.getElementById('learnTrigAngle').value);
+            const angleRad = toRad(angleDeg);
+
+            const pad = 50;
+            const hypLen = Math.min(w - pad * 2, h - pad * 2, 280);
+            // Right angle at bottom-left, angle theta at bottom-right
+            const bx = pad + 30, by = h - pad;
+            const adjLen = hypLen * Math.cos(angleRad);
+            const oppLen = hypLen * Math.sin(angleRad);
+            const tx = bx + adjLen, ty = by;
+            const apex = { x: bx, y: by - oppLen };
+
+            // Triangle fill
+            ctx.beginPath();
+            ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.lineTo(apex.x, apex.y); ctx.closePath();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+            ctx.fill();
+
+            // Adjacent side (bottom) - blue
+            ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(tx, ty);
+            ctx.strokeStyle = COL_COS; ctx.lineWidth = 3; ctx.stroke();
+            // Opposite side (left) - red
+            ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(apex.x, apex.y);
+            ctx.strokeStyle = COL_SIN; ctx.lineWidth = 3; ctx.stroke();
+            // Hypotenuse - purple
+            ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(apex.x, apex.y);
+            ctx.strokeStyle = COL_HYP; ctx.lineWidth = 3; ctx.stroke();
+
+            // Right angle marker
+            const sq = 12;
+            ctx.beginPath();
+            ctx.moveTo(bx + sq, by); ctx.lineTo(bx + sq, by - sq); ctx.lineTo(bx, by - sq);
+            ctx.strokeStyle = COL_AXIS; ctx.lineWidth = 1.5; ctx.stroke();
+
+            // Angle arc at bottom-right
+            ctx.beginPath();
+            ctx.arc(tx, ty, 28, Math.PI, Math.PI + angleRad);
+            ctx.strokeStyle = COL_TAN; ctx.lineWidth = 2.5; ctx.stroke();
+            // Angle label
+            const labelAng = Math.PI + angleRad / 2;
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = COL_TAN;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(angleDeg + '\u00B0', tx + 44 * Math.cos(labelAng), ty + 44 * Math.sin(labelAng));
+
+            // Side labels
+            ctx.font = 'bold 14px system-ui';
+            // Adjacent
+            ctx.fillStyle = COL_COS; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+            ctx.fillText('adj = ' + Math.cos(angleRad).toFixed(3), (bx + tx) / 2, by + 10);
+            // Opposite
+            ctx.fillStyle = COL_SIN; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            ctx.fillText('opp = ' + Math.sin(angleRad).toFixed(3), bx - 10, (by + apex.y) / 2);
+            // Hypotenuse
+            ctx.fillStyle = COL_HYP; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+            const hmx = (tx + apex.x) / 2, hmy = (ty + apex.y) / 2;
+            ctx.fillText('hyp = 1', hmx + 10, hmy);
+
+            // Formulas on the right side
+            const fx = Math.max(tx + 80, w * 0.55);
+            const fy = h * 0.25;
+            ctx.font = 'bold 13px system-ui';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+            ctx.fillStyle = COL_SIN;
+            ctx.fillText('sin(' + angleDeg + '\u00B0) = opp/hyp = ' + Math.sin(angleRad).toFixed(4), fx, fy);
+            ctx.fillStyle = COL_COS;
+            ctx.fillText('cos(' + angleDeg + '\u00B0) = adj/hyp = ' + Math.cos(angleRad).toFixed(4), fx, fy + 24);
+            ctx.fillStyle = COL_TAN;
+            ctx.fillText('tan(' + angleDeg + '\u00B0) = opp/adj = ' + Math.tan(angleRad).toFixed(4), fx, fy + 48);
+        }
+
+        function drawLearnClassicTriangle() {
+            const canvas = document.getElementById('learnClassicTriCanvas');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const angleDeg = currentClassicAngle;
+            const angleRad = toRad(angleDeg);
+            const pad = 50;
+            const hypLen = Math.min(w - pad * 2, h - pad * 2, 240);
+            const bx = pad + 30, by = h - pad;
+            const adjLen = hypLen * Math.cos(angleRad);
+            const oppLen = hypLen * Math.sin(angleRad);
+            const tx = bx + adjLen, ty = by;
+            const apex = { x: bx, y: by - oppLen };
+
+            // Triangle fill
+            ctx.beginPath();
+            ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.lineTo(apex.x, apex.y); ctx.closePath();
+            ctx.fillStyle = 'rgba(168, 85, 247, 0.05)';
+            ctx.fill();
+
+            // Sides
+            ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(tx, ty);
+            ctx.strokeStyle = COL_COS; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(apex.x, apex.y);
+            ctx.strokeStyle = COL_SIN; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(apex.x, apex.y);
+            ctx.strokeStyle = COL_HYP; ctx.lineWidth = 3; ctx.stroke();
+
+            // Right angle marker
+            const sq = 12;
+            ctx.beginPath();
+            ctx.moveTo(bx + sq, by); ctx.lineTo(bx + sq, by - sq); ctx.lineTo(bx, by - sq);
+            ctx.strokeStyle = COL_AXIS; ctx.lineWidth = 1.5; ctx.stroke();
+
+            // Angle arc
+            ctx.beginPath();
+            ctx.arc(tx, ty, 28, Math.PI, Math.PI + angleRad);
+            ctx.strokeStyle = COL_TAN; ctx.lineWidth = 2.5; ctx.stroke();
+            const labelAng = Math.PI + angleRad / 2;
+            ctx.font = 'bold 14px system-ui';
+            ctx.fillStyle = COL_TAN;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(angleDeg + '\u00B0', tx + 44 * Math.cos(labelAng), ty + 44 * Math.sin(labelAng));
+
+            // Exact labels
+            let oppLabel, adjLabel, hypLabel;
+            if (angleDeg === 30) {
+                oppLabel = '1/2'; adjLabel = '\u221A3/2'; hypLabel = '1';
+            } else if (angleDeg === 45) {
+                oppLabel = '\u221A2/2'; adjLabel = '\u221A2/2'; hypLabel = '1';
+            } else {
+                oppLabel = '\u221A3/2'; adjLabel = '1/2'; hypLabel = '1';
+            }
+
+            ctx.font = 'bold 15px system-ui';
+            // Adjacent
+            ctx.fillStyle = COL_COS; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+            ctx.fillText(adjLabel, (bx + tx) / 2, by + 10);
+            // Opposite
+            ctx.fillStyle = COL_SIN; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            ctx.fillText(oppLabel, bx - 10, (by + apex.y) / 2);
+            // Hypotenuse
+            ctx.fillStyle = COL_HYP; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+            ctx.fillText(hypLabel, (tx + apex.x) / 2 + 10, (ty + apex.y) / 2);
+
+            // Exact values table on the right
+            const fx = Math.max(tx + 60, w * 0.5);
+            const fy = h * 0.15;
+            ctx.font = 'bold 13px system-ui';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+
+            let sinExact, cosExact, tanExact;
+            if (angleDeg === 30) {
+                sinExact = '1/2'; cosExact = '\u221A3/2'; tanExact = '1/\u221A3';
+            } else if (angleDeg === 45) {
+                sinExact = '\u221A2/2'; cosExact = '\u221A2/2'; tanExact = '1';
+            } else {
+                sinExact = '\u221A3/2'; cosExact = '1/2'; tanExact = '\u221A3';
+            }
+
+            ctx.fillStyle = COL_SIN;
+            ctx.fillText('sin(' + angleDeg + '\u00B0) = ' + sinExact + ' \u2248 ' + Math.sin(angleRad).toFixed(4), fx, fy);
+            ctx.fillStyle = COL_COS;
+            ctx.fillText('cos(' + angleDeg + '\u00B0) = ' + cosExact + ' \u2248 ' + Math.cos(angleRad).toFixed(4), fx, fy + 24);
+            ctx.fillStyle = COL_TAN;
+            ctx.fillText('tan(' + angleDeg + '\u00B0) = ' + tanExact + ' \u2248 ' + Math.tan(angleRad).toFixed(4), fx, fy + 48);
+
+            // Triangle type label
+            ctx.font = '12px system-ui';
+            ctx.fillStyle = COL_TEXT;
+            if (angleDeg === 45) {
+                ctx.fillText('45-45-90 triangle', fx, fy + 80);
+            } else {
+                ctx.fillText('30-60-90 triangle', fx, fy + 80);
+            }
+        }
+
+        function drawLearnTrigGraph() {
+            const canvas = document.getElementById('learnTrigGraphCanvas');
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const angleDeg = parseFloat(document.getElementById('learnTrigAngle').value);
+
+            const pad = { left: 50, right: 20, top: 20, bottom: 40 };
+            const pw = w - pad.left - pad.right;
+            const ph = h - pad.top - pad.bottom;
+
+            // Axes: x = 0..90 degrees, y = 0..2.5
+            const xMin = 0, xMax = 90, yMin = -0.1, yMax = 2.5;
+            function toSX(x) { return pad.left + ((x - xMin) / (xMax - xMin)) * pw; }
+            function toSY(y) { return pad.top + ((yMax - y) / (yMax - yMin)) * ph; }
+
+            // Grid
+            ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1;
+            for (let x = 0; x <= 90; x += 15) {
+                ctx.beginPath(); ctx.moveTo(toSX(x), pad.top); ctx.lineTo(toSX(x), h - pad.bottom); ctx.stroke();
+            }
+            for (let y = 0; y <= 2; y += 0.5) {
+                ctx.beginPath(); ctx.moveTo(pad.left, toSY(y)); ctx.lineTo(w - pad.right, toSY(y)); ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = COL_AXIS; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(pad.left, toSY(0)); ctx.lineTo(w - pad.right, toSY(0)); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, h - pad.bottom); ctx.stroke();
+
+            // X labels
+            ctx.font = '11px system-ui'; ctx.fillStyle = COL_TEXT;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+            for (let x = 0; x <= 90; x += 15) {
+                ctx.fillText(x + '\u00B0', toSX(x), h - pad.bottom + 6);
+            }
+            // Y labels
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            for (let y = 0; y <= 2; y += 0.5) {
+                ctx.fillText(y.toFixed(1), pad.left - 8, toSY(y));
+            }
+
+            // Plot sin
+            ctx.beginPath();
+            for (let i = 0; i <= pw; i++) {
+                const deg = xMin + (i / pw) * (xMax - xMin);
+                const v = Math.sin(toRad(deg));
+                const sx = pad.left + i, sy = toSY(v);
+                if (i === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+            }
+            ctx.strokeStyle = COL_SIN; ctx.lineWidth = 2.5; ctx.stroke();
+
+            // Plot cos
+            ctx.beginPath();
+            for (let i = 0; i <= pw; i++) {
+                const deg = xMin + (i / pw) * (xMax - xMin);
+                const v = Math.cos(toRad(deg));
+                const sx = pad.left + i, sy = toSY(v);
+                if (i === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+            }
+            ctx.strokeStyle = COL_COS; ctx.lineWidth = 2.5; ctx.stroke();
+
+            // Plot tan (clamp to yMax)
+            ctx.beginPath();
+            let tanStarted = false;
+            for (let i = 0; i <= pw; i++) {
+                const deg = xMin + (i / pw) * (xMax - xMin);
+                const v = Math.tan(toRad(deg));
+                if (v > yMax + 1 || v < yMin - 1) { tanStarted = false; continue; }
+                const sx = pad.left + i, sy = toSY(v);
+                if (!tanStarted) { ctx.moveTo(sx, sy); tanStarted = true; } else ctx.lineTo(sx, sy);
+            }
+            ctx.strokeStyle = COL_TAN; ctx.lineWidth = 2.5; ctx.stroke();
+
+            // Legend
+            ctx.font = 'bold 12px system-ui';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+            ctx.fillStyle = COL_SIN; ctx.fillText('sin', pad.left + 8, pad.top + 4);
+            ctx.fillStyle = COL_COS; ctx.fillText('cos', pad.left + 42, pad.top + 4);
+            ctx.fillStyle = COL_TAN; ctx.fillText('tan', pad.left + 78, pad.top + 4);
+
+            // Vertical line at current angle
+            const cx = toSX(angleDeg);
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = '#ffffff40'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(cx, pad.top); ctx.lineTo(cx, h - pad.bottom); ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Dots on each curve
+            const sinV = Math.sin(toRad(angleDeg));
+            const cosV = Math.cos(toRad(angleDeg));
+            const tanV = Math.tan(toRad(angleDeg));
+
+            [[sinV, COL_SIN], [cosV, COL_COS]].forEach(([v, col]) => {
+                ctx.beginPath(); ctx.arc(cx, toSY(v), 6, 0, Math.PI * 2);
+                ctx.fillStyle = col; ctx.fill();
+                ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+            });
+            if (tanV <= yMax && tanV >= yMin) {
+                ctx.beginPath(); ctx.arc(cx, toSY(tanV), 6, 0, Math.PI * 2);
+                ctx.fillStyle = COL_TAN; ctx.fill();
+                ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+            }
+        }
+
+        function updateLearnTrigSection() {
+            const deg = parseFloat(document.getElementById('learnTrigAngle').value);
+            document.getElementById('learnTrigAngleVal').textContent = deg + '\u00B0';
+            const rad = toRad(deg);
+            document.getElementById('learnSinVal').textContent = Math.sin(rad).toFixed(4);
+            document.getElementById('learnCosVal').textContent = Math.cos(rad).toFixed(4);
+            document.getElementById('learnTanVal').textContent = Math.tan(rad).toFixed(4);
+            drawLearnTrigTriangle();
+            drawLearnTrigGraph();
+        }
+
+        function setClassicAngle(deg) {
+            currentClassicAngle = deg;
+            document.getElementById('learnTrigAngle').value = deg;
+            document.querySelectorAll('[id^="classicBtn"]').forEach(b => b.classList.remove('active'));
+            document.getElementById('classicBtn' + deg).classList.add('active');
+            updateLearnTrigSection();
+            drawLearnClassicTriangle();
+        }
+
+        document.getElementById('learnTrigAngle').addEventListener('input', () => {
+            document.querySelectorAll('[id^="classicBtn"]').forEach(b => b.classList.remove('active'));
+            updateLearnTrigSection();
+        });
+
+        // ---- Section 4: Inverse Trig with Triangle Diagrams ----
+        function drawInverseTrigTriangle(fn) {
+            let canvasId, sliderVal, angleDeg, knownColor1, knownColor2, knownLabel1, knownLabel2;
+
+            if (fn === 'arcsin') {
+                canvasId = 'learnArcsinTriCanvas';
+                sliderVal = parseFloat(document.getElementById('arcsinInput').value);
+                angleDeg = toDeg(Math.asin(Math.min(1, Math.max(0, sliderVal))));
+                knownLabel1 = 'opp'; knownLabel2 = 'hyp';
+                knownColor1 = COL_SIN; knownColor2 = COL_HYP;
+            } else if (fn === 'arccos') {
+                canvasId = 'learnArccosTriCanvas';
+                sliderVal = parseFloat(document.getElementById('arccosInput').value);
+                angleDeg = toDeg(Math.acos(Math.min(1, Math.max(0, sliderVal))));
+                knownLabel1 = 'adj'; knownLabel2 = 'hyp';
+                knownColor1 = COL_COS; knownColor2 = COL_HYP;
+            } else {
+                canvasId = 'learnArctanTriCanvas';
+                sliderVal = parseFloat(document.getElementById('arctanInput').value);
+                angleDeg = toDeg(Math.atan(Math.max(0, sliderVal)));
+                knownLabel1 = 'opp'; knownLabel2 = 'adj';
+                knownColor1 = COL_SIN; knownColor2 = COL_COS;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || canvas.getBoundingClientRect().width === 0) return;
+            const { w, h } = resizeCanvas(canvas);
+            const ctx = canvas.getContext('2d');
+
+            const angleRad = toRad(angleDeg);
+            const pad = 40;
+            const hypLen = Math.min(w * 0.4, h - pad * 2, 180);
+            const bx = pad + 20, by = h - pad;
+            const adjLen = hypLen * Math.cos(angleRad);
+            const oppLen = hypLen * Math.sin(angleRad);
+            const tx = bx + adjLen, ty = by;
+            const apex = { x: bx, y: by - oppLen };
+
+            // Triangle fill
+            ctx.beginPath();
+            ctx.moveTo(bx, by); ctx.lineTo(tx, ty); ctx.lineTo(apex.x, apex.y); ctx.closePath();
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.05)'; ctx.fill();
+
+            // Determine which sides are "known" (bold) vs dim
+            const sides = [
+                { from: {x:bx,y:by}, to: {x:tx,y:ty}, name: 'adj', color: COL_COS, label: 'adj = ' + Math.cos(angleRad).toFixed(3) },
+                { from: {x:bx,y:by}, to: apex, name: 'opp', color: COL_SIN, label: 'opp = ' + Math.sin(angleRad).toFixed(3) },
+                { from: {x:tx,y:ty}, to: apex, name: 'hyp', color: COL_HYP, label: 'hyp = 1' },
+            ];
+
+            sides.forEach(s => {
+                const isKnown = s.name === knownLabel1 || s.name === knownLabel2;
+                ctx.beginPath(); ctx.moveTo(s.from.x, s.from.y); ctx.lineTo(s.to.x, s.to.y);
+                ctx.strokeStyle = isKnown ? s.color : (s.color + '40');
+                ctx.lineWidth = isKnown ? 3.5 : 2;
+                ctx.stroke();
+
+                // Side label
+                const mx = (s.from.x + s.to.x) / 2, my = (s.from.y + s.to.y) / 2;
+                ctx.font = isKnown ? 'bold 13px system-ui' : '12px system-ui';
+                ctx.fillStyle = isKnown ? s.color : (s.color + '60');
+                if (s.name === 'adj') { ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText(s.label, mx, my + 8); }
+                else if (s.name === 'opp') { ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; ctx.fillText(s.label, mx - 8, my); }
+                else { ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(s.label, mx + 8, my); }
+            });
+
+            // Right angle marker
+            const sq = 10;
+            ctx.beginPath();
+            ctx.moveTo(bx + sq, by); ctx.lineTo(bx + sq, by - sq); ctx.lineTo(bx, by - sq);
+            ctx.strokeStyle = COL_AXIS; ctx.lineWidth = 1.5; ctx.stroke();
+
+            // Angle arc (highlighted - this is what we're finding!)
+            ctx.beginPath();
+            ctx.arc(tx, ty, 24, Math.PI, Math.PI + angleRad);
+            ctx.strokeStyle = COL_TAN; ctx.lineWidth = 3; ctx.stroke();
+
+            // Fill the angle arc to make it more visible
+            ctx.beginPath();
+            ctx.moveTo(tx, ty);
+            ctx.arc(tx, ty, 24, Math.PI, Math.PI + angleRad);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.2)'; ctx.fill();
+
+            // Angle label with arrow
+            const labelA = Math.PI + angleRad / 2;
+            ctx.font = 'bold 15px system-ui';
+            ctx.fillStyle = COL_TAN;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(angleDeg.toFixed(1) + '\u00B0', tx + 44 * Math.cos(labelA), ty + 44 * Math.sin(labelA));
+
+            // "Finding this angle!" annotation
+            const annotX = Math.min(tx + 70, w - 120);
+            const annotY = ty - 30;
+            ctx.font = 'bold 13px system-ui';
+            ctx.fillStyle = '#fbbf24';
+            ctx.textAlign = 'left';
+            ctx.fillText('\u2190 Finding this angle!', annotX, annotY);
+        }
+
         function updateArcsinDemo() {
             const v = parseFloat(document.getElementById('arcsinInput').value);
             document.getElementById('arcsinInputVal').textContent = v.toFixed(2);
             document.getElementById('arcsinInVal').textContent = v.toFixed(2);
             const angle = toDeg(Math.asin(v));
             document.getElementById('arcsinOutVal').textContent = angle.toFixed(1) + '\u00B0';
+            drawInverseTrigTriangle('arcsin');
         }
         document.getElementById('arcsinInput').addEventListener('input', updateArcsinDemo);
 
-        // arccos slider
         function updateArccosDemo() {
             const v = parseFloat(document.getElementById('arccosInput').value);
             document.getElementById('arccosInputVal').textContent = v.toFixed(2);
             document.getElementById('arccosInVal').textContent = v.toFixed(2);
             const angle = toDeg(Math.acos(v));
             document.getElementById('arccosOutVal').textContent = angle.toFixed(1) + '\u00B0';
+            drawInverseTrigTriangle('arccos');
         }
         document.getElementById('arccosInput').addEventListener('input', updateArccosDemo);
 
-        // arctan slider
         function updateArctanDemo() {
             const v = parseFloat(document.getElementById('arctanInput').value);
             document.getElementById('arctanInputVal').textContent = v.toFixed(2);
             document.getElementById('arctanInVal').textContent = v.toFixed(2);
             const angle = toDeg(Math.atan(v));
             document.getElementById('arctanOutVal').textContent = angle.toFixed(1) + '\u00B0';
+            drawInverseTrigTriangle('arctan');
         }
         document.getElementById('arctanInput').addEventListener('input', updateArctanDemo);
 
@@ -4010,6 +4493,8 @@
         function initLearningCanvases() {
             requestAnimationFrame(() => {
                 if (currentLearnSection === 1) { drawFuncGraph(); }
+                if (currentLearnSection === 2) { drawLearnTrigTriangle(); drawLearnClassicTriangle(); drawLearnTrigGraph(); }
+                if (currentLearnSection === 4) { drawInverseTrigTriangle('arcsin'); drawInverseTrigTriangle('arccos'); drawInverseTrigTriangle('arctan'); }
             });
         }
 
