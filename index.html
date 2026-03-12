@@ -2109,8 +2109,15 @@
                 expression = formatNum(result);
                 updateDisplay(expression);
             } else {
-                // Insert function into expression (e.g. "12/tan(")
-                expression += fn + '(';
+                // Try to wrap the trailing number with the trig function
+                // e.g. "12/(25" + tan → "12/(tan(25))"
+                // e.g. "12/" + tan → "12/tan(" (no trailing number yet)
+                var match = expression.match(/(.*?)(\d+\.?\d*)$/);
+                if (match && match[2] !== '') {
+                    expression = match[1] + fn + '(' + match[2] + ')';
+                } else {
+                    expression += fn + '(';
+                }
                 updateDisplay(expression);
             }
         }
